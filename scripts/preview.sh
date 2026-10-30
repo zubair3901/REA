@@ -6,7 +6,13 @@ command -v npm >/dev/null || { echo 'Install Node.js 22 or newer first.'; exit 1
 if [ ! -x .venv-preview/bin/python ]; then
   python3 -m venv .venv-preview
 fi
-.venv-preview/bin/python -m pip install -r backend/requirements.txt
+# SQLite previews do not need PostgreSQL's platform-specific binary driver.
+preview_requirements=$(mktemp)
+trap 'rm -f "$preview_requirements"' EXIT
+sed '/^[[:space:]]*psycopg\([[]\|[=<>!~;[:space:]]\)/d' backend/requirements.txt > "$preview_requirements"
+.venv-preview/bin/python -m pip install -r "$preview_requirements"
+rm -f "$preview_requirements"
+trap - EXIT
 # Neural matting is optional: ONNX wheels are not available for every Mac/Python.
 if [ "${ROOM_PREVIEW_VISION:-false}" = true ]; then
   .venv-preview/bin/python -m pip install -r backend/requirements-vision.txt

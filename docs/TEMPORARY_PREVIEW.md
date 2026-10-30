@@ -8,6 +8,7 @@ bash scripts/preview.sh
 ```
 
 Open http://localhost:8080. First startup installs application dependencies.
+The launcher omits the PostgreSQL driver because this preview uses SQLite.
 Automatic background removal is optional and disabled by default to avoid ONNX
 wheel compatibility errors on Macs. Use transparent PNG product photos in this
 mode; opaque photographs require the optional matting dependencies. On a supported
