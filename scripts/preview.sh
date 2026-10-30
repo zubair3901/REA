@@ -6,7 +6,13 @@ command -v npm >/dev/null || { echo 'Install Node.js 22 or newer first.'; exit 1
 if [ ! -x .venv-preview/bin/python ]; then
   python3 -m venv .venv-preview
 fi
-.venv-preview/bin/python -m pip install -r backend/requirements.txt -r backend/requirements-vision.txt
+.venv-preview/bin/python -m pip install -r backend/requirements.txt
+# Neural matting is optional: ONNX wheels are not available for every Mac/Python.
+if [ "${ROOM_PREVIEW_VISION:-false}" = true ]; then
+  .venv-preview/bin/python -m pip install -r backend/requirements-vision.txt
+else
+  echo 'Preview mode: automatic background removal is disabled; use transparent PNG product photos.'
+fi
 npm --prefix frontend ci
 npm --prefix frontend run build
 export PYTHONPATH=backend
@@ -20,7 +26,9 @@ export ALLOW_LEGACY_PHOTOS=false
 export REQUIRE_VERIFIED_EMAIL=false
 export CORS_ORIGINS=http://localhost:8080,http://127.0.0.1:8080
 .venv-preview/bin/python -m app.migrate
-.venv-preview/bin/python -m app.prepare_vision
+if [ "${ROOM_PREVIEW_VISION:-false}" = true ]; then
+  .venv-preview/bin/python -m app.prepare_vision
+fi
 echo 'Open http://localhost:8080 in your browser. Stop with Ctrl+C.'
 echo 'Temporary test mode: payments and AI disabled; email verification not required.'
 exec .venv-preview/bin/python -m uvicorn app.preview:app --host 0.0.0.0 --port 8080

@@ -7,8 +7,12 @@ Requires Python 3.12+ and Node.js 22+. From the downloaded repository on your Ma
 bash scripts/preview.sh
 ```
 
-Open http://localhost:8080. First startup installs dependencies and downloads the
-background-removal model. The preview uses its own SQLite database and uploads
+Open http://localhost:8080. First startup installs application dependencies.
+Automatic background removal is optional and disabled by default to avoid ONNX
+wheel compatibility errors on Macs. Use transparent PNG product photos in this
+mode; opaque photographs require the optional matting dependencies. On a supported
+Python/platform, opt in using `ROOM_PREVIEW_VISION=true bash scripts/preview.sh`.
+The preview uses its own SQLite database and uploads
 under `backend/preview-data`, separate from existing application data. Stop with
 Ctrl+C. To test on your phone, connect to the same Wi-Fi and open
 `http://YOUR_MAC_LOCAL_IP:8080`. Allow local network access if macOS asks.
