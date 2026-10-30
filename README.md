@@ -1,3 +1,5 @@
+The [interface redesign](docs/ATELIER_REDESIGN.md) and [current screenshot gallery](docs/ui-review/index.html) show the latest desktop and mobile experience.
+
 The [product-fidelity and API handoff](docs/PRODUCT_FIDELITY_HANDOFF.md) records the latest voice decisions, provider links, automation requirements and next evaluation.
 
 The [real seller photography release](docs/PHOTOGRAPHY_RELEASE.md) and [current UI gallery](docs/ui-review/index.html) supersede the earlier synthetic product workflow.

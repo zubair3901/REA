@@ -1,28 +1,507 @@
-import React,{useEffect,useRef,useState} from 'react';
-import {MoveHorizontal,ShoppingBag,MapPin,MousePointer2,RefreshCw,Camera,X} from 'lucide-react';
-import {api,API,money} from './workspace-api';
-import ProductPhotoViewer from './ProductPhotoViewer';
-import './photography.css';
-function category(a){const value=(a?.category||'').toLowerCase();if(/sofa|chair/.test(value))return 'seating';if(/lamp|lighting/.test(value))return 'lighting';return value}
-export default function RoomResult({design,assets,models,onUpdated,onRoomChange}){
- const [hotspots,setHotspots]=useState(design.hotspots||[]),[compare,setCompare]=useState(0),[natural,setNatural]=useState({width:1,height:1}),[rect,setRect]=useState({left:0,top:0,width:1,height:1}),[active,setActive]=useState(null),[mark,setMark]=useState(''),[drawn,setDrawn]=useState(null),[replacement,setReplacement]=useState(''),[provider,setProvider]=useState(''),[consent,setConsent]=useState(false),[confirmed,setConfirmed]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[view,setView]=useState(null);
- const host=useRef(null),start=useRef(null);const items=design.quote.items;const providers=models.filter(m=>m.id!=='composite'&&m.available);
- useEffect(()=>{let valid=true;api('/api/designs/'+design.id).then(d=>{if(valid)setHotspots(d.hotspots||[])}).catch(()=>{});return()=>{valid=false}},[design.id]);
- useEffect(()=>{if(!host.current)return;const resize=()=>{const w=host.current.clientWidth,h=host.current.clientHeight,s=Math.min(w/natural.width,h/natural.height);setRect({left:(w-natural.width*s)/2,top:(h-natural.height*s)/2,width:natural.width*s,height:natural.height*s})};const observer=new ResizeObserver(resize);observer.observe(host.current);resize();return()=>observer.disconnect()},[natural]);
- useEffect(()=>{if(!provider&&providers.length)setProvider(providers[0].id)},[models]);
- const current=assets.find(a=>a.id===active);const hotspot=hotspots.find(h=>h.asset_id===active);const region=drawn||hotspot;const alternatives=assets.filter(a=>a.id!==active&&!items.some(i=>i.asset_id===a.id)&&a.currency===design.quote.currency&&(!current||category(a)===category(current)));
- async function run(fn){setBusy(true);setError('');try{await fn()}catch(e){setError(e.message)}finally{setBusy(false)}}
- function choose(ident){setActive(ident);setReplacement('');setConfirmed(false);setDrawn(null);setCompare(0)}
- function position(e){const bounds=e.currentTarget.getBoundingClientRect();return {x:Math.max(0,Math.min(1,(e.clientX-bounds.left)/bounds.width)),y:Math.max(0,Math.min(1,(e.clientY-bounds.top)/bounds.height))}}
- function down(e){if(!mark)return;e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);start.current=position(e);setDrawn(null)}
- function move(e){if(!start.current||!mark)return;const p=position(e),s=start.current;setDrawn({x:Math.min(s.x,p.x),y:Math.min(s.y,p.y),width:Math.abs(s.x-p.x),height:Math.abs(s.y-p.y)})}
- function up(e){if(!start.current||!mark)return;const p=position(e),s=start.current;let box={x:Math.min(s.x,p.x),y:Math.min(s.y,p.y),width:Math.abs(s.x-p.x),height:Math.abs(s.y-p.y)};start.current=null;if(box.width<.01||box.height<.01){setError('Drag a rectangle around the entire item, including its shadow.');setDrawn(null);return}if(box.width*box.height>.65){setError('Use a smaller region for one product.');setDrawn(null);return}setDrawn(box);setConfirmed(false);setMark('')}
- async function saveRegion(){if(!active||!region)return;const {x,y,width,height}=region;const d=await api('/api/designs/'+design.id+'/hotspots','POST',{asset_id:active,x,y,width,height});setHotspots(d.hotspots);setDrawn(null)}
- async function swap(){const {x,y,width,height}=region;const d=await api('/api/designs/'+design.id+'/replace','POST',{old_asset_id:active,new_asset_id:replacement,region:{x,y,width,height},model:provider,ai_consent:consent,confirm_region:confirmed});onUpdated({...d,original:design.original})}
- return <div className="room-photo-result">{view&&<ProductPhotoViewer asset={view} onClose={()=>setView(null)}/>}<div className="room-result-toolbar"><button className="rf-text-button" onClick={()=>setCompare(compare===0?50:0)}><MoveHorizontal size={14}/>{compare===0?'Compare before / after':'Shop the result'}</button><label className="rf-text-button">Change room photo<input type="file" hidden accept="image/png,image/jpeg,image/webp" onChange={e=>onRoomChange?.(e.target.files[0])}/></label><span>{hotspots.length?'Tap a product marker':'Product locations need review'}</span></div><div className="room-photo-canvas" ref={host}><div className={'room-actual-image '+(mark?'marking':'')} style={{left:rect.left,top:rect.top,width:rect.width,height:rect.height}} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={()=>{start.current=null}}><img src={API+design.image_url} alt="Room visualization using selected seller product references" onLoad={e=>setNatural({width:e.currentTarget.naturalWidth,height:e.currentTarget.naturalHeight})}/>{compare>0&&<div className="room-original-layer" style={{clipPath:`inset(0 ${100-compare}% 0 0)`}}><img src={design.original||API+'/api/designs/'+design.id+'/original'} alt="Original customer room"/></div>}
- {compare===0&&!mark&&hotspots.map((h,i)=><button key={h.asset_id} className={'room-product-marker '+(active===h.asset_id?'active':'')} style={{left:(h.x+h.width/2)*100+'%',top:(h.y+h.height/2)*100+'%'}} onClick={()=>choose(h.asset_id)} aria-label={'Inspect '+(items.find(a=>a.asset_id===h.asset_id)?.name||'product')}><ShoppingBag size={14}/><span>{i+1}</span></button>)}
- {compare===0&&region&&<div className="room-edit-region" style={{left:region.x*100+'%',top:region.y*100+'%',width:region.width*100+'%',height:region.height*100+'%'}}/>}{mark&&<span className="room-draw-help">Drag around the item and its shadow</span>}{compare>0&&<><div className="room-compare-divider" style={{left:compare+'%'}}/><input aria-label="Before and after comparison" className="room-compare-slider" type="range" min="0" max="100" value={compare} onChange={e=>setCompare(Number(e.target.value))}/><span className="room-before-label">Before</span><span className="room-after-label">After</span></>}</div></div>
- <div className="room-shopping-list">{items.map((item,i)=><button key={item.asset_id} className={active===item.asset_id?'active':''} onClick={()=>choose(item.asset_id)}><span>{i+1}</span>{item.name}<strong>{money(item.subtotal,design.quote.currency)}</strong></button>)}</div><p className="photo-guidance">{design.render_mode==='ai_reference'?'AI positions and appearance need review. Missing markers do not prove a product is present; select an item and mark its position.':'Photo layout markers follow the actual overlay coordinates. This local layout does not simulate realistic perspective.'}</p>
- {active&&<section className="room-product-panel"><div className="room-panel-heading"><h3>{items.find(i=>i.asset_id===active)?.name}</h3><button aria-label="Close selected product" className="rf-text-button" onClick={()=>{setActive(null);setDrawn(null);setMark('')}}><X size={15}/></button></div>{current?<><div className="room-selected-product"><img src={API+current.image_url} alt={current.name+' actual seller photograph'}/><div><strong>{money(current.price,current.currency)}</strong><p>{current.stock} available · {current.delivery_days} day delivery</p><small>{current.width_cm} × {current.depth_cm} × {current.height_cm} cm · {current.condition}</small><button className="rf-text-button" onClick={()=>setView(current)}><Camera size={14}/> Inspect seller photos</button></div></div></>:<p>This listing is not currently available in the active catalog. Recheck stock with the seller.</p>}
- <div className="room-edit-actions"><button className="rf-text-button" onClick={()=>{setMark(active);setDrawn(null);setCompare(0);setConfirmed(false)}}><MousePointer2 size={14}/> Draw product region</button>{drawn&&<button className="rf-text-button" disabled={busy} onClick={()=>run(saveRegion)}>Save product hotspot</button>}</div><label>Choose a real replacement<select aria-label="Replacement product" value={replacement} onChange={e=>setReplacement(e.target.value)}><option value="">Select an available item</option>{alternatives.map(a=><option key={a.id} value={a.id}>{a.name} · {money(a.price,a.currency)}</option>)}</select></label><label>Image provider<select value={provider} onChange={e=>setProvider(e.target.value)} disabled={!providers.length}><option value="">{providers.length?'Choose provider':'Configure an AI image provider first'}</option>{providers.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></label><label className="consent"><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/> This rectangle covers the entire old product and shadow. Pixels outside it must stay unchanged.</label><label className="consent"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/> Send this room and replacement product photos to the selected AI provider.</label><button className="rf-primary" disabled={busy||!region||!replacement||!provider||!confirmed||!consent} onClick={()=>run(swap)}><RefreshCw size={15} className={busy?'spin':''}/>{busy?'Replacing item…':'Replace only this item'}</button><small>The budget, condition and availability are checked again. Your previous version remains saved.</small></section>}{error&&<p className="ws-notice error" role="alert">{error}</p>}</div>
+import React, { useEffect, useRef, useState } from "react";
+import {
+  MoveHorizontal,
+  ShoppingBag,
+  MapPin,
+  MousePointer2,
+  RefreshCw,
+  Camera,
+  X,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
+import { api, API, money } from "./workspace-api";
+import ProductPhotoViewer from "./ProductPhotoViewer";
+import "./photography.css";
+function category(a) {
+  const value = (a?.category || "").toLowerCase();
+  if (/sofa|chair/.test(value)) return "seating";
+  if (/lamp|lighting/.test(value)) return "lighting";
+  return value;
+}
+export default function RoomResult({
+  design,
+  assets,
+  models,
+  onUpdated,
+  onRoomChange,
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [hotspots, setHotspots] = useState(design.hotspots || []),
+    [compare, setCompare] = useState(0),
+    [natural, setNatural] = useState({ width: 1, height: 1 }),
+    [rect, setRect] = useState({ left: 0, top: 0, width: 1, height: 1 }),
+    [active, setActive] = useState(null),
+    [mark, setMark] = useState(""),
+    [drawn, setDrawn] = useState(null),
+    [replacement, setReplacement] = useState(""),
+    [provider, setProvider] = useState(""),
+    [consent, setConsent] = useState(false),
+    [confirmed, setConfirmed] = useState(false),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState(""),
+    [view, setView] = useState(null);
+  useEffect(() => {
+    if (!expanded) return;
+    const close = (e) => {
+      if (e.key === "Escape") setExpanded(false);
+    };
+    window.addEventListener("keydown", close);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", close);
+      document.body.style.overflow = previous;
+    };
+  }, [expanded]);
+  const host = useRef(null),
+    start = useRef(null);
+  const items = design.quote.items;
+  const providers = models.filter((m) => m.id !== "composite" && m.available);
+  useEffect(() => {
+    let valid = true;
+    api("/api/designs/" + design.id)
+      .then((d) => {
+        if (valid) setHotspots(d.hotspots || []);
+      })
+      .catch(() => {});
+    return () => {
+      valid = false;
+    };
+  }, [design.id]);
+  useEffect(() => {
+    if (!host.current) return;
+    const resize = () => {
+      const w = host.current.clientWidth,
+        h = host.current.clientHeight,
+        s = Math.min(w / natural.width, h / natural.height);
+      setRect({
+        left: (w - natural.width * s) / 2,
+        top: (h - natural.height * s) / 2,
+        width: natural.width * s,
+        height: natural.height * s,
+      });
+    };
+    const observer = new ResizeObserver(resize);
+    observer.observe(host.current);
+    resize();
+    return () => observer.disconnect();
+  }, [natural]);
+  useEffect(() => {
+    if (!provider && providers.length) setProvider(providers[0].id);
+  }, [models]);
+  const current = assets.find((a) => a.id === active);
+  const hotspot = hotspots.find((h) => h.asset_id === active);
+  const region = drawn || hotspot;
+  const alternatives = assets.filter(
+    (a) =>
+      a.id !== active &&
+      !items.some((i) => i.asset_id === a.id) &&
+      a.currency === design.quote.currency &&
+      (!current || category(a) === category(current)),
+  );
+  async function run(fn) {
+    setBusy(true);
+    setError("");
+    try {
+      await fn();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  function choose(ident) {
+    setActive(ident);
+    setReplacement("");
+    setConfirmed(false);
+    setDrawn(null);
+    setCompare(0);
+  }
+  function position(e) {
+    const bounds = e.currentTarget.getBoundingClientRect();
+    return {
+      x: Math.max(0, Math.min(1, (e.clientX - bounds.left) / bounds.width)),
+      y: Math.max(0, Math.min(1, (e.clientY - bounds.top) / bounds.height)),
+    };
+  }
+  function down(e) {
+    if (!mark) return;
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    start.current = position(e);
+    setDrawn(null);
+  }
+  function move(e) {
+    if (!start.current || !mark) return;
+    const p = position(e),
+      s = start.current;
+    setDrawn({
+      x: Math.min(s.x, p.x),
+      y: Math.min(s.y, p.y),
+      width: Math.abs(s.x - p.x),
+      height: Math.abs(s.y - p.y),
+    });
+  }
+  function up(e) {
+    if (!start.current || !mark) return;
+    const p = position(e),
+      s = start.current;
+    let box = {
+      x: Math.min(s.x, p.x),
+      y: Math.min(s.y, p.y),
+      width: Math.abs(s.x - p.x),
+      height: Math.abs(s.y - p.y),
+    };
+    start.current = null;
+    if (box.width < 0.01 || box.height < 0.01) {
+      setError(
+        "Drag a rectangle around the entire item, including its shadow.",
+      );
+      setDrawn(null);
+      return;
+    }
+    if (box.width * box.height > 0.65) {
+      setError("Use a smaller region for one product.");
+      setDrawn(null);
+      return;
+    }
+    setDrawn(box);
+    setConfirmed(false);
+    setMark("");
+  }
+  async function saveRegion() {
+    if (!active || !region) return;
+    const { x, y, width, height } = region;
+    const d = await api("/api/designs/" + design.id + "/hotspots", "POST", {
+      asset_id: active,
+      x,
+      y,
+      width,
+      height,
+    });
+    setHotspots(d.hotspots);
+    setDrawn(null);
+  }
+  async function swap() {
+    const { x, y, width, height } = region;
+    const d = await api("/api/designs/" + design.id + "/replace", "POST", {
+      old_asset_id: active,
+      new_asset_id: replacement,
+      region: { x, y, width, height },
+      model: provider,
+      ai_consent: consent,
+      confirm_region: confirmed,
+    });
+    onUpdated({ ...d, original: design.original });
+  }
+  return (
+    <div className={"room-photo-result " + (expanded ? "expanded" : "")}>
+      {view && (
+        <ProductPhotoViewer asset={view} onClose={() => setView(null)} />
+      )}
+      <div className="room-result-toolbar">
+        <button
+          className="rf-text-button result-expand"
+          aria-pressed={expanded}
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}{" "}
+          {expanded ? "Close full view" : "Full view"}
+        </button>
+        <button
+          className="rf-text-button"
+          onClick={() => setCompare(compare === 0 ? 50 : 0)}
+        >
+          <MoveHorizontal size={14} />
+          {compare === 0 ? "Compare before / after" : "Shop the result"}
+        </button>
+        <label className="rf-text-button">
+          Change room photo
+          <input
+            type="file"
+            hidden
+            accept="image/png,image/jpeg,image/webp"
+            onChange={(e) => onRoomChange?.(e.target.files[0])}
+          />
+        </label>
+        <span>
+          {hotspots.length
+            ? "Tap a product marker"
+            : "Product locations need review"}
+        </span>
+      </div>
+      <div className="room-photo-canvas" ref={host}>
+        <div
+          className={"room-actual-image " + (mark ? "marking" : "")}
+          style={{
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+            height: rect.height,
+          }}
+          onPointerDown={down}
+          onPointerMove={move}
+          onPointerUp={up}
+          onPointerCancel={() => {
+            start.current = null;
+          }}
+        >
+          <img
+            src={API + design.image_url}
+            alt="Room visualization using selected seller product references"
+            onLoad={(e) =>
+              setNatural({
+                width: e.currentTarget.naturalWidth,
+                height: e.currentTarget.naturalHeight,
+              })
+            }
+          />
+          {compare > 0 && (
+            <div
+              className="room-original-layer"
+              style={{ clipPath: `inset(0 ${100 - compare}% 0 0)` }}
+            >
+              <img
+                src={
+                  design.original ||
+                  API + "/api/designs/" + design.id + "/original"
+                }
+                alt="Original customer room"
+              />
+            </div>
+          )}
+          {compare === 0 &&
+            !mark &&
+            hotspots.map((h, i) => (
+              <button
+                key={h.asset_id}
+                className={
+                  "room-product-marker " +
+                  (active === h.asset_id ? "active" : "")
+                }
+                style={{
+                  left: (h.x + h.width / 2) * 100 + "%",
+                  top: (h.y + h.height / 2) * 100 + "%",
+                }}
+                onClick={() => choose(h.asset_id)}
+                aria-label={
+                  "Inspect " +
+                  (items.find((a) => a.asset_id === h.asset_id)?.name ||
+                    "product")
+                }
+              >
+                <ShoppingBag size={14} />
+                <span>{i + 1}</span>
+              </button>
+            ))}
+          {compare === 0 && region && (
+            <div
+              className="room-edit-region"
+              style={{
+                left: region.x * 100 + "%",
+                top: region.y * 100 + "%",
+                width: region.width * 100 + "%",
+                height: region.height * 100 + "%",
+              }}
+            />
+          )}
+          {mark && (
+            <span className="room-draw-help">
+              Drag around the item and its shadow
+            </span>
+          )}
+          {compare > 0 && (
+            <>
+              <div
+                className="room-compare-divider"
+                style={{ left: compare + "%" }}
+              />
+              <input
+                aria-label="Before and after comparison"
+                className="room-compare-slider"
+                type="range"
+                min="0"
+                max="100"
+                value={compare}
+                onChange={(e) => setCompare(Number(e.target.value))}
+              />
+              <span className="room-before-label">Before</span>
+              <span className="room-after-label">After</span>
+            </>
+          )}
+        </div>
+      </div>
+      <div className="room-shopping-list">
+        {items.map((item, i) => (
+          <button
+            key={item.asset_id}
+            className={active === item.asset_id ? "active" : ""}
+            onClick={() => choose(item.asset_id)}
+          >
+            <span>{i + 1}</span>
+            {item.name}
+            <strong>{money(item.subtotal, design.quote.currency)}</strong>
+          </button>
+        ))}
+      </div>
+      <p className="photo-guidance">
+        {design.render_mode === "ai_reference"
+          ? "AI positions and appearance need review. Missing markers do not prove a product is present; select an item and mark its position."
+          : "Photo layout markers follow the actual overlay coordinates. This local layout does not simulate realistic perspective."}
+      </p>
+      {active && (
+        <section className="room-product-panel">
+          <div className="room-panel-heading">
+            <h3>{items.find((i) => i.asset_id === active)?.name}</h3>
+            <button
+              aria-label="Close selected product"
+              className="rf-text-button"
+              onClick={() => {
+                setActive(null);
+                setDrawn(null);
+                setMark("");
+              }}
+            >
+              <X size={15} />
+            </button>
+          </div>
+          {current ? (
+            <>
+              <div className="room-selected-product">
+                <img
+                  src={API + current.image_url}
+                  alt={current.name + " actual seller photograph"}
+                />
+                <div>
+                  <strong>{money(current.price, current.currency)}</strong>
+                  <p>
+                    {current.stock} available · {current.delivery_days} day
+                    delivery
+                  </p>
+                  <small>
+                    {current.width_cm} × {current.depth_cm} ×{" "}
+                    {current.height_cm} cm · {current.condition}
+                  </small>
+                  <button
+                    className="rf-text-button"
+                    onClick={() => setView(current)}
+                  >
+                    <Camera size={14} /> Inspect seller photos
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <p>
+              This listing is not currently available in the active catalog.
+              Recheck stock with the seller.
+            </p>
+          )}
+          <div className="room-edit-actions">
+            <button
+              className="rf-text-button"
+              onClick={() => {
+                setMark(active);
+                setDrawn(null);
+                setCompare(0);
+                setConfirmed(false);
+                host.current?.scrollIntoView({
+                  block: "center",
+                  behavior: "instant",
+                });
+              }}
+            >
+              <MousePointer2 size={14} /> Draw product region
+            </button>
+            {drawn && (
+              <button
+                className="rf-text-button"
+                disabled={busy}
+                onClick={() => run(saveRegion)}
+              >
+                Save product hotspot
+              </button>
+            )}
+          </div>
+          <label>
+            Choose a real replacement
+            <select
+              aria-label="Replacement product"
+              value={replacement}
+              onChange={(e) => setReplacement(e.target.value)}
+            >
+              <option value="">Select an available item</option>
+              {alternatives.map((a) => (
+                <option key={a.id} value={a.id}>
+                  {a.name} · {money(a.price, a.currency)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Image provider
+            <select
+              value={provider}
+              onChange={(e) => setProvider(e.target.value)}
+              disabled={!providers.length}
+            >
+              <option value="">
+                {providers.length
+                  ? "Choose provider"
+                  : "Configure an AI image provider first"}
+              </option>
+              {providers.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="consent">
+            <input
+              type="checkbox"
+              checked={confirmed}
+              onChange={(e) => setConfirmed(e.target.checked)}
+            />{" "}
+            This rectangle covers the entire old product and shadow. Pixels
+            outside it must stay unchanged.
+          </label>
+          <label className="consent">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+            />{" "}
+            Send this room and replacement product photos to the selected AI
+            provider.
+          </label>
+          <button
+            className="rf-primary"
+            disabled={
+              busy ||
+              !region ||
+              !replacement ||
+              !provider ||
+              !confirmed ||
+              !consent
+            }
+            onClick={() => run(swap)}
+          >
+            <RefreshCw size={15} className={busy ? "spin" : ""} />
+            {busy ? "Replacing item…" : "Replace only this item"}
+          </button>
+          <small>
+            The budget, condition and availability are checked again. Your
+            previous version remains saved.
+          </small>
+        </section>
+      )}
+      {error && (
+        <p className="ws-notice error" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  );
 }
