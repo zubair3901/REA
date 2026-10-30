@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Replace with your actual product name",
+    "category": "sofa",
+    "style": "modern",
+    "price": 100,
+    "currency": "USD",
+    "width_cm": 200,
+    "height_cm": 80,
+    "depth_cm": 90,
+    "condition": "new",
+    "latitude": 24.8607,
+    "longitude": 67.0011,
+    "delivery_location": "Replace with your delivery area",
+    "delivery_radius_km": 25,
+    "stock": 1,
+    "delivery_days": 5,
+    "image_file": "your-product.png"
+  }
+]

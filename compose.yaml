@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: roomform
+      POSTGRES_USER: roomform
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U roomform]
+      interval: 5s
+      retries: 10
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://roomform:${POSTGRES_PASSWORD}@db:5432/roomform
+      DATA_DIR: /data
+      AUTO_CREATE_SCHEMA: "false"
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      ROOM_OPERATOR_KEY: ${ROOM_OPERATOR_KEY:-}
+      ALLOW_GUEST_PREVIEWS: "false"
+      ENABLE_AI_GENERATION: ${ENABLE_AI_GENERATION:-false}
+      ENABLE_AI_HOTSPOTS: ${ENABLE_AI_HOTSPOTS:-true}
+      ROOM_OPENAI_API_KEY: ${ROOM_OPENAI_API_KEY:-}
+      ROOM_GEMINI_API_KEY: ${ROOM_GEMINI_API_KEY:-}
+      ROOM_AI_DAILY_LIMIT: ${ROOM_AI_DAILY_LIMIT:-3}
+      ROOM_PRIMARY_PROVIDER: ${ROOM_PRIMARY_PROVIDER:-gemini}
+      ROOM_MATTING_MODEL: ${ROOM_MATTING_MODEL:-u2netp}
+      ALLOW_DEMO_CATALOG: "false"
+      ALLOW_LEGACY_PHOTOS: "false"
+      ENABLE_PROJECT_SALES: "false"
+      MARKETPLACE_COMMISSION_PERCENT: ${MARKETPLACE_COMMISSION_PERCENT:-}
+      PAYMENT_INSTRUCTIONS: ${PAYMENT_INSTRUCTIONS:-}
+      LABOR_RATES_JSON: ${LABOR_RATES_JSON:-}
+      APP_ENV: ${APP_ENV:-staging}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+    command: [sh, -c, "python -m app.migrate && python -m app.prepare_vision && uvicorn app.main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips=*"]
+    volumes: ["media:/data"]
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      retries: 5
+  web:
+    build: ./frontend
+    ports: ["${WEB_PORT:-8080}:8080"]
+    depends_on:
+      api:
+        condition: service_healthy
+volumes:
+  pgdata:
+  media:

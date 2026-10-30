@@ -1,0 +1,23 @@
+services:
+  api:
+    environment:
+      COOKIE_SECURE: "true"
+      REQUIRE_VERIFIED_EMAIL: "true"
+      ALLOW_LEGACY_OPERATOR_KEY: "false"
+  web:
+    ports: !reset []
+  gateway:
+    image: caddy:2-alpine
+    ports: ["80:80", "443:443"]
+    environment:
+      STAGING_DOMAIN: ${STAGING_DOMAIN:?Set STAGING_DOMAIN}
+      STAGING_USER: ${STAGING_USER:?Set STAGING_USER}
+      STAGING_PASSWORD_HASH: ${STAGING_PASSWORD_HASH:?Set Caddy password hash}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [web]
+volumes:
+  caddy_data:
+  caddy_config:

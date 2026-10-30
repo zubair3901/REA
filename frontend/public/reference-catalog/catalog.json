@@ -1,0 +1,1969 @@
+{
+  "source": "https://kenney.nl/assets/furniture-kit",
+  "archive_sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+  "license": "CC0",
+  "note": "Low-poly digital references, not merchant inventory. No prices, stock, physical dimensions or delivery claims.",
+  "products": [
+    {
+      "id": "bathroomCabinetDrawer",
+      "name": "Bathroom Cabinet Drawer",
+      "images": {
+        "NE": "/reference-catalog/bathroomCabinetDrawer_NE.png",
+        "NW": "/reference-catalog/bathroomCabinetDrawer_NW.png",
+        "SE": "/reference-catalog/bathroomCabinetDrawer_SE.png",
+        "SW": "/reference-catalog/bathroomCabinetDrawer_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bathroomCabinet",
+      "name": "Bathroom Cabinet",
+      "images": {
+        "NE": "/reference-catalog/bathroomCabinet_NE.png",
+        "NW": "/reference-catalog/bathroomCabinet_NW.png",
+        "SE": "/reference-catalog/bathroomCabinet_SE.png",
+        "SW": "/reference-catalog/bathroomCabinet_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bathroomMirror",
+      "name": "Bathroom Mirror",
+      "images": {
+        "NE": "/reference-catalog/bathroomMirror_NE.png",
+        "NW": "/reference-catalog/bathroomMirror_NW.png",
+        "SE": "/reference-catalog/bathroomMirror_SE.png",
+        "SW": "/reference-catalog/bathroomMirror_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bathroomSinkSquare",
+      "name": "Bathroom Sink Square",
+      "images": {
+        "NE": "/reference-catalog/bathroomSinkSquare_NE.png",
+        "NW": "/reference-catalog/bathroomSinkSquare_NW.png",
+        "SE": "/reference-catalog/bathroomSinkSquare_SE.png",
+        "SW": "/reference-catalog/bathroomSinkSquare_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bathroomSink",
+      "name": "Bathroom Sink",
+      "images": {
+        "NE": "/reference-catalog/bathroomSink_NE.png",
+        "NW": "/reference-catalog/bathroomSink_NW.png",
+        "SE": "/reference-catalog/bathroomSink_SE.png",
+        "SW": "/reference-catalog/bathroomSink_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bathtub",
+      "name": "Bathtub",
+      "images": {
+        "NE": "/reference-catalog/bathtub_NE.png",
+        "NW": "/reference-catalog/bathtub_NW.png",
+        "SE": "/reference-catalog/bathtub_SE.png",
+        "SW": "/reference-catalog/bathtub_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bear",
+      "name": "Bear",
+      "images": {
+        "NE": "/reference-catalog/bear_NE.png",
+        "NW": "/reference-catalog/bear_NW.png",
+        "SE": "/reference-catalog/bear_SE.png",
+        "SW": "/reference-catalog/bear_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bedBunk",
+      "name": "Bed Bunk",
+      "images": {
+        "NE": "/reference-catalog/bedBunk_NE.png",
+        "NW": "/reference-catalog/bedBunk_NW.png",
+        "SE": "/reference-catalog/bedBunk_SE.png",
+        "SW": "/reference-catalog/bedBunk_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bedDouble",
+      "name": "Bed Double",
+      "images": {
+        "NE": "/reference-catalog/bedDouble_NE.png",
+        "NW": "/reference-catalog/bedDouble_NW.png",
+        "SE": "/reference-catalog/bedDouble_SE.png",
+        "SW": "/reference-catalog/bedDouble_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bedSingle",
+      "name": "Bed Single",
+      "images": {
+        "NE": "/reference-catalog/bedSingle_NE.png",
+        "NW": "/reference-catalog/bedSingle_NW.png",
+        "SE": "/reference-catalog/bedSingle_SE.png",
+        "SW": "/reference-catalog/bedSingle_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "benchCushionLow",
+      "name": "Bench Cushion Low",
+      "images": {
+        "NE": "/reference-catalog/benchCushionLow_NE.png",
+        "NW": "/reference-catalog/benchCushionLow_NW.png",
+        "SE": "/reference-catalog/benchCushionLow_SE.png",
+        "SW": "/reference-catalog/benchCushionLow_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "benchCushion",
+      "name": "Bench Cushion",
+      "images": {
+        "NE": "/reference-catalog/benchCushion_NE.png",
+        "NW": "/reference-catalog/benchCushion_NW.png",
+        "SE": "/reference-catalog/benchCushion_SE.png",
+        "SW": "/reference-catalog/benchCushion_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bench",
+      "name": "Bench",
+      "images": {
+        "NE": "/reference-catalog/bench_NE.png",
+        "NW": "/reference-catalog/bench_NW.png",
+        "SE": "/reference-catalog/bench_SE.png",
+        "SW": "/reference-catalog/bench_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bookcaseClosedDoors",
+      "name": "Bookcase Closed Doors",
+      "images": {
+        "NE": "/reference-catalog/bookcaseClosedDoors_NE.png",
+        "NW": "/reference-catalog/bookcaseClosedDoors_NW.png",
+        "SE": "/reference-catalog/bookcaseClosedDoors_SE.png",
+        "SW": "/reference-catalog/bookcaseClosedDoors_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bookcaseClosedWide",
+      "name": "Bookcase Closed Wide",
+      "images": {
+        "NE": "/reference-catalog/bookcaseClosedWide_NE.png",
+        "NW": "/reference-catalog/bookcaseClosedWide_NW.png",
+        "SE": "/reference-catalog/bookcaseClosedWide_SE.png",
+        "SW": "/reference-catalog/bookcaseClosedWide_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bookcaseClosed",
+      "name": "Bookcase Closed",
+      "images": {
+        "NE": "/reference-catalog/bookcaseClosed_NE.png",
+        "NW": "/reference-catalog/bookcaseClosed_NW.png",
+        "SE": "/reference-catalog/bookcaseClosed_SE.png",
+        "SW": "/reference-catalog/bookcaseClosed_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bookcaseOpenLow",
+      "name": "Bookcase Open Low",
+      "images": {
+        "NE": "/reference-catalog/bookcaseOpenLow_NE.png",
+        "NW": "/reference-catalog/bookcaseOpenLow_NW.png",
+        "SE": "/reference-catalog/bookcaseOpenLow_SE.png",
+        "SW": "/reference-catalog/bookcaseOpenLow_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "bookcaseOpen",
+      "name": "Bookcase Open",
+      "images": {
+        "NE": "/reference-catalog/bookcaseOpen_NE.png",
+        "NW": "/reference-catalog/bookcaseOpen_NW.png",
+        "SE": "/reference-catalog/bookcaseOpen_SE.png",
+        "SW": "/reference-catalog/bookcaseOpen_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "books",
+      "name": "Books",
+      "images": {
+        "NE": "/reference-catalog/books_NE.png",
+        "NW": "/reference-catalog/books_NW.png",
+        "SE": "/reference-catalog/books_SE.png",
+        "SW": "/reference-catalog/books_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cabinetBedDrawerTable",
+      "name": "Cabinet Bed Drawer Table",
+      "images": {
+        "NE": "/reference-catalog/cabinetBedDrawerTable_NE.png",
+        "NW": "/reference-catalog/cabinetBedDrawerTable_NW.png",
+        "SE": "/reference-catalog/cabinetBedDrawerTable_SE.png",
+        "SW": "/reference-catalog/cabinetBedDrawerTable_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cabinetBedDrawer",
+      "name": "Cabinet Bed Drawer",
+      "images": {
+        "NE": "/reference-catalog/cabinetBedDrawer_NE.png",
+        "NW": "/reference-catalog/cabinetBedDrawer_NW.png",
+        "SE": "/reference-catalog/cabinetBedDrawer_SE.png",
+        "SW": "/reference-catalog/cabinetBedDrawer_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cabinetBed",
+      "name": "Cabinet Bed",
+      "images": {
+        "NE": "/reference-catalog/cabinetBed_NE.png",
+        "NW": "/reference-catalog/cabinetBed_NW.png",
+        "SE": "/reference-catalog/cabinetBed_SE.png",
+        "SW": "/reference-catalog/cabinetBed_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cabinetTelevisionDoors",
+      "name": "Cabinet Television Doors",
+      "images": {
+        "NE": "/reference-catalog/cabinetTelevisionDoors_NE.png",
+        "NW": "/reference-catalog/cabinetTelevisionDoors_NW.png",
+        "SE": "/reference-catalog/cabinetTelevisionDoors_SE.png",
+        "SW": "/reference-catalog/cabinetTelevisionDoors_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cabinetTelevision",
+      "name": "Cabinet Television",
+      "images": {
+        "NE": "/reference-catalog/cabinetTelevision_NE.png",
+        "NW": "/reference-catalog/cabinetTelevision_NW.png",
+        "SE": "/reference-catalog/cabinetTelevision_SE.png",
+        "SW": "/reference-catalog/cabinetTelevision_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cardboardBoxClosed",
+      "name": "Cardboard Box Closed",
+      "images": {
+        "NE": "/reference-catalog/cardboardBoxClosed_NE.png",
+        "NW": "/reference-catalog/cardboardBoxClosed_NW.png",
+        "SE": "/reference-catalog/cardboardBoxClosed_SE.png",
+        "SW": "/reference-catalog/cardboardBoxClosed_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "cardboardBoxOpen",
+      "name": "Cardboard Box Open",
+      "images": {
+        "NE": "/reference-catalog/cardboardBoxOpen_NE.png",
+        "NW": "/reference-catalog/cardboardBoxOpen_NW.png",
+        "SE": "/reference-catalog/cardboardBoxOpen_SE.png",
+        "SW": "/reference-catalog/cardboardBoxOpen_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "ceilingFan",
+      "name": "Ceiling Fan",
+      "images": {
+        "NE": "/reference-catalog/ceilingFan_NE.png",
+        "NW": "/reference-catalog/ceilingFan_NW.png",
+        "SE": "/reference-catalog/ceilingFan_SE.png",
+        "SW": "/reference-catalog/ceilingFan_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "chairCushion",
+      "name": "Chair Cushion",
+      "images": {
+        "NE": "/reference-catalog/chairCushion_NE.png",
+        "NW": "/reference-catalog/chairCushion_NW.png",
+        "SE": "/reference-catalog/chairCushion_SE.png",
+        "SW": "/reference-catalog/chairCushion_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "chairDesk",
+      "name": "Chair Desk",
+      "images": {
+        "NE": "/reference-catalog/chairDesk_NE.png",
+        "NW": "/reference-catalog/chairDesk_NW.png",
+        "SE": "/reference-catalog/chairDesk_SE.png",
+        "SW": "/reference-catalog/chairDesk_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "chairModernCushion",
+      "name": "Chair Modern Cushion",
+      "images": {
+        "NE": "/reference-catalog/chairModernCushion_NE.png",
+        "NW": "/reference-catalog/chairModernCushion_NW.png",
+        "SE": "/reference-catalog/chairModernCushion_SE.png",
+        "SW": "/reference-catalog/chairModernCushion_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "chairModernFrameCushion",
+      "name": "Chair Modern Frame Cushion",
+      "images": {
+        "NE": "/reference-catalog/chairModernFrameCushion_NE.png",
+        "NW": "/reference-catalog/chairModernFrameCushion_NW.png",
+        "SE": "/reference-catalog/chairModernFrameCushion_SE.png",
+        "SW": "/reference-catalog/chairModernFrameCushion_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "chairRounded",
+      "name": "Chair Rounded",
+      "images": {
+        "NE": "/reference-catalog/chairRounded_NE.png",
+        "NW": "/reference-catalog/chairRounded_NW.png",
+        "SE": "/reference-catalog/chairRounded_SE.png",
+        "SW": "/reference-catalog/chairRounded_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "chair",
+      "name": "Chair",
+      "images": {
+        "NE": "/reference-catalog/chair_NE.png",
+        "NW": "/reference-catalog/chair_NW.png",
+        "SE": "/reference-catalog/chair_SE.png",
+        "SW": "/reference-catalog/chair_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "coatRackStanding",
+      "name": "Coat Rack Standing",
+      "images": {
+        "NE": "/reference-catalog/coatRackStanding_NE.png",
+        "NW": "/reference-catalog/coatRackStanding_NW.png",
+        "SE": "/reference-catalog/coatRackStanding_SE.png",
+        "SW": "/reference-catalog/coatRackStanding_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "coatRack",
+      "name": "Coat Rack",
+      "images": {
+        "NE": "/reference-catalog/coatRack_NE.png",
+        "NW": "/reference-catalog/coatRack_NW.png",
+        "SE": "/reference-catalog/coatRack_SE.png",
+        "SW": "/reference-catalog/coatRack_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "computerKeyboard",
+      "name": "Computer Keyboard",
+      "images": {
+        "NE": "/reference-catalog/computerKeyboard_NE.png",
+        "NW": "/reference-catalog/computerKeyboard_NW.png",
+        "SE": "/reference-catalog/computerKeyboard_SE.png",
+        "SW": "/reference-catalog/computerKeyboard_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "computerMouse",
+      "name": "Computer Mouse",
+      "images": {
+        "NE": "/reference-catalog/computerMouse_NE.png",
+        "NW": "/reference-catalog/computerMouse_NW.png",
+        "SE": "/reference-catalog/computerMouse_SE.png",
+        "SW": "/reference-catalog/computerMouse_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "computerScreen",
+      "name": "Computer Screen",
+      "images": {
+        "NE": "/reference-catalog/computerScreen_NE.png",
+        "NW": "/reference-catalog/computerScreen_NW.png",
+        "SE": "/reference-catalog/computerScreen_SE.png",
+        "SW": "/reference-catalog/computerScreen_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "deskCorner",
+      "name": "Desk Corner",
+      "images": {
+        "NE": "/reference-catalog/deskCorner_NE.png",
+        "NW": "/reference-catalog/deskCorner_NW.png",
+        "SE": "/reference-catalog/deskCorner_SE.png",
+        "SW": "/reference-catalog/deskCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "desk",
+      "name": "Desk",
+      "images": {
+        "NE": "/reference-catalog/desk_NE.png",
+        "NW": "/reference-catalog/desk_NW.png",
+        "SE": "/reference-catalog/desk_SE.png",
+        "SW": "/reference-catalog/desk_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "doorwayFront",
+      "name": "Doorway Front",
+      "images": {
+        "NE": "/reference-catalog/doorwayFront_NE.png",
+        "NW": "/reference-catalog/doorwayFront_NW.png",
+        "SE": "/reference-catalog/doorwayFront_SE.png",
+        "SW": "/reference-catalog/doorwayFront_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "doorwayOpen",
+      "name": "Doorway Open",
+      "images": {
+        "NE": "/reference-catalog/doorwayOpen_NE.png",
+        "NW": "/reference-catalog/doorwayOpen_NW.png",
+        "SE": "/reference-catalog/doorwayOpen_SE.png",
+        "SW": "/reference-catalog/doorwayOpen_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "doorway",
+      "name": "Doorway",
+      "images": {
+        "NE": "/reference-catalog/doorway_NE.png",
+        "NW": "/reference-catalog/doorway_NW.png",
+        "SE": "/reference-catalog/doorway_SE.png",
+        "SW": "/reference-catalog/doorway_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "dryer",
+      "name": "Dryer",
+      "images": {
+        "NE": "/reference-catalog/dryer_NE.png",
+        "NW": "/reference-catalog/dryer_NW.png",
+        "SE": "/reference-catalog/dryer_SE.png",
+        "SW": "/reference-catalog/dryer_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "floorCornerRound",
+      "name": "Floor Corner Round",
+      "images": {
+        "NE": "/reference-catalog/floorCornerRound_NE.png",
+        "NW": "/reference-catalog/floorCornerRound_NW.png",
+        "SE": "/reference-catalog/floorCornerRound_SE.png",
+        "SW": "/reference-catalog/floorCornerRound_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "floorCorner",
+      "name": "Floor Corner",
+      "images": {
+        "NE": "/reference-catalog/floorCorner_NE.png",
+        "NW": "/reference-catalog/floorCorner_NW.png",
+        "SE": "/reference-catalog/floorCorner_SE.png",
+        "SW": "/reference-catalog/floorCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "floorFull",
+      "name": "Floor Full",
+      "images": {
+        "NE": "/reference-catalog/floorFull_NE.png",
+        "NW": "/reference-catalog/floorFull_NW.png",
+        "SE": "/reference-catalog/floorFull_SE.png",
+        "SW": "/reference-catalog/floorFull_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "floorHalf",
+      "name": "Floor Half",
+      "images": {
+        "NE": "/reference-catalog/floorHalf_NE.png",
+        "NW": "/reference-catalog/floorHalf_NW.png",
+        "SE": "/reference-catalog/floorHalf_SE.png",
+        "SW": "/reference-catalog/floorHalf_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "hoodLarge",
+      "name": "Hood Large",
+      "images": {
+        "NE": "/reference-catalog/hoodLarge_NE.png",
+        "NW": "/reference-catalog/hoodLarge_NW.png",
+        "SE": "/reference-catalog/hoodLarge_SE.png",
+        "SW": "/reference-catalog/hoodLarge_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "hoodModern",
+      "name": "Hood Modern",
+      "images": {
+        "NE": "/reference-catalog/hoodModern_NE.png",
+        "NW": "/reference-catalog/hoodModern_NW.png",
+        "SE": "/reference-catalog/hoodModern_SE.png",
+        "SW": "/reference-catalog/hoodModern_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenBarEnd",
+      "name": "Kitchen Bar End",
+      "images": {
+        "NE": "/reference-catalog/kitchenBarEnd_NE.png",
+        "NW": "/reference-catalog/kitchenBarEnd_NW.png",
+        "SE": "/reference-catalog/kitchenBarEnd_SE.png",
+        "SW": "/reference-catalog/kitchenBarEnd_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenBar",
+      "name": "Kitchen Bar",
+      "images": {
+        "NE": "/reference-catalog/kitchenBar_NE.png",
+        "NW": "/reference-catalog/kitchenBar_NW.png",
+        "SE": "/reference-catalog/kitchenBar_SE.png",
+        "SW": "/reference-catalog/kitchenBar_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenBlender",
+      "name": "Kitchen Blender",
+      "images": {
+        "NE": "/reference-catalog/kitchenBlender_NE.png",
+        "NW": "/reference-catalog/kitchenBlender_NW.png",
+        "SE": "/reference-catalog/kitchenBlender_SE.png",
+        "SW": "/reference-catalog/kitchenBlender_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetCornerInner",
+      "name": "Kitchen Cabinet Corner Inner",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetCornerInner_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetCornerInner_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetCornerInner_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetCornerInner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetCornerRound",
+      "name": "Kitchen Cabinet Corner Round",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetCornerRound_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetCornerRound_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetCornerRound_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetCornerRound_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetDrawer",
+      "name": "Kitchen Cabinet Drawer",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetDrawer_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetDrawer_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetDrawer_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetDrawer_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetUpperCorner",
+      "name": "Kitchen Cabinet Upper Corner",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetUpperCorner_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetUpperCorner_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetUpperCorner_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetUpperCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetUpperDouble",
+      "name": "Kitchen Cabinet Upper Double",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetUpperDouble_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetUpperDouble_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetUpperDouble_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetUpperDouble_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetUpperLow",
+      "name": "Kitchen Cabinet Upper Low",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetUpperLow_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetUpperLow_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetUpperLow_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetUpperLow_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinetUpper",
+      "name": "Kitchen Cabinet Upper",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinetUpper_NE.png",
+        "NW": "/reference-catalog/kitchenCabinetUpper_NW.png",
+        "SE": "/reference-catalog/kitchenCabinetUpper_SE.png",
+        "SW": "/reference-catalog/kitchenCabinetUpper_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCabinet",
+      "name": "Kitchen Cabinet",
+      "images": {
+        "NE": "/reference-catalog/kitchenCabinet_NE.png",
+        "NW": "/reference-catalog/kitchenCabinet_NW.png",
+        "SE": "/reference-catalog/kitchenCabinet_SE.png",
+        "SW": "/reference-catalog/kitchenCabinet_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenCoffeeMachine",
+      "name": "Kitchen Coffee Machine",
+      "images": {
+        "NE": "/reference-catalog/kitchenCoffeeMachine_NE.png",
+        "NW": "/reference-catalog/kitchenCoffeeMachine_NW.png",
+        "SE": "/reference-catalog/kitchenCoffeeMachine_SE.png",
+        "SW": "/reference-catalog/kitchenCoffeeMachine_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenFridgeBuiltIn",
+      "name": "Kitchen Fridge Built In",
+      "images": {
+        "NE": "/reference-catalog/kitchenFridgeBuiltIn_NE.png",
+        "NW": "/reference-catalog/kitchenFridgeBuiltIn_NW.png",
+        "SE": "/reference-catalog/kitchenFridgeBuiltIn_SE.png",
+        "SW": "/reference-catalog/kitchenFridgeBuiltIn_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenFridgeLarge",
+      "name": "Kitchen Fridge Large",
+      "images": {
+        "NE": "/reference-catalog/kitchenFridgeLarge_NE.png",
+        "NW": "/reference-catalog/kitchenFridgeLarge_NW.png",
+        "SE": "/reference-catalog/kitchenFridgeLarge_SE.png",
+        "SW": "/reference-catalog/kitchenFridgeLarge_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenFridgeSmall",
+      "name": "Kitchen Fridge Small",
+      "images": {
+        "NE": "/reference-catalog/kitchenFridgeSmall_NE.png",
+        "NW": "/reference-catalog/kitchenFridgeSmall_NW.png",
+        "SE": "/reference-catalog/kitchenFridgeSmall_SE.png",
+        "SW": "/reference-catalog/kitchenFridgeSmall_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenFridge",
+      "name": "Kitchen Fridge",
+      "images": {
+        "NE": "/reference-catalog/kitchenFridge_NE.png",
+        "NW": "/reference-catalog/kitchenFridge_NW.png",
+        "SE": "/reference-catalog/kitchenFridge_SE.png",
+        "SW": "/reference-catalog/kitchenFridge_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenMicrowave",
+      "name": "Kitchen Microwave",
+      "images": {
+        "NE": "/reference-catalog/kitchenMicrowave_NE.png",
+        "NW": "/reference-catalog/kitchenMicrowave_NW.png",
+        "SE": "/reference-catalog/kitchenMicrowave_SE.png",
+        "SW": "/reference-catalog/kitchenMicrowave_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenSink",
+      "name": "Kitchen Sink",
+      "images": {
+        "NE": "/reference-catalog/kitchenSink_NE.png",
+        "NW": "/reference-catalog/kitchenSink_NW.png",
+        "SE": "/reference-catalog/kitchenSink_SE.png",
+        "SW": "/reference-catalog/kitchenSink_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenStoveElectric",
+      "name": "Kitchen Stove Electric",
+      "images": {
+        "NE": "/reference-catalog/kitchenStoveElectric_NE.png",
+        "NW": "/reference-catalog/kitchenStoveElectric_NW.png",
+        "SE": "/reference-catalog/kitchenStoveElectric_SE.png",
+        "SW": "/reference-catalog/kitchenStoveElectric_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "kitchenStove",
+      "name": "Kitchen Stove",
+      "images": {
+        "NE": "/reference-catalog/kitchenStove_NE.png",
+        "NW": "/reference-catalog/kitchenStove_NW.png",
+        "SE": "/reference-catalog/kitchenStove_SE.png",
+        "SW": "/reference-catalog/kitchenStove_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "lampRoundFloor",
+      "name": "Lamp Round Floor",
+      "images": {
+        "NE": "/reference-catalog/lampRoundFloor_NE.png",
+        "NW": "/reference-catalog/lampRoundFloor_NW.png",
+        "SE": "/reference-catalog/lampRoundFloor_SE.png",
+        "SW": "/reference-catalog/lampRoundFloor_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "lampRoundTable",
+      "name": "Lamp Round Table",
+      "images": {
+        "NE": "/reference-catalog/lampRoundTable_NE.png",
+        "NW": "/reference-catalog/lampRoundTable_NW.png",
+        "SE": "/reference-catalog/lampRoundTable_SE.png",
+        "SW": "/reference-catalog/lampRoundTable_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "lampSquareCeiling",
+      "name": "Lamp Square Ceiling",
+      "images": {
+        "NE": "/reference-catalog/lampSquareCeiling_NE.png",
+        "NW": "/reference-catalog/lampSquareCeiling_NW.png",
+        "SE": "/reference-catalog/lampSquareCeiling_SE.png",
+        "SW": "/reference-catalog/lampSquareCeiling_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "lampSquareFloor",
+      "name": "Lamp Square Floor",
+      "images": {
+        "NE": "/reference-catalog/lampSquareFloor_NE.png",
+        "NW": "/reference-catalog/lampSquareFloor_NW.png",
+        "SE": "/reference-catalog/lampSquareFloor_SE.png",
+        "SW": "/reference-catalog/lampSquareFloor_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "lampSquareTable",
+      "name": "Lamp Square Table",
+      "images": {
+        "NE": "/reference-catalog/lampSquareTable_NE.png",
+        "NW": "/reference-catalog/lampSquareTable_NW.png",
+        "SE": "/reference-catalog/lampSquareTable_SE.png",
+        "SW": "/reference-catalog/lampSquareTable_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "lampWall",
+      "name": "Lamp Wall",
+      "images": {
+        "NE": "/reference-catalog/lampWall_NE.png",
+        "NW": "/reference-catalog/lampWall_NW.png",
+        "SE": "/reference-catalog/lampWall_SE.png",
+        "SW": "/reference-catalog/lampWall_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "laptop",
+      "name": "Laptop",
+      "images": {
+        "NE": "/reference-catalog/laptop_NE.png",
+        "NW": "/reference-catalog/laptop_NW.png",
+        "SE": "/reference-catalog/laptop_SE.png",
+        "SW": "/reference-catalog/laptop_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeChairRelax",
+      "name": "Lounge Chair Relax",
+      "images": {
+        "NE": "/reference-catalog/loungeChairRelax_NE.png",
+        "NW": "/reference-catalog/loungeChairRelax_NW.png",
+        "SE": "/reference-catalog/loungeChairRelax_SE.png",
+        "SW": "/reference-catalog/loungeChairRelax_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeChair",
+      "name": "Lounge Chair",
+      "images": {
+        "NE": "/reference-catalog/loungeChair_NE.png",
+        "NW": "/reference-catalog/loungeChair_NW.png",
+        "SE": "/reference-catalog/loungeChair_SE.png",
+        "SW": "/reference-catalog/loungeChair_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeDesignChair",
+      "name": "Lounge Design Chair",
+      "images": {
+        "NE": "/reference-catalog/loungeDesignChair_NE.png",
+        "NW": "/reference-catalog/loungeDesignChair_NW.png",
+        "SE": "/reference-catalog/loungeDesignChair_SE.png",
+        "SW": "/reference-catalog/loungeDesignChair_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeDesignSofaCorner",
+      "name": "Lounge Design Sofa Corner",
+      "images": {
+        "NE": "/reference-catalog/loungeDesignSofaCorner_NE.png",
+        "NW": "/reference-catalog/loungeDesignSofaCorner_NW.png",
+        "SE": "/reference-catalog/loungeDesignSofaCorner_SE.png",
+        "SW": "/reference-catalog/loungeDesignSofaCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeDesignSofa",
+      "name": "Lounge Design Sofa",
+      "images": {
+        "NE": "/reference-catalog/loungeDesignSofa_NE.png",
+        "NW": "/reference-catalog/loungeDesignSofa_NW.png",
+        "SE": "/reference-catalog/loungeDesignSofa_SE.png",
+        "SW": "/reference-catalog/loungeDesignSofa_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeSofaCorner",
+      "name": "Lounge Sofa Corner",
+      "images": {
+        "NE": "/reference-catalog/loungeSofaCorner_NE.png",
+        "NW": "/reference-catalog/loungeSofaCorner_NW.png",
+        "SE": "/reference-catalog/loungeSofaCorner_SE.png",
+        "SW": "/reference-catalog/loungeSofaCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeSofaLong",
+      "name": "Lounge Sofa Long",
+      "images": {
+        "NE": "/reference-catalog/loungeSofaLong_NE.png",
+        "NW": "/reference-catalog/loungeSofaLong_NW.png",
+        "SE": "/reference-catalog/loungeSofaLong_SE.png",
+        "SW": "/reference-catalog/loungeSofaLong_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeSofaOttoman",
+      "name": "Lounge Sofa Ottoman",
+      "images": {
+        "NE": "/reference-catalog/loungeSofaOttoman_NE.png",
+        "NW": "/reference-catalog/loungeSofaOttoman_NW.png",
+        "SE": "/reference-catalog/loungeSofaOttoman_SE.png",
+        "SW": "/reference-catalog/loungeSofaOttoman_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "loungeSofa",
+      "name": "Lounge Sofa",
+      "images": {
+        "NE": "/reference-catalog/loungeSofa_NE.png",
+        "NW": "/reference-catalog/loungeSofa_NW.png",
+        "SE": "/reference-catalog/loungeSofa_SE.png",
+        "SW": "/reference-catalog/loungeSofa_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "paneling",
+      "name": "Paneling",
+      "images": {
+        "NE": "/reference-catalog/paneling_NE.png",
+        "NW": "/reference-catalog/paneling_NW.png",
+        "SE": "/reference-catalog/paneling_SE.png",
+        "SW": "/reference-catalog/paneling_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "pillowBlueLong",
+      "name": "Pillow Blue Long",
+      "images": {
+        "NE": "/reference-catalog/pillowBlueLong_NE.png",
+        "NW": "/reference-catalog/pillowBlueLong_NW.png",
+        "SE": "/reference-catalog/pillowBlueLong_SE.png",
+        "SW": "/reference-catalog/pillowBlueLong_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "pillowBlue",
+      "name": "Pillow Blue",
+      "images": {
+        "NE": "/reference-catalog/pillowBlue_NE.png",
+        "NW": "/reference-catalog/pillowBlue_NW.png",
+        "SE": "/reference-catalog/pillowBlue_SE.png",
+        "SW": "/reference-catalog/pillowBlue_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "pillowLong",
+      "name": "Pillow Long",
+      "images": {
+        "NE": "/reference-catalog/pillowLong_NE.png",
+        "NW": "/reference-catalog/pillowLong_NW.png",
+        "SE": "/reference-catalog/pillowLong_SE.png",
+        "SW": "/reference-catalog/pillowLong_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "pillow",
+      "name": "Pillow",
+      "images": {
+        "NE": "/reference-catalog/pillow_NE.png",
+        "NW": "/reference-catalog/pillow_NW.png",
+        "SE": "/reference-catalog/pillow_SE.png",
+        "SW": "/reference-catalog/pillow_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "plantSmall1",
+      "name": "Plant Small1",
+      "images": {
+        "NE": "/reference-catalog/plantSmall1_NE.png",
+        "NW": "/reference-catalog/plantSmall1_NW.png",
+        "SE": "/reference-catalog/plantSmall1_SE.png",
+        "SW": "/reference-catalog/plantSmall1_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "plantSmall2",
+      "name": "Plant Small2",
+      "images": {
+        "NE": "/reference-catalog/plantSmall2_NE.png",
+        "NW": "/reference-catalog/plantSmall2_NW.png",
+        "SE": "/reference-catalog/plantSmall2_SE.png",
+        "SW": "/reference-catalog/plantSmall2_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "plantSmall3",
+      "name": "Plant Small3",
+      "images": {
+        "NE": "/reference-catalog/plantSmall3_NE.png",
+        "NW": "/reference-catalog/plantSmall3_NW.png",
+        "SE": "/reference-catalog/plantSmall3_SE.png",
+        "SW": "/reference-catalog/plantSmall3_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "pottedPlant",
+      "name": "Potted Plant",
+      "images": {
+        "NE": "/reference-catalog/pottedPlant_NE.png",
+        "NW": "/reference-catalog/pottedPlant_NW.png",
+        "SE": "/reference-catalog/pottedPlant_SE.png",
+        "SW": "/reference-catalog/pottedPlant_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "images": {
+        "NE": "/reference-catalog/radio_NE.png",
+        "NW": "/reference-catalog/radio_NW.png",
+        "SE": "/reference-catalog/radio_SE.png",
+        "SW": "/reference-catalog/radio_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "rugDoormat",
+      "name": "Rug Doormat",
+      "images": {
+        "NE": "/reference-catalog/rugDoormat_NE.png",
+        "NW": "/reference-catalog/rugDoormat_NW.png",
+        "SE": "/reference-catalog/rugDoormat_SE.png",
+        "SW": "/reference-catalog/rugDoormat_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "rugRectangle",
+      "name": "Rug Rectangle",
+      "images": {
+        "NE": "/reference-catalog/rugRectangle_NE.png",
+        "NW": "/reference-catalog/rugRectangle_NW.png",
+        "SE": "/reference-catalog/rugRectangle_SE.png",
+        "SW": "/reference-catalog/rugRectangle_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "rugRounded",
+      "name": "Rug Rounded",
+      "images": {
+        "NE": "/reference-catalog/rugRounded_NE.png",
+        "NW": "/reference-catalog/rugRounded_NW.png",
+        "SE": "/reference-catalog/rugRounded_SE.png",
+        "SW": "/reference-catalog/rugRounded_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "rugRound",
+      "name": "Rug Round",
+      "images": {
+        "NE": "/reference-catalog/rugRound_NE.png",
+        "NW": "/reference-catalog/rugRound_NW.png",
+        "SE": "/reference-catalog/rugRound_SE.png",
+        "SW": "/reference-catalog/rugRound_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "rugSquare",
+      "name": "Rug Square",
+      "images": {
+        "NE": "/reference-catalog/rugSquare_NE.png",
+        "NW": "/reference-catalog/rugSquare_NW.png",
+        "SE": "/reference-catalog/rugSquare_SE.png",
+        "SW": "/reference-catalog/rugSquare_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "showerRound",
+      "name": "Shower Round",
+      "images": {
+        "NE": "/reference-catalog/showerRound_NE.png",
+        "NW": "/reference-catalog/showerRound_NW.png",
+        "SE": "/reference-catalog/showerRound_SE.png",
+        "SW": "/reference-catalog/showerRound_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "shower",
+      "name": "Shower",
+      "images": {
+        "NE": "/reference-catalog/shower_NE.png",
+        "NW": "/reference-catalog/shower_NW.png",
+        "SE": "/reference-catalog/shower_SE.png",
+        "SW": "/reference-catalog/shower_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "sideTableDrawers",
+      "name": "Side Table Drawers",
+      "images": {
+        "NE": "/reference-catalog/sideTableDrawers_NE.png",
+        "NW": "/reference-catalog/sideTableDrawers_NW.png",
+        "SE": "/reference-catalog/sideTableDrawers_SE.png",
+        "SW": "/reference-catalog/sideTableDrawers_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "sideTable",
+      "name": "Side Table",
+      "images": {
+        "NE": "/reference-catalog/sideTable_NE.png",
+        "NW": "/reference-catalog/sideTable_NW.png",
+        "SE": "/reference-catalog/sideTable_SE.png",
+        "SW": "/reference-catalog/sideTable_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "speakerSmall",
+      "name": "Speaker Small",
+      "images": {
+        "NE": "/reference-catalog/speakerSmall_NE.png",
+        "NW": "/reference-catalog/speakerSmall_NW.png",
+        "SE": "/reference-catalog/speakerSmall_SE.png",
+        "SW": "/reference-catalog/speakerSmall_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "images": {
+        "NE": "/reference-catalog/speaker_NE.png",
+        "NW": "/reference-catalog/speaker_NW.png",
+        "SE": "/reference-catalog/speaker_SE.png",
+        "SW": "/reference-catalog/speaker_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "stairsCorner",
+      "name": "Stairs Corner",
+      "images": {
+        "NE": "/reference-catalog/stairsCorner_NE.png",
+        "NW": "/reference-catalog/stairsCorner_NW.png",
+        "SE": "/reference-catalog/stairsCorner_SE.png",
+        "SW": "/reference-catalog/stairsCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "stairsOpenSingle",
+      "name": "Stairs Open Single",
+      "images": {
+        "NE": "/reference-catalog/stairsOpenSingle_NE.png",
+        "NW": "/reference-catalog/stairsOpenSingle_NW.png",
+        "SE": "/reference-catalog/stairsOpenSingle_SE.png",
+        "SW": "/reference-catalog/stairsOpenSingle_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "stairsOpen",
+      "name": "Stairs Open",
+      "images": {
+        "NE": "/reference-catalog/stairsOpen_NE.png",
+        "NW": "/reference-catalog/stairsOpen_NW.png",
+        "SE": "/reference-catalog/stairsOpen_SE.png",
+        "SW": "/reference-catalog/stairsOpen_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "stairs",
+      "name": "Stairs",
+      "images": {
+        "NE": "/reference-catalog/stairs_NE.png",
+        "NW": "/reference-catalog/stairs_NW.png",
+        "SE": "/reference-catalog/stairs_SE.png",
+        "SW": "/reference-catalog/stairs_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "stoolBarSquare",
+      "name": "Stool Bar Square",
+      "images": {
+        "NE": "/reference-catalog/stoolBarSquare_NE.png",
+        "NW": "/reference-catalog/stoolBarSquare_NW.png",
+        "SE": "/reference-catalog/stoolBarSquare_SE.png",
+        "SW": "/reference-catalog/stoolBarSquare_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "stoolBar",
+      "name": "Stool Bar",
+      "images": {
+        "NE": "/reference-catalog/stoolBar_NE.png",
+        "NW": "/reference-catalog/stoolBar_NW.png",
+        "SE": "/reference-catalog/stoolBar_SE.png",
+        "SW": "/reference-catalog/stoolBar_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCloth",
+      "name": "Table Cloth",
+      "images": {
+        "NE": "/reference-catalog/tableCloth_NE.png",
+        "NW": "/reference-catalog/tableCloth_NW.png",
+        "SE": "/reference-catalog/tableCloth_SE.png",
+        "SW": "/reference-catalog/tableCloth_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCoffeeGlassSquare",
+      "name": "Table Coffee Glass Square",
+      "images": {
+        "NE": "/reference-catalog/tableCoffeeGlassSquare_NE.png",
+        "NW": "/reference-catalog/tableCoffeeGlassSquare_NW.png",
+        "SE": "/reference-catalog/tableCoffeeGlassSquare_SE.png",
+        "SW": "/reference-catalog/tableCoffeeGlassSquare_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCoffeeGlass",
+      "name": "Table Coffee Glass",
+      "images": {
+        "NE": "/reference-catalog/tableCoffeeGlass_NE.png",
+        "NW": "/reference-catalog/tableCoffeeGlass_NW.png",
+        "SE": "/reference-catalog/tableCoffeeGlass_SE.png",
+        "SW": "/reference-catalog/tableCoffeeGlass_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCoffeeSquare",
+      "name": "Table Coffee Square",
+      "images": {
+        "NE": "/reference-catalog/tableCoffeeSquare_NE.png",
+        "NW": "/reference-catalog/tableCoffeeSquare_NW.png",
+        "SE": "/reference-catalog/tableCoffeeSquare_SE.png",
+        "SW": "/reference-catalog/tableCoffeeSquare_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCoffee",
+      "name": "Table Coffee",
+      "images": {
+        "NE": "/reference-catalog/tableCoffee_NE.png",
+        "NW": "/reference-catalog/tableCoffee_NW.png",
+        "SE": "/reference-catalog/tableCoffee_SE.png",
+        "SW": "/reference-catalog/tableCoffee_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCrossCloth",
+      "name": "Table Cross Cloth",
+      "images": {
+        "NE": "/reference-catalog/tableCrossCloth_NE.png",
+        "NW": "/reference-catalog/tableCrossCloth_NW.png",
+        "SE": "/reference-catalog/tableCrossCloth_SE.png",
+        "SW": "/reference-catalog/tableCrossCloth_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableCross",
+      "name": "Table Cross",
+      "images": {
+        "NE": "/reference-catalog/tableCross_NE.png",
+        "NW": "/reference-catalog/tableCross_NW.png",
+        "SE": "/reference-catalog/tableCross_SE.png",
+        "SW": "/reference-catalog/tableCross_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableGlass",
+      "name": "Table Glass",
+      "images": {
+        "NE": "/reference-catalog/tableGlass_NE.png",
+        "NW": "/reference-catalog/tableGlass_NW.png",
+        "SE": "/reference-catalog/tableGlass_SE.png",
+        "SW": "/reference-catalog/tableGlass_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "tableRound",
+      "name": "Table Round",
+      "images": {
+        "NE": "/reference-catalog/tableRound_NE.png",
+        "NW": "/reference-catalog/tableRound_NW.png",
+        "SE": "/reference-catalog/tableRound_SE.png",
+        "SW": "/reference-catalog/tableRound_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "table",
+      "name": "Table",
+      "images": {
+        "NE": "/reference-catalog/table_NE.png",
+        "NW": "/reference-catalog/table_NW.png",
+        "SE": "/reference-catalog/table_SE.png",
+        "SW": "/reference-catalog/table_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "televisionAntenna",
+      "name": "Television Antenna",
+      "images": {
+        "NE": "/reference-catalog/televisionAntenna_NE.png",
+        "NW": "/reference-catalog/televisionAntenna_NW.png",
+        "SE": "/reference-catalog/televisionAntenna_SE.png",
+        "SW": "/reference-catalog/televisionAntenna_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "televisionModern",
+      "name": "Television Modern",
+      "images": {
+        "NE": "/reference-catalog/televisionModern_NE.png",
+        "NW": "/reference-catalog/televisionModern_NW.png",
+        "SE": "/reference-catalog/televisionModern_SE.png",
+        "SW": "/reference-catalog/televisionModern_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "televisionVintage",
+      "name": "Television Vintage",
+      "images": {
+        "NE": "/reference-catalog/televisionVintage_NE.png",
+        "NW": "/reference-catalog/televisionVintage_NW.png",
+        "SE": "/reference-catalog/televisionVintage_SE.png",
+        "SW": "/reference-catalog/televisionVintage_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "toaster",
+      "name": "Toaster",
+      "images": {
+        "NE": "/reference-catalog/toaster_NE.png",
+        "NW": "/reference-catalog/toaster_NW.png",
+        "SE": "/reference-catalog/toaster_SE.png",
+        "SW": "/reference-catalog/toaster_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "toiletSquare",
+      "name": "Toilet Square",
+      "images": {
+        "NE": "/reference-catalog/toiletSquare_NE.png",
+        "NW": "/reference-catalog/toiletSquare_NW.png",
+        "SE": "/reference-catalog/toiletSquare_SE.png",
+        "SW": "/reference-catalog/toiletSquare_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "toilet",
+      "name": "Toilet",
+      "images": {
+        "NE": "/reference-catalog/toilet_NE.png",
+        "NW": "/reference-catalog/toilet_NW.png",
+        "SE": "/reference-catalog/toilet_SE.png",
+        "SW": "/reference-catalog/toilet_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "trashcan",
+      "name": "Trashcan",
+      "images": {
+        "NE": "/reference-catalog/trashcan_NE.png",
+        "NW": "/reference-catalog/trashcan_NW.png",
+        "SE": "/reference-catalog/trashcan_SE.png",
+        "SW": "/reference-catalog/trashcan_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallCornerRond",
+      "name": "Wall Corner Rond",
+      "images": {
+        "NE": "/reference-catalog/wallCornerRond_NE.png",
+        "NW": "/reference-catalog/wallCornerRond_NW.png",
+        "SE": "/reference-catalog/wallCornerRond_SE.png",
+        "SW": "/reference-catalog/wallCornerRond_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallCorner",
+      "name": "Wall Corner",
+      "images": {
+        "NE": "/reference-catalog/wallCorner_NE.png",
+        "NW": "/reference-catalog/wallCorner_NW.png",
+        "SE": "/reference-catalog/wallCorner_SE.png",
+        "SW": "/reference-catalog/wallCorner_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallDoorwayWide",
+      "name": "Wall Doorway Wide",
+      "images": {
+        "NE": "/reference-catalog/wallDoorwayWide_NE.png",
+        "NW": "/reference-catalog/wallDoorwayWide_NW.png",
+        "SE": "/reference-catalog/wallDoorwayWide_SE.png",
+        "SW": "/reference-catalog/wallDoorwayWide_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallDoorway",
+      "name": "Wall Doorway",
+      "images": {
+        "NE": "/reference-catalog/wallDoorway_NE.png",
+        "NW": "/reference-catalog/wallDoorway_NW.png",
+        "SE": "/reference-catalog/wallDoorway_SE.png",
+        "SW": "/reference-catalog/wallDoorway_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallHalf",
+      "name": "Wall Half",
+      "images": {
+        "NE": "/reference-catalog/wallHalf_NE.png",
+        "NW": "/reference-catalog/wallHalf_NW.png",
+        "SE": "/reference-catalog/wallHalf_SE.png",
+        "SW": "/reference-catalog/wallHalf_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallWindowSlide",
+      "name": "Wall Window Slide",
+      "images": {
+        "NE": "/reference-catalog/wallWindowSlide_NE.png",
+        "NW": "/reference-catalog/wallWindowSlide_NW.png",
+        "SE": "/reference-catalog/wallWindowSlide_SE.png",
+        "SW": "/reference-catalog/wallWindowSlide_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wallWindow",
+      "name": "Wall Window",
+      "images": {
+        "NE": "/reference-catalog/wallWindow_NE.png",
+        "NW": "/reference-catalog/wallWindow_NW.png",
+        "SE": "/reference-catalog/wallWindow_SE.png",
+        "SW": "/reference-catalog/wallWindow_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "wall",
+      "name": "Wall",
+      "images": {
+        "NE": "/reference-catalog/wall_NE.png",
+        "NW": "/reference-catalog/wall_NW.png",
+        "SE": "/reference-catalog/wall_SE.png",
+        "SW": "/reference-catalog/wall_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "washerDryerStacked",
+      "name": "Washer Dryer Stacked",
+      "images": {
+        "NE": "/reference-catalog/washerDryerStacked_NE.png",
+        "NW": "/reference-catalog/washerDryerStacked_NW.png",
+        "SE": "/reference-catalog/washerDryerStacked_SE.png",
+        "SW": "/reference-catalog/washerDryerStacked_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    },
+    {
+      "id": "washer",
+      "name": "Washer",
+      "images": {
+        "NE": "/reference-catalog/washer_NE.png",
+        "NW": "/reference-catalog/washer_NW.png",
+        "SE": "/reference-catalog/washer_SE.png",
+        "SW": "/reference-catalog/washer_SW.png"
+      },
+      "license": "CC0",
+      "source": "https://kenney.nl/assets/furniture-kit",
+      "reference_only": true,
+      "purchasable": false
+    }
+  ],
+  "image_count": 560
+}

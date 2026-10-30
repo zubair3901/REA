@@ -1,0 +1,14 @@
+{$STAGING_DOMAIN} {
+    header Strict-Transport-Security "max-age=31536000"
+    header X-Frame-Options "DENY"
+    # Only this signed provider callback bypasses staging browser authentication.
+    handle /api/payments/stripe/webhook {
+        reverse_proxy web:8080
+    }
+    handle {
+        basic_auth {
+            {$STAGING_USER} {$STAGING_PASSWORD_HASH}
+        }
+        reverse_proxy web:8080
+    }
+}

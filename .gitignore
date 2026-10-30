@@ -1,0 +1,14 @@
+.venv/
+.venv-preview/
+backend/preview-data/
+.env
+__pycache__/
+.pytest_cache/
+frontend/node_modules/
+frontend/dist/
+backend/data/
+*.db
+
+artifacts/
+
+frontend/test-results/

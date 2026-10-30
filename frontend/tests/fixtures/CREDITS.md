@@ -1,0 +1,1 @@
+product-sofa.jpg is an Unsplash test photograph from https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1000&q=90 . It is a test reference, not seller stock. Room fixture uses the credited living.jpg from public/images.
