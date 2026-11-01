@@ -27,7 +27,7 @@ def owned_design(db,ident,user):
 
 def design_json(db,design):
     scene=db.get(DesignScene,design.id)
-    return {**record(design),'hotspots':scene.hotspots if scene else [],'hotspot_status':'located' if scene and scene.hotspots else 'mark_products_to_locate','limitations':['Verify the placed product against the seller photos before ordering','Positions are visual references, not a fit guarantee']}
+    return {**record(design),'hotspots':scene.hotspots if scene else [],'hotspot_status':'measured_photo_overlay' if design.render_mode=='protected_placement' else ('located' if scene and scene.hotspots else 'mark_products_to_locate'),'limitations':['Verify the placed product against the seller photos before ordering','Positions are visual references, not a fit guarantee']}
 
 @router.get('/{design_id}')
 def detail(design_id:str,user=Depends(current_customer),db=Depends(get_db)):
@@ -62,14 +62,11 @@ class ReplaceIn(BaseModel):
     ai_consent:Literal[True]
     confirm_region:Literal[True]
 
-@router.post('/{design_id}/replace',status_code=201)
-async def replace_product(design_id:str,body:ReplaceIn,user=Depends(current_customer),db=Depends(get_db)):
-    design,link=owned_design(db,design_id,user);scene=db.get(DesignScene,design_id)
-    if not scene:raise HTTPException(409,'Create a new photo-based design before replacing an item')
-    if os.getenv('ENABLE_AI_GENERATION','false')!='true':raise HTTPException(503,'Enable and configure an AI provider to replace products realistically')
+
+def replacement_inventory(db,design,scene,old_id,new_id):
     old_ids=[i['asset_id'] for i in design.quote['items']]
-    if body.old_asset_id not in old_ids or body.new_asset_id in old_ids:raise HTTPException(422,'Choose one existing item and a different replacement')
-    old=db.get(Asset,body.old_asset_id);new=db.get(Asset,body.new_asset_id)
+    if old_id not in old_ids or new_id in old_ids:raise HTTPException(422,'Choose one existing item and a different replacement')
+    old=db.get(Asset,old_id);new=db.get(Asset,new_id)
     if not old or not new or not new.active or new.stock<1 or not db.get(Seller,new.seller_id).active:raise HTTPException(409,'Replacement product is unavailable')
     if group(old)!=group(new):raise HTTPException(422,'Choose a replacement from the same product category')
     if new.seller_id=='demo' and os.getenv('ALLOW_DEMO_CATALOG','false')!='true':raise HTTPException(422,'Choose a real seller product')
@@ -87,6 +84,15 @@ async def replace_product(design_id:str,body:ReplaceIn,user=Depends(current_cust
     if params.get('latitude') is not None and km(new,params['latitude'],params['longitude'])>new.delivery_radius_km:raise HTTPException(409,'The seller does not deliver to your confirmed location')
     sets=reference_sets(db,[new])
     if not sets.get(new.id) and os.getenv('ALLOW_LEGACY_PHOTOS','false')!='true':raise HTTPException(422,'Choose a listing with approved real product photographs')
+    return old,new,rows,budget,params,sets
+
+@router.post('/{design_id}/replace',status_code=201)
+async def replace_product(design_id:str,body:ReplaceIn,user=Depends(current_customer),db=Depends(get_db)):
+    design,link=owned_design(db,design_id,user);scene=db.get(DesignScene,design_id)
+    if not scene:raise HTTPException(409,'Create a new photo-based design before replacing an item')
+    if os.getenv('ENABLE_AI_GENERATION','false')!='true':raise HTTPException(503,'Enable and configure an AI provider to replace products realistically')
+    if scene.parameters.get('pipeline')=='protected':raise HTTPException(409,'Use the measured replacement workflow to preserve protected product pixels')
+    old,new,rows,budget,params,sets=replacement_inventory(db,design,scene,body.old_asset_id,body.new_asset_id)
     source=decode_image((MEDIA/design.image_url.rsplit('/',1)[-1]).read_bytes());region=body.region
     bbox=(int(region.x*source.width),int(region.y*source.height),min(source.width,int((region.x+region.width)*source.width)),min(source.height,int((region.y+region.height)*source.height)))
     if bbox[2]<=bbox[0] or bbox[3]<=bbox[1]:raise HTTPException(422,'Choose a larger edit region')
@@ -125,3 +131,40 @@ def original_room(design_id:str,user=Depends(current_customer),db=Depends(get_db
     path=ROOMS/scene.original_file
     if not path.is_file():raise HTTPException(404,'Original room not found')
     return FileResponse(path,headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'})
+
+class ProtectedReplaceIn(BaseModel):
+    old_asset_id:str=Field(min_length=1,max_length=36)
+    new_asset_id:str=Field(min_length=1,max_length=36)
+    view:Literal['front','left','right','angled','top']='front'
+    ai_consent:Literal[True]
+
+@router.post('/{design_id}/protected-replace',status_code=201)
+async def protected_replace(design_id:str,body:ProtectedReplaceIn,user=Depends(current_customer),db=Depends(get_db)):
+    design,link=owned_design(db,design_id,user);scene=db.get(DesignScene,design_id)
+    if not scene or scene.parameters.get('pipeline')!='protected':raise HTTPException(409,'This design does not have a measured product layout')
+    if os.getenv('ENABLE_AI_GENERATION','false')!='true':raise HTTPException(503,'AI generation is not enabled')
+    old,new,rows,budget,params,_=replacement_inventory(db,design,scene,body.old_asset_id,body.new_asset_id)
+    from .protected_placement import STAGES,PlacementSpec,generate_protected,configured_endpoint
+    from .generation import models,png
+    from .photography import ROOMS
+    from .ai_limits import reserve_attempts
+    import base64
+    cache=params.get('protected_cache');provider=params['model']
+    if not cache or not (STAGES/design_id/'empty.png').is_file():raise HTTPException(409,'Saved cleanup is unavailable. Create a fresh measured design.')
+    if not next(m for m in models() if m['id']==provider)['available']:raise HTTPException(503,'Configure the original AI provider to harmonize this replacement')
+    value={**cache['spec'],'placements':[{**p,'asset_id':new.id,'view':body.view} if p['asset_id']==old.id else p for p in cache['spec']['placements']]}
+    if cache.get('has_occlusion'):
+        foreground=STAGES/design_id/'foreground.png'
+        if not foreground.is_file():raise HTTPException(409,'Saved foreground mask is unavailable; create a fresh measured design')
+        value['occlusion_mask_base64']=base64.b64encode(foreground.read_bytes()).decode()
+    spec=PlacementSpec.model_validate(value);ident=str(uuid4());path=MEDIA/(ident+'.png')
+    source=decode_image((ROOMS/scene.original_file).read_bytes())
+    try:
+        configured_endpoint()
+        placements,hotspots,report,new_cache=await generate_protected(provider,source,rows,MEDIA,path,spec,reference_sets(db,rows),lambda ops:reserve_attempts(db,user.id,link.project_id,ops),{**cache,'empty_path':STAGES/design_id/'empty.png'})
+    except GenerationError as exc:raise HTTPException(exc.status,str(exc))
+    except (ValueError,OSError):raise HTTPException(422,'The replacement could not be staged into this measured view')
+    budget={**budget,'product_fidelity':'photographed_pixels_protected','items_basis':'locally composited seller cutouts','model_provider':provider,'protected_report':report}
+    child=Design(id=ident,style=design.style,image_url='/media/'+path.name,render_mode='protected_placement',quote=budget,placements=placements)
+    db.add(child);db.flush();db.add(ProjectDesign(design_id=ident,project_id=link.project_id));db.add(DesignScene(design_id=ident,original_file=scene.original_file,parameters={**params,'protected_cache':new_cache},hotspots=hotspots,parent_id=design.id));db.commit()
+    return {**design_json(db,child),'parent_id':design.id,'limitations':['The cleaned room was reused; every product was recomposited from its photographed cutout','Product pixels are protected after resampling; physical fit and photorealism are not certified']}

@@ -254,11 +254,13 @@ function PhotoReview({
             onChange={(e) => run(() => onAngle(e.target.value))}
             disabled={working || locked}
           >
-            {["front", "left", "right", "back", "detail", "angled"].map((a) => (
-              <option key={a} value={a}>
-                {a}
-              </option>
-            ))}
+            {["front", "left", "right", "back", "detail", "angled", "top"].map(
+              (a) => (
+                <option key={a} value={a}>
+                  {a}
+                </option>
+              ),
+            )}
           </select>
         </label>
         <button

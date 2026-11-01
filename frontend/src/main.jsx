@@ -39,6 +39,7 @@ import Workspace, {
 import Professionals from "./Professionals";
 import Teams from "./Teams";
 import ExperienceHero from "./ExperienceHero";
+import ProtectedPlacement, { emptyPlacementSpec } from "./ProtectedPlacement";
 import {
   RoomCategories,
   TransformationDemos,
@@ -101,6 +102,18 @@ function initialPage() {
 function App() {
   const workspace = useWorkspace();
   const [inspectAsset, setInspectAsset] = useState(null);
+  const [protectedMode, setProtectedMode] = useState(false),
+    [placementSpec, setPlacementSpec] = useState(emptyPlacementSpec),
+    [placementCapabilities, setPlacementCapabilities] = useState(null),
+    [cleanupCacheId, setCleanupCacheId] = useState("");
+  useEffect(() => {
+    request("/api/placement/capabilities")
+      .then((c) => {
+        setPlacementCapabilities(c);
+        if (c.enabled && c.perception_configured) setProtectedMode(true);
+      })
+      .catch(() => {});
+  }, []);
   const [catalogError, setCatalogError] = useState("");
   const [refineOpen, setRefineOpen] = useState(true);
   const [checkoutOpen, setCheckoutOpen] = useState(false),
@@ -156,6 +169,8 @@ function App() {
       setInvestment(workspace.active.budget);
       setCurrency(workspace.active.currency);
       setPreference(workspace.active.preference);
+      setCleanupCacheId("");
+      setPlacementSpec(emptyPlacementSpec());
       setDesign(null);
       setPlan(null);
       setSelected([]);
@@ -233,6 +248,8 @@ function App() {
       setError("Please choose an image smaller than 12 MB.");
       return;
     }
+    setCleanupCacheId("");
+    setPlacementSpec(emptyPlacementSpec());
     setFile(f);
     setDesign(null);
     setLead(null);
@@ -342,9 +359,16 @@ function App() {
         model,
         ai_consent: String(aiConsent),
         design_brief: brief,
+        pipeline:
+          protectedMode && model !== "composite" ? "protected" : "reference",
+        placement_spec:
+          protectedMode && model !== "composite"
+            ? JSON.stringify(placementSpec)
+            : "",
       }).forEach(([k, v]) => f.append(k, v));
       f.append("room", file);
       const d = await request("/api/designs", { method: "POST", body: f });
+      if (d.render_mode === "protected_placement") setCleanupCacheId(d.id);
       const record = {
         ...d,
         original: preview,
@@ -1036,9 +1060,11 @@ function App() {
                   {design && (
                     <div className="rf-render-note">
                       <strong>
-                        {design.render_mode === "ai_reference"
-                          ? "AI-generated visualization"
-                          : "Illustrative product composite"}
+                        {design.render_mode === "protected_placement"
+                          ? "Measured product-protected visualization"
+                          : design.render_mode === "ai_reference"
+                            ? "AI-generated visualization"
+                            : "Illustrative product composite"}
                       </strong>
                       <p>{design.limitations?.join(" · ")}</p>
                       <a
@@ -1319,6 +1345,11 @@ function App() {
                             className={model === m.id ? "active" : ""}
                             disabled={!m.available}
                             onClick={() => {
+                              setCleanupCacheId("");
+                              setPlacementSpec((s) => ({
+                                ...s,
+                                reuse_design_id: undefined,
+                              }));
                               setModel(m.id);
                               setAiConsent(false);
                               setDesign(null);
@@ -1351,6 +1382,37 @@ function App() {
                         ))}
                       </div>
                       {model !== "composite" && (
+                        <>
+                          <label className="consent protected-workflow-choice">
+                            <input
+                              type="checkbox"
+                              checked={protectedMode}
+                              onChange={(e) => {
+                                setProtectedMode(e.target.checked);
+                                setDesign(null);
+                              }}
+                            />
+                            <span>
+                              <strong>
+                                Protect actual products · measured beta
+                              </strong>
+                              Use approved cutouts, measured floor placement and
+                              restricted AI edits.
+                            </span>
+                          </label>
+                          {protectedMode && (
+                            <ProtectedPlacement
+                              photo={preview}
+                              assets={selectedAssets}
+                              value={placementSpec}
+                              onChange={setPlacementSpec}
+                              capabilities={placementCapabilities}
+                              cacheId={cleanupCacheId}
+                            />
+                          )}
+                        </>
+                      )}
+                      {model !== "composite" && (
                         <label className="consent">
                           <input
                             type="checkbox"
@@ -1358,7 +1420,9 @@ function App() {
                             onChange={(e) => setAiConsent(e.target.checked)}
                           />{" "}
                           I agree to send my room and selected product photos to
-                          this AI provider.
+                          this AI provider. Measured placement also shares the
+                          room with the configured detection/segmentation
+                          service.
                         </label>
                       )}
                       <button
@@ -1372,7 +1436,15 @@ function App() {
                           !selected.length ||
                           !area ||
                           (autoSelect && !plan) ||
-                          (model !== "composite" && !aiConsent)
+                          (model !== "composite" && !aiConsent) ||
+                          (protectedMode &&
+                            model !== "composite" &&
+                            (!placementCapabilities?.enabled ||
+                              !placementCapabilities?.perception_configured ||
+                              placementSpec.floor_quad.length !== 4 ||
+                              !placementSpec.measurement_confirmed ||
+                              placementSpec.placements.length !==
+                                selected.length))
                         }
                       >
                         {loading ? (
@@ -1392,7 +1464,9 @@ function App() {
                       <small className="rf-local-notice">
                         {model === "composite"
                           ? "Local product staging. No AI generation or external photo sharing."
-                          : "One generation request. AI may alter or omit reference products; verify before purchasing."}
+                          : protectedMode
+                            ? "Measured staging uses up to three external calls. Seller cutouts are restored after restricted harmonization; verify scale and placement."
+                            : "One generation request. AI may alter or omit reference products; verify before purchasing."}
                       </small>
                     </fieldset>
                   </details>

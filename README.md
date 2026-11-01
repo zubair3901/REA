@@ -1,3 +1,5 @@
+The [complete current project overview](docs/CURRENT_PROJECT_OVERVIEW.md) and [measured product-protected AI beta](docs/PROTECTED_PLACEMENT.md) explain the current architecture, tested behavior, configuration needs and launch gaps.
+
 See the [worker demos and expanded inspiration library](docs/INSPIRATION_LIBRARY_RELEASE.md): 110 references in each of ten categories, descriptions and a single “Design this” action.
 
 See the [discovery and room-transformation release](docs/DISCOVERY_RELEASE.md) for the latest photographic homepage, animated GIF demos, inspiration gallery and verification.

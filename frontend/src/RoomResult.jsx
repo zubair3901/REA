@@ -26,6 +26,8 @@ export default function RoomResult({
   onUpdated,
   onRoomChange,
 }) {
+  const isProtected = design.render_mode === "protected_placement";
+  const [replacementView, setReplacementView] = useState("front");
   const [expanded, setExpanded] = useState(false);
   const [hotspots, setHotspots] = useState(design.hotspots || []),
     [compare, setCompare] = useState(0),
@@ -184,15 +186,29 @@ export default function RoomResult({
     setDrawn(null);
   }
   async function swap() {
-    const { x, y, width, height } = region;
-    const d = await api("/api/designs/" + design.id + "/replace", "POST", {
-      old_asset_id: active,
-      new_asset_id: replacement,
-      region: { x, y, width, height },
-      model: provider,
-      ai_consent: consent,
-      confirm_region: confirmed,
-    });
+    let d;
+    if (isProtected) {
+      d = await api(
+        "/api/designs/" + design.id + "/protected-replace",
+        "POST",
+        {
+          old_asset_id: active,
+          new_asset_id: replacement,
+          view: replacementView,
+          ai_consent: consent,
+        },
+      );
+    } else {
+      const { x, y, width, height } = region;
+      d = await api("/api/designs/" + design.id + "/replace", "POST", {
+        old_asset_id: active,
+        new_asset_id: replacement,
+        region: { x, y, width, height },
+        model: provider,
+        ai_consent: consent,
+        confirm_region: confirmed,
+      });
+    }
     onUpdated({ ...d, original: design.original });
   }
   return (
@@ -346,9 +362,11 @@ export default function RoomResult({
         ))}
       </div>
       <p className="photo-guidance">
-        {design.render_mode === "ai_reference"
-          ? "AI positions and appearance need review. Missing markers do not prove a product is present; select an item and mark its position."
-          : "Photo layout markers follow the actual overlay coordinates. This local layout does not simulate realistic perspective."}
+        {isProtected
+          ? "Product cutouts are locally placed and protected from AI redraw. Scale depends on the measured floor and photographed angle; inspect the original and confirm fit."
+          : design.render_mode === "ai_reference"
+            ? "AI positions and appearance need review. Missing markers do not prove a product is present; select an item and mark its position."
+            : "Photo layout markers follow the actual overlay coordinates. This local layout does not simulate realistic perspective."}
       </p>
       {active && (
         <section className="room-product-panel">
@@ -398,32 +416,34 @@ export default function RoomResult({
               Recheck stock with the seller.
             </p>
           )}
-          <div className="room-edit-actions">
-            <button
-              className="rf-text-button"
-              onClick={() => {
-                setMark(active);
-                setDrawn(null);
-                setCompare(0);
-                setConfirmed(false);
-                host.current?.scrollIntoView({
-                  block: "center",
-                  behavior: "instant",
-                });
-              }}
-            >
-              <MousePointer2 size={14} /> Draw product region
-            </button>
-            {drawn && (
+          {!isProtected && (
+            <div className="room-edit-actions">
               <button
                 className="rf-text-button"
-                disabled={busy}
-                onClick={() => run(saveRegion)}
+                onClick={() => {
+                  setMark(active);
+                  setDrawn(null);
+                  setCompare(0);
+                  setConfirmed(false);
+                  host.current?.scrollIntoView({
+                    block: "center",
+                    behavior: "instant",
+                  });
+                }}
               >
-                Save product hotspot
+                <MousePointer2 size={14} /> Draw product region
               </button>
-            )}
-          </div>
+              {drawn && (
+                <button
+                  className="rf-text-button"
+                  disabled={busy}
+                  onClick={() => run(saveRegion)}
+                >
+                  Save product hotspot
+                </button>
+              )}
+            </div>
+          )}
           <label>
             Choose a real replacement
             <select
@@ -439,34 +459,58 @@ export default function RoomResult({
               ))}
             </select>
           </label>
-          <label>
-            Image provider
-            <select
-              value={provider}
-              onChange={(e) => setProvider(e.target.value)}
-              disabled={!providers.length}
-            >
-              <option value="">
-                {providers.length
-                  ? "Choose provider"
-                  : "Configure an AI image provider first"}
-              </option>
-              {providers.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="consent">
-            <input
-              type="checkbox"
-              checked={confirmed}
-              onChange={(e) => setConfirmed(e.target.checked)}
-            />{" "}
-            This rectangle covers the entire old product and shadow. Pixels
-            outside it must stay unchanged.
-          </label>
+          {isProtected ? (
+            <>
+              <p className="protected-result-note">
+                The saved empty room is reused. Your replacement and the other
+                products are recomposited locally; only contact areas are
+                harmonized. Stock, dimensions and budget are checked again.
+              </p>
+              <label>
+                Replacement photograph angle
+                <select
+                  aria-label="Replacement photograph angle"
+                  value={replacementView}
+                  onChange={(e) => setReplacementView(e.target.value)}
+                >
+                  {["front", "left", "right", "angled", "top"].map((a) => (
+                    <option key={a}>{a}</option>
+                  ))}
+                </select>
+              </label>
+            </>
+          ) : (
+            <>
+              <label>
+                Image provider
+                <select
+                  value={provider}
+                  onChange={(e) => setProvider(e.target.value)}
+                  disabled={!providers.length}
+                >
+                  <option value="">
+                    {providers.length
+                      ? "Choose provider"
+                      : "Configure an AI image provider first"}
+                  </option>
+                  {providers.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="consent">
+                <input
+                  type="checkbox"
+                  checked={confirmed}
+                  onChange={(e) => setConfirmed(e.target.checked)}
+                />{" "}
+                This rectangle covers the entire old product and shadow. Pixels
+                outside it must stay unchanged.
+              </label>
+            </>
+          )}
           <label className="consent">
             <input
               type="checkbox"
@@ -480,16 +524,20 @@ export default function RoomResult({
             className="rf-primary"
             disabled={
               busy ||
-              !region ||
               !replacement ||
-              !provider ||
-              !confirmed ||
-              !consent
+              !consent ||
+              (isProtected
+                ? !providers.some((p) => p.id === design.quote.model_provider)
+                : !region || !provider || !confirmed)
             }
             onClick={() => run(swap)}
           >
             <RefreshCw size={15} className={busy ? "spin" : ""} />
-            {busy ? "Replacing item…" : "Replace only this item"}
+            {busy
+              ? "Replacing item…"
+              : isProtected
+                ? "Replace with protected product"
+                : "Replace only this item"}
           </button>
           <small>
             The budget, condition and availability are checked again. Your

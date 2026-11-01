@@ -1,0 +1,189 @@
+.protected-editor {
+  margin: 24px 0;
+  border: 1px solid #cfdcc6;
+  background: #f3f7ec;
+  border-radius: 12px;
+  padding: 22px;
+}
+.protected-title {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: #5e7a4e;
+}
+.protected-title h3 {
+  font-size: 17px;
+  margin: 0 0 6px;
+}
+.protected-title p,
+.protected-instructions {
+  font-size: 12px;
+  color: #75856b;
+  line-height: 1.9;
+}
+.protected-calibration {
+  position: relative;
+  overflow: hidden;
+  background: #e3eadb;
+  border-radius: 8px;
+  cursor: crosshair;
+  width: 100%;
+  margin-top: 18px;
+}
+.protected-calibration > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.protected-calibration svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.protected-calibration polygon {
+  fill: #9fc37744;
+  stroke: #f4ffe4;
+  stroke-width: 4;
+}
+.protected-calibration circle {
+  fill: #355a37;
+  stroke: white;
+  stroke-width: 4;
+}
+.protected-calibration text {
+  fill: white;
+  stroke: #355a37;
+  stroke-width: 1;
+  font-size: 34px;
+  font-family: system-ui;
+}
+.protected-corner-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 10px 0 20px;
+  color: #748a64;
+  font-size: 11px;
+}
+.protected-corner-status .rf-text-button {
+  font-size: 11px;
+}
+.protected-editor label {
+  font-size: 12px;
+}
+.protected-coordinates,
+.protected-foreground {
+  font-size: 12px;
+  color: #6a805a;
+  margin: 20px 0;
+}
+.protected-coordinates summary,
+.protected-foreground summary {
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+.protected-coordinates .form-row {
+  margin-bottom: 14px;
+}
+.protected-products {
+  display: grid;
+  gap: 15px;
+  margin: 22px 0;
+}
+.protected-products article {
+  border: 1px solid #d7e2ce;
+  background: white;
+  border-radius: 10px;
+  padding: 18px;
+}
+.protected-products strong {
+  display: block;
+  font-size: 14px;
+}
+.protected-products small {
+  display: block;
+  font-size: 10px;
+  color: #7e9170;
+  margin: 6px 0 14px;
+}
+.protected-products label {
+  margin-top: 12px;
+}
+.protected-products input[type="range"] {
+  padding: 0;
+  min-height: 20px;
+  height: 20px;
+  accent-color: #3c663b;
+  background: none;
+  border: 0;
+}
+.protected-foreground p,
+.protected-explanation {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #7c8e6d;
+  display: block;
+}
+.protected-workflow-choice {
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid #cedcc2;
+  border-radius: 10px;
+  background: #f4f7ee;
+  font-size: 12px;
+}
+.protected-workflow-choice strong {
+  display: block;
+  font-size: 13px;
+  color: #46623b;
+  margin-bottom: 6px;
+}
+.protected-result-note {
+  margin: 14px 0;
+  padding: 15px 18px;
+  border-radius: 9px;
+  background: #e8f1dd;
+  color: #5a7847;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.protected-editor input[type="checkbox"] {
+  min-height: 0;
+}
+@media (max-width: 700px) {
+  .protected-editor {
+    padding: 17px;
+  }
+  .protected-title h3 {
+    font-size: 16px;
+  }
+  .protected-title p,
+  .protected-instructions {
+    font-size: 11px;
+  }
+  .protected-corner-status {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .protected-corner-status .rf-text-button {
+    font-size: 10px;
+  }
+  .protected-products article {
+    padding: 15px;
+  }
+  .protected-explanation {
+    font-size: 10px;
+  }
+  .protected-editor select,
+  .protected-editor input:not([type="range"]):not([type="checkbox"]) {
+    font-size: 16px;
+  }
+  .protected-result-note {
+    font-size: 11px;
+  }
+}
