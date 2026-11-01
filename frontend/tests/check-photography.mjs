@@ -101,7 +101,7 @@ await page
 await page
   .getByRole("button", { name: "Create a listing", exact: true })
   .click();
-await page.getByRole("button", { name: "The collection", exact: true }).click();
+await page.getByRole("button", { name: "Shop", exact: true }).click();
 await page
   .getByRole("button", { name: "View actual product photos", exact: true })
   .first()
@@ -208,7 +208,7 @@ if (
 )
   errors.push("Studio mobile horizontal overflow");
 await page.setViewportSize({ width: 1440, height: 1000 });
-await page.getByRole("button", { name: "Discover", exact: true }).click();
+await page.getByRole("link", { name: "Roomform home", exact: true }).click();
 await page.setViewportSize({ width: 390, height: 844 });
 await page.screenshot({
   path: ARTIFACTS + "roomform-real-photo-mobile.png",

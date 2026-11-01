@@ -39,11 +39,20 @@ import Workspace, {
 import Professionals from "./Professionals";
 import Teams from "./Teams";
 import ExperienceHero from "./ExperienceHero";
+import {
+  RoomCategories,
+  TransformationDemos,
+  InspirationGallery,
+  DesignTools,
+  MarketplaceStory,
+  DesignFAQ,
+} from "./DesignDiscovery";
 import ProductPhotoViewer from "./ProductPhotoViewer";
 import RoomResult from "./RoomResult";
 import "./fonts.css";
 import "./redesign.css";
 import "./atelier.css";
+import "./discovery.css";
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 const media = (p) => (p?.startsWith("/") ? API + p : p);
 const money = (n, c = "USD") =>
@@ -68,35 +77,26 @@ async function request(path, options) {
     );
   return d;
 }
-const inspiration = [
-  {
-    name: "The art of slowing down",
-    tag: "Warm minimalism",
-    style: "minimalist",
-    room: "living",
-    image: "living",
-    brief:
-      "Warm minimalist living room with natural textures, warm neutral walls, soft daylight and an uncluttered layout.",
-  },
-  {
-    name: "Your everyday sanctuary",
-    tag: "Scandinavian",
-    style: "scandinavian",
-    room: "bedroom",
-    image: "bedroom",
-    brief:
-      "Restful Scandinavian bedroom with warm wood, soft linen textures, calm neutral colors and gentle lighting.",
-  },
-  {
-    name: "Room for good company",
-    tag: "Contemporary",
-    style: "modern",
-    room: "living",
-    image: "dining",
-    brief:
-      "An inviting contemporary space for gathering, with sculptural forms, layered lighting and warm natural materials.",
-  },
-];
+const pageNames = {
+  discover: "Home",
+  inspiration: "Inspiration",
+  studio: "Design studio",
+  marketplace: "Shop",
+  professionals: "Professionals",
+  partners: "For sellers",
+  projects: "My projects",
+  teams: "For business",
+  consult: "Consultation",
+  operations: "Operations",
+};
+function initialPage() {
+  const q = new URLSearchParams(location.search);
+  return q.has("reset")
+    ? "projects"
+    : Object.hasOwn(pageNames, q.get("page"))
+      ? q.get("page")
+      : "discover";
+}
 function App() {
   const workspace = useWorkspace();
   const [inspectAsset, setInspectAsset] = useState(null);
@@ -104,11 +104,7 @@ function App() {
   const [refineOpen, setRefineOpen] = useState(true);
   const [checkoutOpen, setCheckoutOpen] = useState(false),
     [consultSent, setConsultSent] = useState(false);
-  const [page, setPage] = useState(
-      new URLSearchParams(location.search).has("reset")
-        ? "projects"
-        : "discover",
-    ),
+  const [page, setPage] = useState(initialPage),
     [mobile, setMobile] = useState(false),
     [assets, setAssets] = useState([]),
     [models, setModels] = useState([]),
@@ -201,7 +197,26 @@ function App() {
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, [mobile]);
+  useEffect(() => {
+    const pop = () => {
+      setPage(initialPage());
+      setMobile(false);
+      setError("");
+    };
+    window.addEventListener("popstate", pop);
+    return () => window.removeEventListener("popstate", pop);
+  }, []);
+  useEffect(() => {
+    document.title = pageNames[page] + " · Roomform";
+  }, [page]);
   function navigate(p) {
+    if (p !== page) {
+      const url = new URL(location.href);
+      if (p === "discover") url.searchParams.delete("page");
+      else url.searchParams.set("page", p);
+      if (p !== "projects") url.searchParams.delete("reset");
+      history.pushState({}, "", url);
+    }
     setPage(p);
     setMobile(false);
     setError("");
@@ -416,6 +431,7 @@ function App() {
   );
   const nav = [
     ["discover", Home, "Discover"],
+    ["inspiration", Images, "Inspiration"],
     ["studio", Sparkles, "AI design studio"],
     ["projects", Images, "My projects"],
     ["professionals", UsersIcon, "Local professionals"],
@@ -526,7 +542,7 @@ function App() {
     </section>
   );
   return (
-    <div className={"rf-shell page-" + page}>
+    <div className={"rf-shell discovery-theme page-" + page}>
       {inspectAsset && (
         <ProductPhotoViewer
           asset={inspectAsset}
@@ -553,10 +569,10 @@ function App() {
         </a>
         <nav className="atelier-desktop-nav" aria-label="Main navigation">
           {[
-            ["discover", "Discover"],
             ["studio", "Design studio"],
-            ["marketplace", "The collection"],
-            ["professionals", "Find an expert"],
+            ["inspiration", "Inspiration"],
+            ["marketplace", "Shop"],
+            ["professionals", "Professionals"],
           ].map(([id, label]) => (
             <button
               key={id}
@@ -661,49 +677,14 @@ function App() {
                 <Leaf size={17} /> New & pre-loved finds
               </span>
             </div>
-            <section className="rf-section" id="inspiration">
-              <div className="rf-section-heading">
-                <div>
-                  <span className="rf-kicker">
-                    A LITTLE INSPIRATION GOES A LONG WAY
-                  </span>
-                  <h2>
-                    Find the feeling.
-                    <br />
-                    <em>Make it your own.</em>
-                  </h2>
-                </div>
-                <p>
-                  A quiet retreat. A place to gather.
-                  <br />
-                  Start with a style that feels like you.
-                </p>
-              </div>
-              <div className="rf-inspiration">
-                {inspiration.map((item, i) => (
-                  <button key={item.image} onClick={() => startWith(item)}>
-                    <div className="rf-inspiration-image">
-                      <img
-                        src={"/images/" + item.image + ".jpg"}
-                        alt={item.name}
-                        loading="lazy"
-                      />
-                      <span className="rf-inspire-arrow">
-                        <ArrowUpRight size={21} />
-                      </span>
-                      <span className="rf-inspire-tag">{item.tag}</span>
-                    </div>
-                    <div>
-                      <span>0{i + 1} / THE INSPIRATION EDIT</span>
-                      <h3>{item.name}</h3>
-                      <small>
-                        Try this direction in your room <ArrowRight size={13} />
-                      </small>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </section>
+            <RoomCategories onSelect={startWith} />
+            <TransformationDemos onSelect={startWith} />
+            <InspirationGallery
+              onSelect={startWith}
+              onExplore={() => navigate("inspiration")}
+            />
+            <MarketplaceStory navigate={navigate} />
+            <DesignTools navigate={navigate} />
             <section className="rf-steps">
               <span className="rf-kicker">
                 LESS GUESSWORK. MORE POSSIBILITY.
@@ -833,6 +814,7 @@ function App() {
                 Start selling with us <ArrowUpRight size={17} />
               </button>
             </section>
+            <DesignFAQ />
             <section className="home-consult">
               <div>
                 <span className="rf-kicker">
@@ -866,6 +848,13 @@ function App() {
               </div>
             </section>
           </>
+        )}
+        {page === "inspiration" && (
+          <main>
+            <InspirationGallery full onSelect={startWith} />
+            <TransformationDemos onSelect={startWith} />
+            <DesignFAQ />
+          </main>
         )}
         {page === "studio" && (
           <AccountGate>
@@ -902,12 +891,10 @@ function App() {
                         setRefineOpen(true);
                       setTimeout(
                         () =>
-                          document
-                            .querySelector(target)
-                            ?.scrollIntoView({
-                              behavior: "smooth",
-                              block: "start",
-                            }),
+                          document.querySelector(target)?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          }),
                         40,
                       );
                     }}
@@ -1640,6 +1627,9 @@ function App() {
             <div>
               <span>CREATE YOUR SPACE</span>
               <button onClick={() => navigate("studio")}>Design studio</button>
+              <button onClick={() => navigate("inspiration")}>
+                Inspiration gallery
+              </button>
               <button onClick={() => navigate("marketplace")}>
                 Shop real furniture
               </button>

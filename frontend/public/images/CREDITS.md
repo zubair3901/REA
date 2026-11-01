@@ -10,3 +10,12 @@ Source: Unsplash (https://unsplash.com/license). Photos are inspiration imagery,
 - living-before.png: AI-edited empty version of living.jpg, created for the
   illustrative before/after comparison. It is not a customer project, a live
   service result, or evidence of exact-product placement accuracy.
+
+Discovery release:
+- office.jpg: https://images.unsplash.com/photo-1497366754035-f200968a6e72
+- bedroom-light.jpg: https://images.unsplash.com/photo-1505693416388-ac5ce068fe85
+- bedroom-before.png: AI-edited unfurnished version of bedroom.jpg, created only
+  for the illustrative transformation demo. Not a customer result or stock item.
+- ../demos/living.gif and ../demos/bedroom.gif: original reveal animations built
+  from these credited inspiration photos and their AI-edited empty-room versions.
+  Both are labeled illustrative on the website and do not imply live AI accuracy.

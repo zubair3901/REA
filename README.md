@@ -1,3 +1,5 @@
+See the [discovery and room-transformation release](docs/DISCOVERY_RELEASE.md) for the latest photographic homepage, animated GIF demos, inspiration gallery and verification.
+
 The [interface redesign](docs/ATELIER_REDESIGN.md) and [current screenshot gallery](docs/ui-review/index.html) show the latest desktop and mobile experience.
 
 The [product-fidelity and API handoff](docs/PRODUCT_FIDELITY_HANDOFF.md) records the latest voice decisions, provider links, automation requirements and next evaluation.
