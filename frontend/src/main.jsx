@@ -46,6 +46,7 @@ import {
   DesignTools,
   MarketplaceStory,
   DesignFAQ,
+  inspirationCategories,
 } from "./DesignDiscovery";
 import ProductPhotoViewer from "./ProductPhotoViewer";
 import RoomResult from "./RoomResult";
@@ -1262,9 +1263,11 @@ function App() {
                               invalidate();
                             }}
                           >
-                            <option value="living">Living room</option>
-                            <option value="bedroom">Bedroom</option>
-                            <option value="office">Home office</option>
+                            {inspirationCategories.map(([id, label]) => (
+                              <option key={id} value={id}>
+                                {label}
+                              </option>
+                            ))}
                           </select>
                         </label>
                         <label>
@@ -1281,6 +1284,14 @@ function App() {
                           />
                         </label>
                       </div>
+                      {!["living", "bedroom", "office"].includes(room) && (
+                        <p className="ws-notice">
+                          Explore ideas and prepare a brief for this space. A
+                          local installation estimate is needed before budgeted
+                          rendering; plumbing, structural work and landscaping
+                          construction are quoted separately.
+                        </p>
+                      )}
                       <label>
                         Tell the AI what you have in mind
                         <textarea

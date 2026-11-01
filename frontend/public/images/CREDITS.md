@@ -19,3 +19,15 @@ Discovery release:
 - ../demos/living.gif and ../demos/bedroom.gif: original reveal animations built
   from these credited inspiration photos and their AI-edited empty-room versions.
   Both are labeled illustrative on the website and do not imply live AI accuracy.
+
+Worker-style demo update:
+- ../demos/sources/living-workers.png and bedroom-workers.png are AI-generated
+  six-stage worker-installation storyboards inspired by the credited photographs.
+- ../demos/living.gif and bedroom.gif now animate those staged storyboards. The
+  website labels them as AI-illustrated worker montages, not real job footage.
+- ../demos/living-poster.jpg and bedroom-poster.jpg are the finished storyboard
+  frames used when animation is paused or reduced motion is preferred.
+
+The expanded community library has per-image creators, source pages and licenses
+in ../inspiration/*.json and visible credit disclosures in the gallery. See
+../inspiration/README.md for reuse and caching details.

@@ -34,7 +34,7 @@ def references(room,assets,media,photo_sets=None,model_images=None):
 
 def build_prompt(assets,style,category,area,brief='',catalog=None):
     catalog=catalog or [{'sku':a.id,'name':a.name,'reference_image':i+2,'dimensions_cm':{'width':a.width_cm,'height':a.height_cm,'depth':a.depth_cm}} for i,a in enumerate(assets)]
-    return ('Create an exceptional photorealistic interior renovation visualization. Image 1 is the actual room. '
+    return ('Create an exceptional photorealistic space redesign visualization appropriate to the supplied space category. Image 1 is the actual space. '
       'Preserve its architectural geometry, windows, doors, camera position and walkways. '
       'All subsequent images depict actual seller products. Multiple angles with the same SKU depict ONE item, never extra items. '
       'Isolate the product from any reference-photo background. Place each listed SKU exactly once. '

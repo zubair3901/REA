@@ -1011,3 +1011,219 @@
     font-size: 35px;
   }
 }
+/* Large, attributed category library: one design action per reference. */
+.inspiration-category-tabs {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.inspiration-category-tabs > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.inspiration-category-tabs > button > span {
+  font-size: 9px;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: #dfe6d4;
+  color: #5b7249;
+}
+.inspiration-category-tabs > button[aria-pressed="true"] > span {
+  background: #ffffff24;
+  color: #edf4e4;
+}
+.inspiration-library-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 0 26px;
+}
+.inspiration-library-toolbar p {
+  font-size: 12px;
+  margin: 0;
+  color: #6c7e5e;
+}
+.inspiration-library-toolbar p span {
+  color: #8a967e;
+}
+.inspiration-library-toolbar input {
+  max-width: 310px;
+  font-size: 13px;
+  min-height: 44px;
+}
+.inspiration-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.inspiration-tile:nth-child(n) > div.inspiration-photo {
+  height: 275px;
+  flex: none;
+}
+.inspiration-tile .inspiration-photo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.inspiration-tile h3 {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 9px;
+  overflow-wrap: anywhere;
+}
+.inspiration-description {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #75866a;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.inspiration-design {
+  font-size: 12px;
+  min-height: 43px;
+  padding: 11px 15px;
+  width: 100%;
+  margin-top: auto;
+}
+.inspiration-credit {
+  margin-top: 12px;
+  padding: 0;
+  color: #8a967d;
+  font-size: 10px;
+}
+.inspiration-credit summary {
+  cursor: pointer;
+}
+.inspiration-credit p {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #829174;
+  overflow-wrap: anywhere;
+  margin: 8px 0 0;
+}
+.inspiration-credit a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.inspiration-unavailable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  height: 100%;
+  padding: 25px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #81916d;
+  background: #eef1e6;
+}
+.inspiration-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  border-top: 1px solid #dce4d2;
+  padding: 25px 0;
+  margin-top: 35px;
+}
+.inspiration-pagination > span {
+  font-size: 12px;
+  color: #7c8e6d;
+}
+.inspiration-discovery {
+  scroll-margin-top: 100px;
+}
+.inspiration-photo {
+  background: #e9eddf;
+}
+.worker-demo-stage {
+  font-size: 9px;
+  color: #7b8c6e;
+  margin-top: 10px;
+}
+@media (max-width: 700px) {
+  .inspiration-category-tabs {
+    gap: 7px;
+  }
+  .inspiration-category-tabs > button {
+    font-size: 10px;
+    padding: 8px 11px;
+    gap: 5px;
+  }
+  .inspiration-category-tabs > button > span {
+    font-size: 8px;
+    padding: 0 4px;
+  }
+  .inspiration-library-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .inspiration-library-toolbar p {
+    font-size: 11px;
+  }
+  .inspiration-library-toolbar input {
+    max-width: none;
+    font-size: 16px;
+  }
+  .inspiration-tile:nth-child(n) > div.inspiration-photo {
+    height: 280px;
+  }
+  .inspiration-tile h3 {
+    font-size: 17px;
+  }
+  .inspiration-description {
+    font-size: 12px;
+  }
+  .inspiration-design {
+    font-size: 12px;
+    min-height: 46px;
+  }
+  .inspiration-credit {
+    font-size: 10px;
+  }
+  .inspiration-pagination {
+    gap: 24px;
+  }
+  .inspiration-pagination > span {
+    font-size: 11px;
+  }
+}
+.transformation-media.worker-timelapse {
+  aspect-ratio: 1;
+}
+.worker-timelapse .demo-corner {
+  font-size: 7px;
+  gap: 12px;
+}
+.worker-timelapse > img {
+  object-fit: cover;
+}
+.inspiration-tile h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 3.2em;
+}
+.inspiration-description {
+  font-size: 13px;
+}
+.inspiration-tile .inspiration-meta {
+  margin-bottom: 8px;
+}
+@media (max-width: 700px) {
+  .inspiration-description {
+    font-size: 13px;
+    line-height: 1.85;
+  }
+  .inspiration-tile h3 {
+    min-height: 0;
+  }
+}

@@ -6,6 +6,7 @@ import re
 from contextlib import asynccontextmanager
 from decimal import Decimal
 from typing import Annotated, Literal
+from .room_categories import RoomCategory
 from uuid import uuid4
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -151,7 +152,7 @@ def create_asset(body: AssetIn, db: DB, seller: Annotated[str,Depends(merchant)]
     return {'id':a.id,**body.model_dump()}
 
 @app.post('/api/designs',status_code=201)
-async def create_design(request: Request, db: DB, room: Annotated[UploadFile,File()], style: Annotated[str,Form()], asset_ids: Annotated[str,Form()], room_area: Annotated[float,Form(gt=0,le=1000)], room_category: Annotated[Literal['living','bedroom','office'],Form()], model: Annotated[Literal['composite','openai','gemini'],Form()]='composite', ai_consent: Annotated[bool,Form()]=False, design_brief: Annotated[str,Form(max_length=1200)]='', plan_id: Annotated[str,Form()]='', budget_ceiling: Annotated[Decimal | None,Form(gt=0,le=10000000)]=None, budget_confirmed: Annotated[bool,Form()]=False, condition_preference: Annotated[Literal['new','used','either'],Form()]='either', budget_currency: Annotated[str,Form()]='', project_id: Annotated[str,Form()]=''):
+async def create_design(request: Request, db: DB, room: Annotated[UploadFile,File()], style: Annotated[str,Form()], asset_ids: Annotated[str,Form()], room_area: Annotated[float,Form(gt=0,le=1000)], room_category: Annotated[RoomCategory,Form()], model: Annotated[Literal['composite','openai','gemini'],Form()]='composite', ai_consent: Annotated[bool,Form()]=False, design_brief: Annotated[str,Form(max_length=1200)]='', plan_id: Annotated[str,Form()]='', budget_ceiling: Annotated[Decimal | None,Form(gt=0,le=10000000)]=None, budget_confirmed: Annotated[bool,Form()]=False, condition_preference: Annotated[Literal['new','used','either'],Form()]='either', budget_currency: Annotated[str,Form()]='', project_id: Annotated[str,Form()]=''):
     if project_id:
         user=current_customer(request,db)
         project_access(db,project_id,user)

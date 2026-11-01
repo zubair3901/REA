@@ -12,6 +12,7 @@ from .database import get_db
 from .models import Asset, Seller, DesignPlan
 from .workspace_models import ProductPhoto
 from .quotes import quote
+from .room_categories import RoomCategory, PRIORITIES
 
 router=APIRouter()
 class PlanIn(BaseModel):
@@ -20,7 +21,7 @@ class PlanIn(BaseModel):
     currency: str=Field(default='USD',pattern=r'^[A-Z]{3}$')
     preference: Literal['new','used','either']='either'
     style: str=Field(min_length=1,max_length=80)
-    room_category: Literal['living','bedroom','office']
+    room_category: RoomCategory
     room_area: float=Field(gt=0,le=1000,allow_inf_nan=False)
     latitude: float | None=Field(default=None,ge=-90,le=90,allow_inf_nan=False)
     longitude: float | None=Field(default=None,ge=-180,le=180,allow_inf_nan=False)
@@ -54,7 +55,7 @@ def plan(body:PlanIn,db=Depends(get_db)):
     # Scale guard is a coarse filter; no geometry is inferred.
     assets=[a for a in assets if a.width_cm*a.depth_cm/10000<=body.room_area*.45]
     if not assets:raise HTTPException(409,'No matching items pass the coarse floor-area check')
-    priorities={'living':['seating','table','lighting','rug','decor'],'bedroom':['bed','table','lighting','seating','rug','decor'],'office':['desk','seating','lighting','table','decor']}[body.room_category]
+    priorities=PRIORITIES[body.room_category]
     groups={}
     for a in assets:groups.setdefault(group(a),[]).append(a)
     chosen=[]

@@ -173,22 +173,20 @@ function Transformation({ scene, title, description, onSelect }) {
   const active = playing && visible;
   return (
     <article className="transformation-card" ref={host}>
-      <div className="transformation-media">
+      <div className="transformation-media worker-timelapse">
         <img
           src={
             active
               ? "/demos/" + scene + ".gif"
-              : "/images/" +
-                (scene === "living" ? "living" : "bedroom") +
-                ".jpg"
+              : "/demos/" + scene + "-poster.jpg"
           }
-          alt={title + " — illustrative empty-to-furnished room transformation"}
+          alt={title + " — AI-illustrated staged workers renovation montage"}
           loading="lazy"
-          width="640"
-          height="426"
+          width="560"
+          height="560"
         />
         <span className="demo-badge">
-          <Sparkles size={12} /> DESIGN IN MOTION
+          <Sparkles size={12} /> WORKERS TIMELAPSE
         </span>
         <button
           className="demo-play"
@@ -199,9 +197,9 @@ function Transformation({ scene, title, description, onSelect }) {
           {playing ? <Pause size={15} /> : <Play size={15} />}
         </button>
         <div className="demo-corner">
-          <span>THE SPACE YOU HAVE</span>
+          <span>PREPARE · INSTALL · STYLE</span>
           <ArrowRight size={16} />
-          <span>THE SPACE YOU IMAGINE</span>
+          <span>THE FINISHED ROOM</span>
         </div>
       </div>
       <div className="transformation-copy">
@@ -228,9 +226,9 @@ export function TransformationDemos({ onSelect }) {
         <div>
           <span className="rf-kicker">A LITTLE VISION GOES A LONG WAY</span>
           <h2>
-            See the room.
+            See the work.
             <br />
-            <em>Then see the possibility.</em>
+            <em>Imagine the result.</em>
           </h2>
         </div>
         <p>
@@ -254,38 +252,124 @@ export function TransformationDemos({ onSelect }) {
         />
       </div>
       <p className="demo-disclosure">
-        <Camera size={14} /> Illustrative animations made from inspiration
-        photos and AI-edited empty rooms. Not live customer results or
-        purchasable product combinations.
+        <Camera size={14} /> AI-illustrated worker montage: staged preparation,
+        furniture installation and styling. Not continuous real-world footage, a
+        construction schedule or purchasable product combinations.
       </p>
     </section>
   );
 }
+export const inspirationCategories = [
+  ["living", "Living room"],
+  ["bedroom", "Bedroom"],
+  ["kitchen", "Kitchen"],
+  ["bathroom", "Bathroom"],
+  ["restaurant", "Restaurant"],
+  ["garden", "Garden"],
+  ["exterior", "Exteriors"],
+  ["landscape", "Landscape"],
+  ["office", "Office"],
+  ["dining", "Dining room"],
+];
 export function InspirationGallery({ onSelect, full = false, onExplore }) {
-  const [filter, setFilter] = useState("all");
-  const items = inspirationRooms.filter(
-    (i) => filter === "all" || i.room === filter,
+  const [filter, setFilter] = useState(() => {
+      const value = new URLSearchParams(location.search).get("category");
+      return inspirationCategories.some((c) => c[0] === value)
+        ? value
+        : "living";
+    }),
+    [items, setItems] = useState([]),
+    [counts, setCounts] = useState({}),
+    [page, setPage] = useState(1),
+    [search, setSearch] = useState(""),
+    [loading, setLoading] = useState(true),
+    [error, setError] = useState("");
+  const cache = useRef({});
+  const host = useRef(null);
+  const pageSize = full ? 24 : 6;
+  useEffect(() => {
+    let valid = true;
+    fetch("/inspiration/index.json")
+      .then((r) => {
+        if (!r.ok) throw Error();
+        return r.json();
+      })
+      .then((d) => {
+        if (valid)
+          setCounts(
+            Object.fromEntries(d.categories.map((c) => [c.id, c.count])),
+          );
+      })
+      .catch(() => {});
+    return () => {
+      valid = false;
+    };
+  }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    setPage(1);
+    setSearch("");
+    setError("");
+    setLoading(true);
+    setItems([]);
+    const apply = (d) => {
+      setItems(d);
+      setLoading(false);
+    };
+    if (cache.current[filter]) {
+      apply(cache.current[filter]);
+      return () => controller.abort();
+    }
+    fetch("/inspiration/" + filter + ".json", { signal: controller.signal })
+      .then((r) => {
+        if (!r.ok)
+          throw Error(
+            "This inspiration collection could not load. Please try again.",
+          );
+        return r.json();
+      })
+      .then((d) => {
+        cache.current[filter] = d;
+        apply(d);
+      })
+      .catch((e) => {
+        if (e.name !== "AbortError") {
+          setError(e.message);
+          setLoading(false);
+        }
+      });
+    return () => controller.abort();
+  }, [filter]);
+  const matching = items.filter((i) =>
+    (i.name + " " + i.description).toLowerCase().includes(search.toLowerCase()),
   );
+  const pages = Math.max(1, Math.ceil(matching.length / pageSize));
+  const visible = matching.slice((page - 1) * pageSize, page * pageSize);
+  function changePage(next) {
+    setPage(next);
+    host.current?.scrollIntoView({ block: "start", behavior: "instant" });
+  }
   return (
     <section
+      ref={host}
       className={
         "discovery-section inspiration-discovery " + (full ? "full" : "")
       }
     >
       <div className="discovery-heading">
         <div>
-          <span className="rf-kicker">THE INSPIRATION EDIT</span>
+          <span className="rf-kicker">THE INSPIRATION LIBRARY</span>
           {full ? (
             <h1>
-              Find a feeling.
+              A world of ideas.
               <br />
-              <em>Make room for it.</em>
+              <em>A space that’s yours.</em>
             </h1>
           ) : (
             <h2>
-              Good spaces begin
+              Every space has
               <br />
-              <em>with a little inspiration.</em>
+              <em>another possibility.</em>
             </h2>
           )}
         </div>
@@ -295,68 +379,179 @@ export function InspirationGallery({ onSelect, full = false, onExplore }) {
           </button>
         ) : (
           <p>
-            Choose a room that speaks to you.
+            Explore a world of design references.
             <br />
-            Take the direction into your own space.
+            Choose a direction. Make it your own.
           </p>
         )}
       </div>
       <div
-        className="discovery-filters"
+        className="discovery-filters inspiration-category-tabs"
         role="group"
-        aria-label="Filter inspiration by room"
+        aria-label="Inspiration categories"
       >
-        {[
-          ["all", "All spaces"],
-          ["living", "Living rooms"],
-          ["bedroom", "Bedrooms"],
-          ["office", "Home offices"],
-        ].map(([id, label]) => (
+        {inspirationCategories.map(([id, label]) => (
           <button
             key={id}
             aria-pressed={filter === id}
-            onClick={() => setFilter(id)}
+            onClick={() => {
+              setFilter(id);
+              const url = new URL(location.href);
+              url.searchParams.set("category", id);
+              history.replaceState({}, "", url);
+            }}
           >
             {label}
+            {counts[id] !== undefined && <span>{counts[id]}</span>}
           </button>
         ))}
       </div>
-      <div className="inspiration-gallery">
-        {items.map((item) => (
-          <button
-            key={item.id}
-            className="inspiration-tile"
-            onClick={() => onSelect(item)}
-          >
-            <div>
-              <img
-                src={"/images/" + item.image + ".jpg"}
-                alt={item.name + " · interior inspiration"}
-                loading="lazy"
-              />
-              <span className="inspiration-use">
-                Design my room like this <ArrowUpRight size={17} />
-              </span>
-            </div>
-            <span className="inspiration-meta">
-              {item.tag}
-              <span>
-                {item.room === "office"
-                  ? "Home office"
-                  : item.room === "bedroom"
-                    ? "Bedroom"
-                    : "Living space"}
-              </span>
+      <div className="inspiration-library-toolbar">
+        <p role="status">
+          {loading
+            ? "Opening the collection…"
+            : matching.length +
+              " " +
+              (inspirationCategories.find((c) => c[0] === filter)?.[1] || "") +
+              " references"}
+          {!loading && matching.length > 0 && (
+            <span>
+              {" "}
+              · Showing {(page - 1) * pageSize + 1}–
+              {Math.min(page * pageSize, matching.length)}
             </span>
-            <h3>{item.name}</h3>
-          </button>
+          )}
+        </p>
+        {full && (
+          <input
+            aria-label="Search this inspiration category"
+            placeholder="Search this collection…"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+        )}
+      </div>
+      {error && (
+        <p className="ws-notice error" role="alert">
+          {error}
+        </p>
+      )}
+      {!loading && !error && !matching.length && (
+        <p className="ws-notice">
+          No references match this search. Try another term.
+        </p>
+      )}
+      <div className="inspiration-gallery" aria-busy={loading}>
+        {visible.map((item) => (
+          <article key={item.id} className="inspiration-tile">
+            <InspirationPhoto item={item} />
+            <span className="inspiration-meta">
+              {inspirationCategories.find((c) => c[0] === item.category)?.[1]}
+              <span>Design reference</span>
+            </span>
+            <h3 title={item.name}>{item.name}</h3>
+            <p className="inspiration-description">{item.description}</p>
+            <button
+              className="rf-primary inspiration-design"
+              onClick={() =>
+                onSelect({
+                  room: item.category,
+                  style: "modern",
+                  name: item.name,
+                  brief: (
+                    "Explore a " +
+                    (inspirationCategories.find(
+                      (c) => c[0] === item.category,
+                    )?.[1] || item.category) +
+                    " design inspired by this photographic reference: " +
+                    item.name +
+                    ". " +
+                    item.description +
+                    ". Preserve my uploaded space’s geometry, use my budget and real seller products. The reference is inspiration, not merchant inventory."
+                  ).slice(0, 1200),
+                })
+              }
+            >
+              Design this <ArrowUpRight size={16} />
+            </button>
+            <details className="inspiration-credit">
+              <summary>Photo credit & license</summary>
+              <p>
+                {item.creator} ·{" "}
+                <a
+                  href={item.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Wikimedia Commons source
+                </a>{" "}
+                ·{" "}
+                <a
+                  href={item.license_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.license}
+                </a>
+              </p>
+            </details>
+          </article>
         ))}
       </div>
+      {full && pages > 1 && (
+        <nav className="inspiration-pagination" aria-label="Inspiration pages">
+          <button
+            className="rf-text-button"
+            disabled={page <= 1}
+            onClick={() => changePage(page - 1)}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {pages}
+          </span>
+          <button
+            className="rf-text-button"
+            disabled={page >= pages}
+            onClick={() => changePage(page + 1)}
+          >
+            Next
+          </button>
+        </nav>
+      )}
       <p className="inspiration-footnote">
-        Inspiration photography · the direction you choose prefills your design
-        brief, not your actual room.
+        Reference imagery for inspiration, with source credits and licenses
+        below each image. “Design this” begins your own design brief; pictured
+        products may not be available in our marketplace.
       </p>
     </section>
+  );
+}
+function InspirationPhoto({ item }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className="inspiration-photo">
+      {failed ? (
+        <span className="inspiration-unavailable">
+          <Camera size={24} />
+          Photograph unavailable
+          <br />
+          See the original source below.
+        </span>
+      ) : (
+        <img
+          src={item.image_url}
+          alt={item.name}
+          loading="lazy"
+          decoding="async"
+          referrerPolicy="no-referrer"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </div>
   );
 }
 export function DesignTools({ navigate }) {
@@ -493,7 +688,7 @@ export function DesignFAQ() {
     ],
     [
       "Are the animations real customer results?",
-      "No. The homepage demonstrations use inspiration photography and AI-edited empty rooms. Your saved room visualization is generated separately from the photo and real product references you supply.",
+      "No. The worker animations are AI-illustrated staged installation montages, not real contractor recordings or a reliable construction schedule. Your room visualization is generated separately from your photo and selected product references.",
     ],
     [
       "Does Roomform provide floor plans or a 3D walkthrough?",

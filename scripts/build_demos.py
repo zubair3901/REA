@@ -1,26 +1,32 @@
-"""Build credited, illustrative before/after GIFs. Requires ffmpeg on PATH."""
+"""Encode original AI-illustrated worker storyboards as renovation montage GIFs.
+Requires FFmpeg. These are staged illustrations, not continuous contractor video.
+The landing-page hero remains a separate manual before/after slider.
+"""
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import subprocess
 
-ROOT = Path(__file__).resolve().parents[1]
-IMAGES = ROOT / 'frontend/public/images'
-OUTPUT = ROOT / 'frontend/public/demos'
-OUTPUT.mkdir(exist_ok=True)
-# Hold before, reveal after, hold after, then return to the starting view.
-progress = 'if(lt(T,1),0,if(lt(T,3),(T-1)/2,if(lt(T,4.5),1,if(lt(T,6.5),1-(T-4.5)/2,0))))'
-for scene in ('living', 'bedroom'):
-    normalize = 'fps=10,scale=560:374:force_original_aspect_ratio=increase,crop=560:374,setsar=1,format=rgb24'
-    graph = (
-        f'[0:v]{normalize}[before];[1:v]{normalize}[after];'
-        f"[before][after]blend=all_expr='if(lt(X,W*({progress})),B,A)',"
-        'trim=duration=7,split[frames][colors];'
-        '[colors]palettegen=max_colors=96:stats_mode=diff[palette];'
-        '[frames][palette]paletteuse=dither=bayer:bayer_scale=4'
-    )
-    subprocess.run([
-        'ffmpeg', '-hide_banner', '-loglevel', 'error', '-y',
-        '-loop', '1', '-t', '7', '-i', str(IMAGES / f'{scene}-before.png'),
-        '-loop', '1', '-t', '7', '-i', str(IMAGES / f'{scene}.jpg'),
-        '-filter_complex', graph, '-loop', '0', str(OUTPUT / f'{scene}.gif'),
-    ], check=True)
-    print(scene, (OUTPUT / f'{scene}.gif').stat().st_size, 'bytes')
+ROOT=Path(__file__).resolve().parents[1]
+OUTPUT=ROOT/'frontend/public/demos'
+
+def ffmpeg(*args):
+    subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y',*map(str,args)],check=True)
+
+for scene in ('living','bedroom'):
+    with TemporaryDirectory(prefix='roomform-worker-frames-') as temporary:
+        folder=Path(temporary)
+        source=OUTPUT/'sources'/f'{scene}-workers.png'
+        for frame in range(6):
+            col,row=frame%3,frame//3
+            ffmpeg('-i',source,'-vf',f'crop=trunc(iw/3):trunc(ih/2):trunc(iw/3)*{col}:trunc(ih/2)*{row},scale=560:560:force_original_aspect_ratio=increase,crop=560:560,setsar=1','-frames:v',1,folder/f'{frame}.png')
+        # Fast work stages, pause on the finished room; no backwards unbuilding.
+        durations=[.6,.45,.45,.45,.5,2.4]
+        sequence=[]
+        for i,duration in enumerate(durations):sequence.extend([f"file '{folder/(str(i)+'.png')}'",f'duration {duration}'])
+        sequence.append(f"file '{folder/'5.png'}'")
+        listing=folder/'frames.txt';listing.write_text('\n'.join(sequence)+'\n')
+        graph='fps=12,split[frames][colors];[colors]palettegen=max_colors=128[palette];[frames][palette]paletteuse=dither=bayer:bayer_scale=4'
+        ffmpeg('-f','concat','-safe',0,'-i',listing,'-filter_complex',graph,'-loop',0,OUTPUT/f'{scene}.gif')
+        # A still from the same storyboard avoids camera jumps when pausing.
+        ffmpeg('-i',folder/'5.png','-frames:v',1,'-q:v',3,OUTPUT/f'{scene}-poster.jpg')
+        print(scene,(OUTPUT/f'{scene}.gif').stat().st_size,'bytes')

@@ -29,6 +29,11 @@ try {
   await page.keyboard.press("ArrowLeft");
   await expect(slider).toHaveValue("69");
   await slider.fill("35");
+  for (const image of await page
+    .locator(".hero-comparison img")
+    .evaluateAll((images) => images.map((i) => i.getAttribute("src"))))
+    if (image.endsWith(".gif"))
+      throw Error("Hero must remain a simple image slider");
   const demo = page.locator(".transformation-card").first();
   await demo.scrollIntoViewIfNeeded();
   await expect(demo.locator(".transformation-media>img")).toHaveAttribute(
@@ -47,7 +52,7 @@ try {
     .click();
   await expect(demo.locator(".transformation-media>img")).toHaveAttribute(
     "src",
-    "/images/living.jpg",
+    "/demos/living-poster.jpg",
   );
   await demo
     .getByRole("button", {
@@ -64,20 +69,62 @@ try {
     .getByRole("button", { name: "Inspiration", exact: true })
     .click();
   await expect(page).toHaveURL(/page=inspiration/);
-  await expect(page.locator(".inspiration-tile")).toHaveCount(6);
-  await page.getByRole("button", { name: "Bedrooms", exact: true }).click();
-  await expect(page.locator(".inspiration-tile")).toHaveCount(2);
-  await page.getByRole("button", { name: "Home offices", exact: true }).click();
-  await expect(page.locator(".inspiration-tile")).toHaveCount(1);
-  await page.locator(".inspiration-tile").first().click();
+  await expect(page.locator(".inspiration-tile")).toHaveCount(24);
+  const index = await (
+    await page.request.get(base + "/inspiration/index.json")
+  ).json();
+  if (index.categories.length !== 10)
+    throw Error("Expected ten inspiration categories");
+  const hashes = new Set();
+  for (const category of index.categories) {
+    const records = await (await page.request.get(base + category.file)).json();
+    if (records.length < 101 || records.length !== category.count)
+      throw Error("Not enough real references: " + category.id);
+    for (const record of records) {
+      if (hashes.has(record.sha1))
+        throw Error("Duplicate source image counted twice");
+      hashes.add(record.sha1);
+      if (!record.creator || !record.license || !record.source_url)
+        throw Error("Missing attribution");
+    }
+    await page
+      .getByRole("group", { name: "Inspiration categories" })
+      .getByRole("button", { name: new RegExp("^" + category.label) })
+      .click();
+    await expect(page.locator(".inspiration-tile")).toHaveCount(24);
+    const card = page.locator(".inspiration-tile").first();
+    await expect(card.getByRole("button")).toHaveCount(1);
+    await expect(
+      card.getByRole("button", { name: "Design this", exact: true }),
+    ).toBeVisible();
+  }
+  const first = await page.locator(".inspiration-tile h3").first().innerText();
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(page.getByText("Page 2 of 5", { exact: true })).toBeVisible();
+  if (
+    first === (await page.locator(".inspiration-tile h3").first().innerText())
+  )
+    throw Error("Pagination repeats same references");
+  await page.getByRole("button", { name: "Previous", exact: true }).click();
+  await page
+    .getByLabel("Search this inspiration category")
+    .fill("zzzz-no-matching-reference");
+  await expect(page.locator(".inspiration-tile")).toHaveCount(0);
+  await page.getByLabel("Search this inspiration category").fill("");
+  await expect(page.locator(".inspiration-tile")).toHaveCount(24);
+  await page
+    .locator(".inspiration-tile")
+    .first()
+    .getByRole("button", { name: "Design this", exact: true })
+    .click();
   await expect(page).toHaveURL(/page=studio/);
   await page.goBack();
   await expect(page).toHaveURL(/page=inspiration/);
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: /Find a feeling/ }),
+    page.getByRole("heading", { name: /A world of ideas/ }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "All spaces", exact: true }).click();
+  await expect(page.locator(".inspiration-tile")).toHaveCount(24);
   await page.evaluate(() => {
     document.activeElement?.blur();
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -147,7 +194,7 @@ try {
   await still.locator(".transformation-card").first().scrollIntoViewIfNeeded();
   await expect(
     still.locator(".transformation-media>img").first(),
-  ).toHaveAttribute("src", "/images/living.jpg");
+  ).toHaveAttribute("src", "/demos/living-poster.jpg");
   await expect(
     still.getByRole("button", {
       name: "Play From empty to inviting animation",

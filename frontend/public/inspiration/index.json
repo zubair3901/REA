@@ -1,0 +1,68 @@
+{
+  "source": "Wikimedia Commons",
+  "license_note": "Licenses and author credits are per image. Source search categorization is not a manual architectural review.",
+  "categories": [
+    {
+      "id": "living",
+      "label": "Living room",
+      "count": 110,
+      "file": "/inspiration/living.json"
+    },
+    {
+      "id": "bedroom",
+      "label": "Bedroom",
+      "count": 110,
+      "file": "/inspiration/bedroom.json"
+    },
+    {
+      "id": "kitchen",
+      "label": "Kitchen",
+      "count": 110,
+      "file": "/inspiration/kitchen.json"
+    },
+    {
+      "id": "bathroom",
+      "label": "Bathroom",
+      "count": 110,
+      "file": "/inspiration/bathroom.json"
+    },
+    {
+      "id": "restaurant",
+      "label": "Restaurant",
+      "count": 110,
+      "file": "/inspiration/restaurant.json"
+    },
+    {
+      "id": "garden",
+      "label": "Garden",
+      "count": 110,
+      "file": "/inspiration/garden.json"
+    },
+    {
+      "id": "exterior",
+      "label": "Exteriors",
+      "count": 110,
+      "file": "/inspiration/exterior.json"
+    },
+    {
+      "id": "landscape",
+      "label": "Landscape",
+      "count": 110,
+      "file": "/inspiration/landscape.json"
+    },
+    {
+      "id": "office",
+      "label": "Office",
+      "count": 110,
+      "file": "/inspiration/office.json"
+    },
+    {
+      "id": "dining",
+      "label": "Dining room",
+      "count": 110,
+      "file": "/inspiration/dining.json"
+    }
+  ],
+  "total": 1100,
+  "local_thumbnail_count": 506
+}

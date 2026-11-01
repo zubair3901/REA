@@ -1,3 +1,5 @@
+See the [worker demos and expanded inspiration library](docs/INSPIRATION_LIBRARY_RELEASE.md): 110 references in each of ten categories, descriptions and a single “Design this” action.
+
 See the [discovery and room-transformation release](docs/DISCOVERY_RELEASE.md) for the latest photographic homepage, animated GIF demos, inspiration gallery and verification.
 
 The [interface redesign](docs/ATELIER_REDESIGN.md) and [current screenshot gallery](docs/ui-review/index.html) show the latest desktop and mobile experience.
