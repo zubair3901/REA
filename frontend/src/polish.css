@@ -1,0 +1,37 @@
+/* Refinement of the existing photographic, forest and ivory identity. */
+.discovery-theme .atelier-hero { display:block; padding-top:40px; }
+.discovery-theme .hero-intro { position:static; max-width:none; display:flex; align-items:center; gap:48px; margin:0 0 36px; pointer-events:auto; }
+.discovery-theme .hero-intro h1 { color:var(--ink); font-family:Manrope,sans-serif; font-weight:500; font-size:clamp(42px,4.4vw,68px); letter-spacing:-.035em; margin:0; }
+.discovery-theme .hero-intro h1 em { color:var(--green); letter-spacing:-.03em; }
+.discovery-theme .hero-intro-right { max-width:380px; }
+.discovery-theme .hero-intro-right>p { color:#4c5d50; font-size:16px; line-height:1.7; margin:0 0 20px; }
+.discovery-theme .hero-start { background:var(--green); border-color:var(--green); color:white; font-size:15px; }
+.discovery-theme .hero-start:hover { background:#203b2b!important; color:white; }
+.discovery-theme .hero-microcopy { color:#526252; font-size:12px; }
+.discovery-theme .hero-comparison { height:540px; }
+.discovery-theme .hero-comparison:after { background:linear-gradient(0deg,#14271c80,transparent 35%); }
+.discovery-theme .hero-image-meta { font-size:12px; gap:16px; }
+.discovery-theme .hero-values>span { font-size:14px; }
+.discovery-theme .atelier-desktop-nav button,.header-seller,.header-account { font-size:14px; }
+.discovery-theme button:focus-visible,.discovery-theme summary:focus-visible { outline:3px solid #86734a; outline-offset:4px; }
+.discovery-theme input,.discovery-theme textarea { caret-color:var(--green); }
+.discovery-theme .rf-page-heading h1 { letter-spacing:-.035em; }
+.discovery-theme .rf-product>small,.discovery-theme .rf-budget>small { font-size:13px; color:#526252; }
+.discovery-theme .rf-kicker { letter-spacing:.12em; }
+@media(max-width:1000px) { .discovery-theme .hero-intro { gap:28px; } .discovery-theme .hero-intro-right { max-width:310px; } }
+@media(max-width:700px) {
+ .discovery-theme .atelier-hero { padding:28px 20px 0; }
+ .discovery-theme .hero-intro { display:block; margin-bottom:28px; }
+ .discovery-theme .hero-intro h1 { font-size:44px; line-height:1.1; }
+ .discovery-theme .hero-intro-right { max-width:none; margin-top:22px; }
+ .discovery-theme .hero-intro-right>p { font-size:15px; }
+ .discovery-theme .hero-start { min-height:52px; font-size:15px; }
+ .discovery-theme .hero-microcopy { font-size:12px; max-width:none; }
+ .discovery-theme .hero-comparison { height:390px; }
+ .discovery-theme .hero-service-tabs { position:static; transform:none; margin:0 0 12px; background:#ecefe6; overflow:auto; border:0; box-shadow:none; border-radius:12px; }
+ .discovery-theme .hero-service-tabs button { font-size:12px; min-height:44px; padding:9px 12px; }
+ .discovery-theme .hero-image-meta { font-size:11px; }
+ .discovery-theme .hero-bottom { padding:20px 0; }
+ .discovery-theme .hero-values { gap:12px; flex-wrap:wrap; }
+ .discovery-theme .hero-values>span { font-size:12px; }
+}

@@ -133,7 +133,7 @@ function Listing({ item, token, onUpdate }) {
         </button>
       </div>
       {message && (
-        <p className="seller-message" role="status">
+        <p className="seller-message" role="alert">
           {message}
         </p>
       )}
@@ -287,7 +287,6 @@ export default function SellerPortal({ onPublished }) {
     <section className="partner-page">
       <div className="seller-intro">
         <div>
-          <span className="rf-kicker">FOR THE PIECES WITH A STORY</span>
           <h1>
             Your furniture.
             <br />
@@ -340,7 +339,7 @@ export default function SellerPortal({ onPublished }) {
                 </p>
                 <small>
                   {pending
-                    ? "Your account is awaiting operator approval. You can sign in to check status; publishing is available after approval."
+                    ? "Your seller account is awaiting review. Publishing is unavailable until approval. Sign out and sign in again to check your approval status."
                     : "Your account can publish and manage its own products."}
                 </small>
               </div>
@@ -366,6 +365,8 @@ export default function SellerPortal({ onPublished }) {
             <div className="account-tabs">
               <button
                 className={mode === "register" ? "active" : ""}
+                aria-pressed={mode === "register"}
+                disabled={busy}
                 onClick={() => {
                   setMode("register");
                   setMessage("");
@@ -375,6 +376,8 @@ export default function SellerPortal({ onPublished }) {
               </button>
               <button
                 className={mode === "login" ? "active" : ""}
+                aria-pressed={mode === "login"}
+                disabled={busy}
                 onClick={() => {
                   setMode("login");
                   setMessage("");
@@ -383,7 +386,7 @@ export default function SellerPortal({ onPublished }) {
                 Sign in
               </button>
             </div>
-            <form onSubmit={authenticate}>
+            <form onSubmit={authenticate} aria-busy={busy}>
               {mode === "register" && (
                 <div className="form-row">
                   <label>
@@ -448,22 +451,22 @@ export default function SellerPortal({ onPublished }) {
                   <ArrowRight size={16} />
                 )}{" "}
                 {busy
-                  ? "Please wait…"
+                  ? mode === "register" ? "Creating account…" : "Signing in…"
                   : mode === "register"
                     ? "Create seller account"
                     : "Sign in to manage listings"}
               </button>
               {mode === "register" && (
                 <small>
-                  New accounts require operator approval before publishing.
-                  Account access is kept only in this browser tab’s memory.
+                  New accounts are reviewed before they can publish listings.
+                  You’ll need to sign in again after closing this tab.
                 </small>
               )}
             </form>
           </>
         )}
         {message && (
-          <p className="seller-message" role="status">
+          <p className="seller-message" role="alert">
             {message}
           </p>
         )}
@@ -513,7 +516,6 @@ export default function SellerPortal({ onPublished }) {
           {sellerTab === "new" && (
             <>
               <div className="seller-flow-heading">
-                <span className="rf-kicker">YOUR NEXT GREAT LISTING</span>
                 <h2>
                   Photo first. Details next.
                   <br />
@@ -799,7 +801,7 @@ export default function SellerPortal({ onPublished }) {
                   </button>
                 </fieldset>
                 {publishMessage && (
-                  <p className="seller-message" role="status">
+                  <p className="seller-message" role="alert">
                     {publishMessage}
                   </p>
                 )}

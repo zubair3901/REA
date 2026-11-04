@@ -1227,3 +1227,65 @@
     min-height: 0;
   }
 }
+
+/* Readable supporting copy across discovery, without competing with photographs. */
+.discovery-heading > p,
+.transformation-copy p,
+.marketplace-story p,
+.tool-grid p {
+  color: #52634a;
+  font-size: 14px;
+}
+.demo-disclosure,
+.demo-reduced,
+.inspiration-footnote,
+.worker-demo-stage,
+.inspiration-credit,
+.inspiration-credit p,
+.inspiration-library-toolbar p,
+.inspiration-library-toolbar p span,
+.inspiration-pagination > span,
+.inspiration-tile .inspiration-meta,
+.inspiration-tile .inspiration-meta > span,
+.inspiration-unavailable {
+  color: #52634a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.inspiration-description {
+  color: #52634a;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.room-category-card small {
+  color: #f2f5eb;
+  font-size: 14px;
+}
+.inspiration-category-tabs > button {
+  min-height: 44px;
+  color: #52634a;
+}
+.inspiration-category-tabs > button[aria-pressed="true"] {
+  color: #fff;
+}
+.inspiration-category-tabs > button > span {
+  font-size: 11px;
+  color: #43563a;
+}
+@media (max-width: 700px) {
+  .inspiration-category-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 3px 2px 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #748569 #e9eddf;
+    scroll-padding-inline: 2px;
+  }
+  .inspiration-category-tabs > button {
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 9px 13px;
+    white-space: nowrap;
+  }
+}

@@ -23,9 +23,6 @@ export default function ExperienceHero({ onStart, onSellers }) {
     <section className="atelier-hero">
       <div className="hero-intro">
         <div>
-          <span className="rf-kicker">
-            <span className="live-dot" /> A NEW WAY TO FEEL AT HOME
-          </span>
           <h1>
             A space you love.
             <br />
@@ -45,7 +42,7 @@ export default function ExperienceHero({ onStart, onSellers }) {
             Redesign my space <ArrowUpRight size={20} />
           </button>
           <span className="hero-microcopy">
-            Your room photo. Your budget. Your possibilities.
+            Create an account to save your room project.
           </span>
         </div>
       </div>

@@ -82,9 +82,6 @@ export function RoomCategories({ onSelect }) {
     <section className="discovery-section room-discovery">
       <div className="discovery-heading">
         <div>
-          <span className="rf-kicker">
-            A SMALL CHANGE. A WHOLE NEW FEELING.
-          </span>
           <h2>
             Which space is
             <br />
@@ -224,7 +221,6 @@ export function TransformationDemos({ onSelect }) {
     <section className="transformation-section">
       <div className="discovery-heading">
         <div>
-          <span className="rf-kicker">A LITTLE VISION GOES A LONG WAY</span>
           <h2>
             See the work.
             <br />
@@ -358,7 +354,6 @@ export function InspirationGallery({ onSelect, full = false, onExplore }) {
     >
       <div className="discovery-heading">
         <div>
-          <span className="rf-kicker">THE INSPIRATION LIBRARY</span>
           {full ? (
             <h1>
               A world of ideas.
@@ -559,7 +554,6 @@ export function DesignTools({ navigate }) {
     <section className="discovery-section tool-discovery">
       <div className="discovery-heading">
         <div>
-          <span className="rf-kicker">MORE THAN A PRETTY PICTURE</span>
           <h2>
             A clear path from
             <br />
@@ -634,7 +628,6 @@ export function MarketplaceStory({ navigate }) {
         </span>
       </div>
       <div>
-        <span className="rf-kicker">THE DIFFERENCE IS IN THE DETAILS</span>
         <h2>
           Fall in love with a room.
           <br />
@@ -698,7 +691,6 @@ export function DesignFAQ() {
   return (
     <section className="discovery-section design-faq">
       <div>
-        <span className="rf-kicker">A FEW THINGS WORTH KNOWING</span>
         <h2>
           A little clarity.
           <br />

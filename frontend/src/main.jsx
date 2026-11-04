@@ -55,6 +55,7 @@ import "./fonts.css";
 import "./redesign.css";
 import "./atelier.css";
 import "./discovery.css";
+import "./polish.css";
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 const media = (p) => (p?.startsWith("/") ? API + p : p);
 const money = (n, c = "USD") =>
@@ -710,45 +711,6 @@ function App() {
             />
             <MarketplaceStory navigate={navigate} />
             <DesignTools navigate={navigate} />
-            <section className="rf-steps">
-              <span className="rf-kicker">
-                LESS GUESSWORK. MORE POSSIBILITY.
-              </span>
-              <h2>
-                From “what if”
-                <br />
-                <em>to “welcome home.”</em>
-              </h2>
-              <div>
-                {[
-                  [
-                    Upload,
-                    "Start with your space",
-                    "A photo of your room is all you need to begin.",
-                  ],
-                  [
-                    Sparkles,
-                    "Let your ideas take shape",
-                    "Choose a style, add real product references and create a new direction.",
-                  ],
-                  [
-                    Armchair,
-                    "Bring it into the real world",
-                    "See the estimate, connect with sellers and discuss your plan.",
-                  ],
-                ].map(([Icon, title, copy], i) => (
-                  <article key={title}>
-                    <span>0{i + 1}</span>
-                    <Icon size={25} />
-                    <h3>{title}</h3>
-                    <p>{copy}</p>
-                  </article>
-                ))}
-              </div>
-              <button className="rf-primary" onClick={() => navigate("studio")}>
-                Let’s create your room <ArrowRight size={17} />
-              </button>
-            </section>
             <section className="rf-section rf-market-teaser">
               <div className="rf-section-heading">
                 <div>
