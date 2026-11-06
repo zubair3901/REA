@@ -43,6 +43,8 @@ async def lifespan(app):
 app = FastAPI(title='Roomform Marketplace', version='1.0.0', lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv('CORS_ORIGINS','http://localhost:5173').split(','), allow_credentials=True, allow_methods=['GET','POST','PATCH','DELETE'], allow_headers=['Content-Type','X-Merchant-Key','X-Operator-Key'])
 app.add_middleware(SecurityMiddleware)
+from .finalization import router as finalization_router
+app.include_router(finalization_router)
 app.include_router(account_router)
 app.include_router(planning_router)
 app.include_router(operations_router)

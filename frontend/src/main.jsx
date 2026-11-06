@@ -951,6 +951,7 @@ function App() {
                   {design ? (
                     <RoomResult
                       key={design.id}
+                      projectId={workspace.activeId}
                       design={design}
                       assets={assets}
                       models={models}

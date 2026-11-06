@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SellerOrders from "./SellerOrders";
 import ProductPhotoStudio from "./ProductPhotoStudio";
+import "./finalization.css";
 
 import {
   ArrowRight,
@@ -34,6 +35,20 @@ async function call(path, options = {}) {
         : JSON.stringify(data.detail || "Request failed"),
     );
   return data;
+}
+function Fulfillment({ item, token }) {
+  const [values, setValues] = useState(null), [message, setMessage] = useState(""), [busy, setBusy] = useState(false);
+  const fields = {ready_min_days:"Ready in · minimum days",ready_max_days:"Ready in · maximum days",delivery_min_days:"Delivery · minimum days",delivery_max_days:"Delivery · maximum days"};
+  useEffect(() => { let live=true; call("/api/assets/"+item.id+"/fulfillment", {headers:{"X-Merchant-Key":token}}).then(data=>{if(live)setValues(data)}).catch(()=>{if(live)setValues({})});return()=>{live=false}; }, [item.id,token]);
+  async function save() {
+    setBusy(true);setMessage("");
+    try { const body=Object.fromEntries(Object.keys(fields).map(key=>[key,Number(values[key])]));
+      if(Object.keys(fields).some(key=>values[key]===undefined||values[key]===""))throw Error("Enter all four lead times.");
+      if(body.ready_min_days>body.ready_max_days||body.delivery_min_days>body.delivery_max_days)throw Error("Minimum days cannot exceed maximum days.");
+      await call("/api/assets/"+item.id+"/fulfillment",{method:"PUT",headers:{"Content-Type":"application/json","X-Merchant-Key":token},body:JSON.stringify(body)});setMessage("Lead times saved.");
+    } catch(e) {setMessage(e.message)} finally {setBusy(false)}
+  }
+  return <section className="seller-fulfillment"><h4>Preparation & delivery range</h4><p>Set the days needed to make this item ready, followed by transit to the customer. Finalization estimates use both ranges.</p>{values ? <><div>{Object.entries(fields).map(([key,label])=><label key={key}>{label}<input aria-label={label} type="number" min="0" max="365" step="1" value={values[key]??""} onChange={e=>setValues({...values,[key]:e.target.value})}/></label>)}</div><button type="button" className="rf-text-button" disabled={busy} onClick={save}>{busy?"Saving lead times…":"Save lead times"}</button></>:<p>Loading lead times…</p>}{message&&<p role="status">{message}</p>}</section>;
 }
 function Listing({ item, token, onUpdate }) {
   const [busy, setBusy] = useState(false),
@@ -118,6 +133,7 @@ function Listing({ item, token, onUpdate }) {
           />
         </label>
       </div>
+      <Fulfillment item={item} token={token}/>
       <div className="listing-actions">
         <label className="consent">
           <input name="active" type="checkbox" defaultChecked={item.active} />{" "}

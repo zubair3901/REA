@@ -220,3 +220,25 @@ class AIUsage(Base):
     project_id: Mapped[str]=mapped_column(ForeignKey('projects.id'),index=True)
     operation: Mapped[str]=mapped_column(String(30))
     created_at: Mapped[datetime]=mapped_column(DateTime(timezone=True),default=now)
+
+class AssetFulfillment(Base):
+    __tablename__ = 'asset_fulfillment'
+    asset_id: Mapped[str] = mapped_column(ForeignKey('assets.id'), primary_key=True)
+    ready_min_days: Mapped[int] = mapped_column(Integer)
+    ready_max_days: Mapped[int] = mapped_column(Integer)
+    delivery_min_days: Mapped[int] = mapped_column(Integer)
+    delivery_max_days: Mapped[int] = mapped_column(Integer)
+
+class FinalizationBooking(Base):
+    __tablename__ = 'finalization_bookings'
+    __table_args__ = (UniqueConstraint('customer_id', 'idempotency_key'),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    project_id: Mapped[str] = mapped_column(ForeignKey('projects.id'), index=True)
+    customer_id: Mapped[str] = mapped_column(ForeignKey('customers.id'))
+    design_id: Mapped[str] = mapped_column(ForeignKey('designs.id'))
+    idempotency_key: Mapped[str] = mapped_column(String(80))
+    request_hash: Mapped[str] = mapped_column(String(64))
+    snapshot: Mapped[dict] = mapped_column(JSON)
+    pdf: Mapped[str] = mapped_column(String(100))
+    mail_id: Mapped[str | None] = mapped_column(ForeignKey('mail_queue.id'), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)

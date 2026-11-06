@@ -12,6 +12,15 @@ def run():
         for row in rows:
             row.attempts+=1
             message=EmailMessage();message['From']=os.environ['SMTP_FROM'];message['To']=row.recipient;message['Subject']=row.subject;message.set_content(row.body)
+            from .workspace_models import FinalizationBooking
+            from .finalization import PDF_DIR
+            booking=db.scalar(select(FinalizationBooking).where(FinalizationBooking.mail_id==row.id))
+            if booking:
+                path=PDF_DIR/booking.pdf
+                if not path.is_file():
+                    if row.attempts>=5:row.status="failed"
+                    continue
+                message.add_attachment(path.read_bytes(),maintype="application",subtype="pdf",filename="roomform-finalization-"+booking.id+".pdf")
             try:
                 with smtplib.SMTP(os.environ['SMTP_HOST'],int(os.getenv('SMTP_PORT','587')),timeout=20) as smtp:
                     smtp.starttls(context=ssl.create_default_context())

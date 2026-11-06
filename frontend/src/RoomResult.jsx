@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { api, API, money } from "./workspace-api";
 import ProductPhotoViewer from "./ProductPhotoViewer";
+import FinalizationBooking from "./FinalizationBooking";
 import "./photography.css";
 function category(a) {
   const value = (a?.category || "").toLowerCase();
@@ -25,6 +26,7 @@ export default function RoomResult({
   models,
   onUpdated,
   onRoomChange,
+  projectId,
 }) {
   const isProtected = design.render_mode === "protected_placement";
   const [replacementView, setReplacementView] = useState("front");
@@ -545,6 +547,7 @@ export default function RoomResult({
           </small>
         </section>
       )}
+      {!expanded && <FinalizationBooking key={design.id} design={design} projectId={projectId}/>}
       {error && (
         <p className="ws-notice error" role="alert">
           {error}
