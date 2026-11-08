@@ -26,14 +26,13 @@ export default function ExperienceHero({ onStart, onSellers }) {
           <h1>
             A space you love.
             <br />
-            <em>A way to make it real.</em>
+            <em>Made for the way you live.</em>
           </h1>
         </div>
         <div className="hero-intro-right">
           <p>
-            Reimagine your room. Discover real furniture.
-            <br className="desktop-break" /> Bring it together, beautifully
-            within budget.
+            Upload your room. Set your budget.
+            <br className="desktop-break" /> Find furniture and a look that works for you.
           </p>
           <button
             className="rf-primary hero-start"
@@ -124,7 +123,7 @@ export default function ExperienceHero({ onStart, onSellers }) {
       <div className="hero-bottom">
         <div className="hero-values">
           <span>
-            <Check size={15} /> Your budget comes first
+            <Check size={15} /> Set a budget that works for you
           </span>
           <span>
             <Check size={15} /> New & pre-loved pieces
@@ -134,7 +133,7 @@ export default function ExperienceHero({ onStart, onSellers }) {
           </span>
         </div>
         <button className="rf-text-button" onClick={onSellers}>
-          Have a piece worth discovering? <ArrowRight size={16} />
+          Sell your furniture <ArrowRight size={16} />
         </button>
       </div>
     </section>

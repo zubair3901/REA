@@ -122,7 +122,7 @@ try {
   await expect(page).toHaveURL(/page=inspiration/);
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: /A world of ideas/ }),
+    page.getByRole("heading", { name: /Find a look you love/ }),
   ).toBeVisible();
   await expect(page.locator(".inspiration-tile")).toHaveCount(24);
   await page.evaluate(() => {

@@ -1,0 +1,57 @@
+/* UI/UX Pro Max: home decoration palette, adapted for readable commerce. */
+.discovery-theme {
+ --ink:#292524; --muted:#57534e; --paper:#faf7f3; --soft:#f0ebe5;
+ --line:#ddd6ce; --green:#a3442c; --sage:#78675d;
+ --surface:#fff; --accent-soft:#f9e9df; --focus:#8b3d28;
+ background:var(--paper); color:var(--ink);
+}
+.discovery-theme .atelier-header { background:#ffffff; border-bottom:1px solid var(--line); }
+.discovery-theme .rf-logo,.discovery-theme h1,.discovery-theme h2,.discovery-theme h3 { color:var(--ink); }
+.discovery-theme .brand-mark,.discovery-theme .rf-logo-dot { color:var(--green); }
+.discovery-theme p { color:var(--muted); }
+.discovery-theme h1,.discovery-theme h2 { text-wrap:balance; }
+.discovery-theme .hero-intro h1 { font-size:clamp(40px,4.1vw,64px); font-weight:600; }
+.discovery-theme .hero-intro h1 em { font-family:inherit; font-style:normal; font-size:1em; font-weight:500; color:var(--green); }
+.discovery-theme .hero-intro-right>p,.discovery-theme .hero-microcopy { color:var(--muted); }
+.discovery-theme .rf-primary,.discovery-theme .button.light { background:var(--green); border-color:var(--green); color:#fff; border-radius:10px; min-height:48px; }
+.discovery-theme .rf-primary:hover,.discovery-theme .hero-start:hover { background:#813522!important; color:#fff; }
+.discovery-theme .rf-text-button { color:#833b29; min-height:44px; }
+.discovery-theme .atelier-desktop-nav button { color:var(--muted); min-height:44px; }
+.discovery-theme .atelier-desktop-nav button[aria-current=page] { color:#833b29; }
+.discovery-theme .account-avatar,.discovery-theme .hero-service-tabs,.discovery-theme .rf-trust { background:var(--soft); color:var(--ink); }
+.discovery-theme .hero-service-tabs { border-color:var(--line); box-shadow:none; }
+.discovery-theme .hero-service-tabs button { color:var(--muted); min-height:44px; font-size:13px; }
+.discovery-theme .hero-service-tabs button[aria-pressed=true] { background:var(--green); color:white; }
+.discovery-theme .hero-values>span,.discovery-theme .hero-image-meta,.discovery-theme .discovery-heading p { color:var(--muted); }
+.discovery-theme .hero-values svg,.discovery-theme .rf-trust svg { color:var(--green); }
+.discovery-theme .discovery-filters button { min-height:44px; font-size:14px; color:var(--muted); background:#fff; border-color:var(--line); }
+.discovery-theme .discovery-filters button[aria-pressed=true] { background:var(--green); color:#fff; border-color:var(--green); }
+.discovery-theme .inspiration-category-tabs button span { color:inherit; }
+.discovery-theme .inspiration-meta,.discovery-theme .inspiration-description,.discovery-theme .inspiration-credit { color:var(--muted); }
+.discovery-theme .marketplace-story { background:var(--soft); }
+.discovery-theme .marketplace-story p,.discovery-theme .marketplace-story li { color:var(--muted); }
+.discovery-theme .tool-grid>button,.discovery-theme .tool-grid>article { background:var(--surface); border-color:var(--line); }
+.discovery-theme .tool-grid p,.discovery-theme .design-faq details p,.discovery-theme .design-faq>div>p { color:var(--muted); font-size:15px; }
+.discovery-theme .design-faq summary { color:var(--ink); min-height:44px; font-size:16px; }
+.discovery-theme .ws-auth-story { background:#39312d; }
+.discovery-theme .ws-auth-story h2,.discovery-theme .ws-auth-story p,.discovery-theme .ws-auth-story li,.discovery-theme .ws-auth-story small { color:#fff5eb; }
+.discovery-theme .ws-tabs button.active,.discovery-theme .account-tabs button.active { background:var(--green); color:white; }
+.discovery-theme .ws-active-project,.discovery-theme .studio-journey button.complete,.discovery-theme .rf-investment,.discovery-theme .ws-notice:not(.error) { background:var(--accent-soft); color:var(--ink); }
+.discovery-theme input:not([type=range]):not([type=checkbox]),.discovery-theme select,.discovery-theme textarea { background:#fff; color:var(--ink); border-color:var(--line); font-size:16px; }
+.discovery-theme label { color:#403a35; }
+.discovery-theme input::placeholder,.discovery-theme textarea::placeholder { color:#71675f; opacity:1; }
+.discovery-theme button:focus-visible,.discovery-theme a:focus-visible,.discovery-theme summary:focus-visible,.discovery-theme input:focus-visible,.discovery-theme select:focus-visible,.discovery-theme textarea:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+.discovery-theme button:disabled { cursor:not-allowed; }
+.discovery-theme .rf-footer { background:#302b28; }
+.discovery-theme .rf-footer p,.discovery-theme .rf-footer a,.discovery-theme .rf-footer button,.discovery-theme .rf-footer h3 { color:#f5eee7; }
+@media(max-width:700px) {
+ .discovery-theme .hero-intro h1 { font-size:38px; line-height:1.13; }
+ .discovery-theme .hero-intro-right { margin-top:18px; }
+ .discovery-theme .hero-comparison { height:340px; }
+ .discovery-theme .hero-service-tabs { white-space:normal; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-radius:12px; }
+ .discovery-theme .hero-service-tabs button { justify-content:center; flex-direction:column; gap:5px; padding:9px 5px; font-size:11px; border-radius:8px; }
+ .discovery-theme .discovery-heading { gap:18px; }
+ .discovery-theme .atelier-menu { background:var(--paper); }
+ .discovery-theme .atelier-menu>button { min-height:48px; }
+}
+@media(prefers-reduced-motion:reduce) { .discovery-theme * { scroll-behavior:auto!important; transition:none!important; } }

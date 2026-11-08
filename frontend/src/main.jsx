@@ -56,6 +56,7 @@ import "./redesign.css";
 import "./atelier.css";
 import "./discovery.css";
 import "./polish.css";
+import "./friendly.css";
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 const media = (p) => (p?.startsWith("/") ? API + p : p);
 const money = (n, c = "USD") =>
@@ -606,7 +607,7 @@ function App() {
               onClick={() => navigate(id)}
             >
               {label}
-              {id === "studio" && <span className="nav-ai">AI</span>}
+
             </button>
           ))}
         </nav>
@@ -714,13 +715,8 @@ function App() {
             <section className="rf-section rf-market-teaser">
               <div className="rf-section-heading">
                 <div>
-                  <span className="rf-kicker">
-                    REAL PIECES. REAL POSSIBILITIES.
-                  </span>
                   <h2>
-                    Good design starts
-                    <br />
-                    <em>with great finds.</em>
+                    Furniture from our sellers
                   </h2>
                 </div>
                 <button
@@ -747,10 +743,7 @@ function App() {
             </section>
             <section className="rf-premium">
               <div>
-                <span className="rf-kicker">
-                  ONE PROJECT. A WHOLE NEW FEELING.
-                </span>
-                <h2>Your home isn’t a monthly subscription.</h2>
+                <h2>Plan one project at a time</h2>
                 <p>
                   Explore your space, source real products, and meet the people
                   who can bring it together.
@@ -781,17 +774,11 @@ function App() {
             </section>
             <section className="rf-seller-banner">
               <div>
-                <span className="rf-kicker">
-                  A NEW HOME FOR GREAT FURNITURE
-                </span>
                 <h2>
-                  Your next customer
-                  <br />
-                  is imagining their next room.
+                  Sell furniture and decor on Roomform
                 </h2>
                 <p>
-                  Independent makers, local stores and individual sellers: put
-                  your pieces in the picture.
+                  List a single pre-loved piece or your store’s collection. Add photos, prices and delivery details.
                 </p>
               </div>
               <button
@@ -804,13 +791,8 @@ function App() {
             <DesignFAQ />
             <section className="home-consult">
               <div>
-                <span className="rf-kicker">
-                  FROM A BEAUTIFUL IDEA TO YOUR EVERYDAY
-                </span>
                 <h2>
-                  Love the possibility?
-                  <br />
-                  <em>Let’s bring it home.</em>
+                  Ready to discuss your project?
                 </h2>
                 <p>
                   Connect your design, budget and product choices with the
@@ -851,13 +833,10 @@ function App() {
                   <Sparkles size={14} /> YOUR PERSONAL DESIGN STUDIO
                 </span>
                 <h1>
-                  Your room.
-                  <br />
-                  <em>A whole new possibility.</em>
+                  Design your room
                 </h1>
                 <p>
-                  Start with a photo. Set a budget that feels right. Explore a
-                  space built around real pieces you can actually buy.
+                  Upload a room photo, confirm your budget, then choose the furniture and style you want to explore.
                 </p>
               </div>
               <nav className="studio-journey" aria-label="Design steps">
@@ -901,9 +880,9 @@ function App() {
                           : i === 0
                             ? "Start with a photo"
                             : i === 1
-                              ? "Set your comfort zone"
+                              ? "Choose budget and condition"
                               : i === 2
-                                ? "Find your new perspective"
+                                ? "Review your room design"
                                 : "Bring it home"}
                       </small>
                     </div>

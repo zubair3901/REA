@@ -83,15 +83,11 @@ export function RoomCategories({ onSelect }) {
       <div className="discovery-heading">
         <div>
           <h2>
-            Which space is
-            <br />
-            <em>on your mind?</em>
+            Where would you like to start?
           </h2>
         </div>
         <p>
-          Start where you live, work or unwind.
-          <br />
-          We’ll help you explore the possibilities.
+          Choose a room to start your design.
         </p>
       </div>
       <div className="room-category-grid">
@@ -205,7 +201,7 @@ function Transformation({ scene, title, description, onSelect }) {
           <p>{description}</p>
         </div>
         <button className="rf-text-button" onClick={onSelect}>
-          Try this direction <ArrowUpRight size={16} />
+          Try this room style <ArrowUpRight size={16} />
         </button>
       </div>
       {reduced && (
@@ -222,22 +218,18 @@ export function TransformationDemos({ onSelect }) {
       <div className="discovery-heading">
         <div>
           <h2>
-            See the work.
-            <br />
-            <em>Imagine the result.</em>
+            See how a room comes together
           </h2>
         </div>
         <p>
-          Empty corners become everyday favorites.
-          <br />
-          Watch a space find its next chapter.
+          Watch these illustrated examples of a living room and bedroom refresh.
         </p>
       </div>
       <div className="transformation-grid">
         <Transformation
           scene="living"
           title="From empty to inviting"
-          description="Warm textures. Thoughtful furniture. A place that feels like you."
+          description="A living room refreshed with seating, lighting and finishing touches."
           onSelect={() => onSelect(inspirationRooms[0])}
         />
         <Transformation
@@ -356,15 +348,11 @@ export function InspirationGallery({ onSelect, full = false, onExplore }) {
         <div>
           {full ? (
             <h1>
-              A world of ideas.
-              <br />
-              <em>A space that’s yours.</em>
+              Find a look you love
             </h1>
           ) : (
             <h2>
-              Every space has
-              <br />
-              <em>another possibility.</em>
+              Ideas for your next room
             </h2>
           )}
         </div>
@@ -374,9 +362,7 @@ export function InspirationGallery({ onSelect, full = false, onExplore }) {
           </button>
         ) : (
           <p>
-            Explore a world of design references.
-            <br />
-            Choose a direction. Make it your own.
+            Browse by room, then choose a reference to guide your design.
           </p>
         )}
       </div>
@@ -555,15 +541,11 @@ export function DesignTools({ navigate }) {
       <div className="discovery-heading">
         <div>
           <h2>
-            A clear path from
-            <br />
-            <em>inspiration to installation.</em>
+            Everything for your room project
           </h2>
         </div>
         <p>
-          Your ideas, your budget, real products
-          <br />
-          and the people who bring it together.
+          Design a room, find the furniture and connect with local professionals.
         </p>
       </div>
       <div className="tool-grid">
@@ -571,7 +553,7 @@ export function DesignTools({ navigate }) {
           [
             Sparkles,
             "Reimagine your room",
-            "Upload a photo and explore a new direction with your chosen design engine.",
+            "Upload a room photo, choose a style and review your design options.",
             "studio",
             "Open the studio",
           ],
@@ -629,13 +611,10 @@ export function MarketplaceStory({ navigate }) {
       </div>
       <div>
         <h2>
-          Fall in love with a room.
-          <br />
-          <em>Find the pieces for it.</em>
+          Real furniture. Clear product details.
         </h2>
         <p>
-          A beautiful concept is just the beginning. Keep real products, real
-          prices and local availability connected to your project.
+          Compare original seller photographs, prices and delivery details before choosing pieces for your room.
         </p>
         <ul>
           <li>
@@ -655,7 +634,7 @@ export function MarketplaceStory({ navigate }) {
           Explore real furniture <ArrowUpRight size={18} />
         </button>
         <button className="rf-text-button" onClick={() => navigate("partners")}>
-          Have something beautiful to sell? <ArrowRight size={16} />
+          List your furniture or decor <ArrowRight size={16} />
         </button>
       </div>
     </section>
@@ -692,11 +671,9 @@ export function DesignFAQ() {
     <section className="discovery-section design-faq">
       <div>
         <h2>
-          A little clarity.
-          <br />
-          <em>More confidence.</em>
+          Questions before you start?
         </h2>
-        <p>Good design starts with good questions.</p>
+        <p>Here’s how designing, shopping and selling work.</p>
       </div>
       <div>
         {questions.map(([q, a]) => (
