@@ -5,8 +5,8 @@ try {
  await p.goto('http://localhost:5173'); await p.evaluate(()=>document.fonts.ready);
  await expect(p.getByRole('navigation',{name:'Workspace navigation'})).toBeVisible();
  await expect(p.locator('.app-design-category')).toHaveCount(4);
- await p.getByRole('button',{name:/Load more Inspirations/}).click();await expect(p).toHaveURL(/page=inspiration/);
- await expect(p.getByRole('group',{name:'Inspiration categories'}).getByRole('button')).toHaveCount(10);
+ await p.getByRole('link',{name:/Load more Inspirations/}).click();await expect(p).toHaveURL(/page=inspiration/);
+ await expect(p.getByRole('group',{name:'Inspiration categories'}).getByRole('button')).toHaveCount(11);
  await p.setViewportSize({width:375,height:812});const nav=p.getByRole('navigation',{name:'Mobile app navigation'});await expect(nav).toBeVisible();await expect(nav.getByRole('button')).toHaveCount(5);
  await nav.getByRole('button',{name:'Home',exact:true}).click();await expect(p).toHaveURL(/localhost:5173\/$/);
  await nav.getByRole('button',{name:'Design',exact:true}).click();await expect(p).toHaveURL(/page=studio/);await p.goBack();

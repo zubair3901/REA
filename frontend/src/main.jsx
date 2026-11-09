@@ -43,7 +43,6 @@ import ProtectedPlacement, { emptyPlacementSpec } from "./ProtectedPlacement";
 import {
   RoomCategories,
   TransformationDemos,
-  InspirationGallery,
   DesignTools,
   MarketplaceStory,
   DesignFAQ,
@@ -60,6 +59,7 @@ import "./friendly.css";
 import AppNavigation from "./AppNavigation";
 import { DesignCategories, RedesignPanels } from "./AppHomeSections";
 import "./webapp.css";
+import InspirationGallery from "./CuratedInspirations";
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 const media = (p) => (p?.startsWith("/") ? API + p : p);
 const money = (n, c = "USD") =>

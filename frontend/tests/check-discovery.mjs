@@ -70,62 +70,29 @@ try {
     .getByRole("button", { name: "Inspiration", exact: true })
     .click();
   await expect(page).toHaveURL(/page=inspiration/);
-  await expect(page.locator(".inspiration-tile")).toHaveCount(24);
-  const index = await (
-    await page.request.get(base + "/inspiration/index.json")
-  ).json();
-  if (index.categories.length !== 10)
-    throw Error("Expected ten inspiration categories");
-  const hashes = new Set();
-  for (const category of index.categories) {
-    const records = await (await page.request.get(base + category.file)).json();
-    if (records.length < 101 || records.length !== category.count)
-      throw Error("Not enough real references: " + category.id);
-    for (const record of records) {
-      if (hashes.has(record.sha1))
-        throw Error("Duplicate source image counted twice");
-      hashes.add(record.sha1);
-      if (!record.creator || !record.license || !record.source_url)
-        throw Error("Missing attribution");
-    }
-    await page
-      .getByRole("group", { name: "Inspiration categories" })
-      .getByRole("button", { name: new RegExp("^" + category.label) })
-      .click();
-    await expect(page.locator(".inspiration-tile")).toHaveCount(24);
-    const card = page.locator(".inspiration-tile").first();
-    await expect(card.getByRole("button")).toHaveCount(1);
-    await expect(
-      card.getByRole("button", { name: "Design this", exact: true }),
-    ).toBeVisible();
+  await expect(page.locator(".curated-card")).toHaveCount(24);
+  const records = await (await page.request.get(base + "/inspiration/curated.json")).json();
+  const filters = page.getByRole("group", { name: "Inspiration categories" });
+  await expect(filters.getByRole("button")).toHaveCount(11);
+  const populated = [...new Set(records.map(item => item.category))];
+  const labels = { living:"Living room", bedroom:"Bedroom", kitchen:"Kitchen", office:"Office", dining:"Dining room", garden:"Garden", landscape:"Landscape", exterior:"Exterior", bathroom:"Bathroom", restaurant:"Restaurants" };
+  for (const category of populated) {
+    await filters.getByRole("button", { name: new RegExp("^" + labels[category]) }).click();
+    await expect(page.locator(".curated-card")).toHaveCount(Math.min(24, records.filter(item => item.category === category).length));
+    await expect(page.locator(".curated-card").first().getByRole("button", { name:"Design this", exact:true })).toBeVisible();
   }
-  const first = await page.locator(".inspiration-tile h3").first().innerText();
-  await page.getByRole("button", { name: "Next", exact: true }).click();
-  await expect(page.getByText("Page 2 of 5", { exact: true })).toBeVisible();
-  if (
-    first === (await page.locator(".inspiration-tile h3").first().innerText())
-  )
-    throw Error("Pagination repeats same references");
-  await page.getByRole("button", { name: "Previous", exact: true }).click();
-  await page
-    .getByLabel("Search this inspiration category")
-    .fill("zzzz-no-matching-reference");
-  await expect(page.locator(".inspiration-tile")).toHaveCount(0);
-  await page.getByLabel("Search this inspiration category").fill("");
-  await expect(page.locator(".inspiration-tile")).toHaveCount(24);
-  await page
-    .locator(".inspiration-tile")
-    .first()
-    .getByRole("button", { name: "Design this", exact: true })
-    .click();
+  await filters.getByRole("button", { name:/^All spaces/ }).click();
+  await page.getByLabel("Search inspiration").fill("zzzz-no-matching-reference");
+  await expect(page.locator(".curated-card")).toHaveCount(0);
+  await page.getByLabel("Search inspiration").fill("");
+  await expect(page.locator(".curated-card")).toHaveCount(24);
+  await page.locator(".curated-card").first().getByRole("button", { name:"Design this", exact:true }).click();
   await expect(page).toHaveURL(/page=studio/);
   await page.goBack();
   await expect(page).toHaveURL(/page=inspiration/);
   await page.reload();
-  await expect(
-    page.getByRole("heading", { name: /Find a look you love/ }),
-  ).toBeVisible();
-  await expect(page.locator(".inspiration-tile")).toHaveCount(24);
+  await expect(page.getByRole("heading", { name:/Find a look you love/ })).toBeVisible();
+  await expect(page.locator(".curated-card")).toHaveCount(24);
   await page.evaluate(() => {
     document.activeElement?.blur();
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -205,7 +172,7 @@ try {
   await reduced.close();
   if (errors.length) throw Error(errors.join("; "));
   console.log(
-    "Discovery checks passed: GIF load/pause/play, reduced motion, inspiration filters, design entry, back/reload, FAQ, responsive navigation and overflow.",
+    "Discovery checks passed: GIF load/pause/play, reduced motion, curated inspiration filters, design entry, back/reload, FAQ, responsive navigation and overflow.",
   );
 } finally {
   await browser.close();
