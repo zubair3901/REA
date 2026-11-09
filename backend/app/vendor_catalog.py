@@ -13,7 +13,7 @@ from .workspace import audit
 
 router=APIRouter()
 def seller_auth(db=Depends(get_db),key:Annotated[str|None,Header(alias='X-Merchant-Key')]=None):
-    from .main import merchant
+    from .dependencies import merchant
     return merchant(db,key)
 def owned(db,ident,seller):
     asset=db.get(Asset,ident)

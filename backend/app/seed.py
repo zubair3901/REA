@@ -2,7 +2,7 @@
 from PIL import Image, ImageDraw
 from .database import Base,engine,Session
 from .models import Seller,Asset
-from .main import MEDIA
+from .storage import MEDIA
 
 def seed():
     Base.metadata.create_all(engine)

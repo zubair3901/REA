@@ -1,33 +1,283 @@
-import React,{useEffect,useState} from 'react';
-import {Package,ClipboardList,Plus,Search,LogOut,ArrowUpRight,MapPin,RefreshCw,Check,X,Store} from 'lucide-react';
-import ProductPhotoStudio from './ProductPhotoStudio';import SellerOrders from './SellerOrders';
-import {styles,slug,categoryOptions} from './vendor-taxonomy';import './vendor.css';
-const API=(import.meta.env.VITE_API_URL||'').replace(/\/$/,'');const image=p=>p?.startsWith('/')?API+p:p;
-async function call(path,token,method='GET',body){const r=await fetch(API+path,{method,headers:{...(token?{'X-Merchant-Key':token}:{}),...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});if(r.status===204)return;const d=await r.json();if(!r.ok)throw Error(typeof d.detail==='string'?d.detail:Array.isArray(d.detail)?d.detail.map(i=>i.msg).join('. '):'Could not save. Check the details and try again.');return d;}
-const amount=(value,currency)=>new Intl.NumberFormat('en',{style:'currency',currency}).format(value);
-function LocationFields({item={}}){const [location,setLocation]=useState({latitude:item.latitude??'',longitude:item.longitude??''}),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
- function locate(){setMessage('');if(!navigator.geolocation){setMessage('Location is not available. Enter coordinates manually below.');return;}setBusy(true);navigator.geolocation.getCurrentPosition(p=>{setLocation({latitude:p.coords.latitude,longitude:p.coords.longitude});setMessage('Location captured. Accuracy approximately '+Math.round(p.coords.accuracy)+' metres. Confirm the delivery area below.');setBusy(false)},()=>{setMessage('Location access was unavailable or denied. You can enter coordinates manually. HTTPS or localhost is required.');setBusy(false)},{enableHighAccuracy:true,timeout:15000,maximumAge:0});}
- return <><div className="vendor-location"><button type="button" className="rf-text-button" disabled={busy} onClick={locate}><MapPin size={17}/>{busy?'Finding your location…':'Use my current location'}</button><small>Only requested when you choose this action.</small></div>{message&&<p role="status">{message}</p>}<details className="vendor-coordinate-details" open={location.latitude===''||undefined}><summary>Warehouse coordinates</summary><div className="vendor-fields">{['latitude','longitude'].map(n=><label key={n}>{n==='latitude'?'Latitude':'Longitude'}<input name={n} type="number" min={n==='latitude'?-90:-180} max={n==='latitude'?90:180} step="any" required value={location[n]} onChange={e=>setLocation({...location,[n]:e.target.value})}/></label>)}</div></details></>;
+import React, { useState } from "react";
+import {
+  Package,
+  ClipboardList,
+  Plus,
+  LogOut,
+  ArrowUpRight,
+  Store,
+} from "lucide-react";
+import ProductPhotoStudio from "./ProductPhotoStudio";
+import SellerOrders from "./SellerOrders";
+import { call } from "./features/seller/api";
+import { payload } from "./features/seller/listingPayload";
+import ProductFields from "./features/seller/ProductFields";
+import ProductEditor from "./features/seller/ProductEditor";
+import InventoryList from "./features/seller/InventoryList";
+import SellerAuth from "./features/seller/SellerAuth";
+import SellerDashboard from "./features/seller/SellerDashboard";
+import "./vendor.css";
+export default function SellerPortal({ onPublished = async () => {} }) {
+  const [session, setSession] = useState(null),
+    [token, setToken] = useState(""),
+    [mode, setMode] = useState("login"),
+    [manualKey, setManualKey] = useState(""),
+    [tab, setTab] = useState("dashboard"),
+    [rows, setRows] = useState([]),
+    [query, setQuery] = useState(""),
+    [status, setStatus] = useState("all"),
+    [edit, setEdit] = useState(null),
+    [busy, setBusy] = useState(false),
+    [message, setMessage] = useState(""),
+    [photos, setPhotos] = useState([]),
+    [primary, setPrimary] = useState("");
+
+  async function load(key = token) {
+    setBusy(true);
+    setMessage("");
+    try {
+      setRows(await call("/api/seller/listings", key));
+    } catch (e) {
+      setMessage(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function authenticate(e) {
+    e.preventDefault();
+    setBusy(true);
+    setMessage("");
+    const f = new FormData(e.currentTarget);
+    try {
+      const body = { email: f.get("email"), password: f.get("password") };
+      if (mode === "register")
+        Object.assign(body, { name: f.get("name"), kind: f.get("kind") });
+      const s = await call("/api/sellers/" + mode, "", "POST", body);
+      setSession(s);
+      setToken(s.access_token);
+      await load(s.access_token);
+    } catch (e) {
+      setMessage(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function logout() {
+    setBusy(true);
+    try {
+      if (session) await call("/api/sellers/logout", token, "POST");
+      setToken("");
+      setSession(null);
+      setRows([]);
+      setEdit(null);
+      setPhotos([]);
+      setPrimary("");
+      setMessage("");
+    } catch (e) {
+      setMessage(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function publish(e) {
+    e.preventDefault();
+    setBusy(true);
+    setMessage("");
+    const form = e.currentTarget;
+    try {
+      if (!photos.length || photos.some((p) => !p.approved) || !primary)
+        throw Error(
+          "Prepare and approve your photographs, then choose a primary image.",
+        );
+      const body = payload(form);
+      body.seller_id =
+        session?.seller_id || new FormData(form).get("seller_id");
+      Object.assign(body, {
+        photo_ids: photos.map((p) => p.id),
+        image_url: photos.find((p) => p.id === primary).cutout_url,
+      });
+      const a = await call("/api/assets", token, "POST", body);
+      await load();
+      await onPublished();
+      setPhotos([]);
+      setPrimary("");
+      setEdit(a);
+      setTab("inventory");
+      setMessage(
+        "Product published. Add catalog attributes and preparation/transit ranges in the edit panel.",
+      );
+    } catch (e) {
+      setMessage(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  const pending = session?.status === "pending";
+  return (
+    <div className="vendor-app">
+      <header className="vendor-topbar">
+        <a href="/" className="vendor-brand">
+          <Store size={24} />
+          roomform<span>Seller workspace</span>
+        </a>
+        <div>
+          <a href="/" className="vendor-back">
+            View marketplace <ArrowUpRight size={15} />
+          </a>
+          {token && (
+            <button
+              onClick={logout}
+              disabled={busy}
+              aria-label="Sign out seller"
+            >
+              <LogOut size={17} /> Sign out
+            </button>
+          )}
+        </div>
+      </header>
+      {!token ? (
+        <SellerAuth
+          mode={mode}
+          setMode={setMode}
+          busy={busy}
+          authenticate={authenticate}
+          manualKey={manualKey}
+          setManualKey={setManualKey}
+          setToken={setToken}
+          load={load}
+        />
+      ) : (
+        <div className="vendor-layout">
+          <aside className="vendor-sidebar">
+            <p>Your workspace</p>
+            {[
+              ["dashboard", Package, "Dashboard"],
+              ["inventory", ClipboardList, "My inventory"],
+              ["new", Plus, "Add product"],
+              ["orders", ClipboardList, "Delivery orders"],
+            ].map(([id, Icon, title]) => (
+              <button
+                key={id}
+                aria-current={tab === id ? "page" : undefined}
+                onClick={() => {
+                  setTab(id);
+                  setEdit(null);
+                  setMessage("");
+                }}
+              >
+                <Icon size={19} />
+                {title}
+                {id === "inventory" && <span>{rows.length}</span>}
+              </button>
+            ))}
+            <small>
+              Roomform manages buyer agreements and project payments. Fulfil
+              only the confirmed item, destination and delivery date supplied by
+              the team.
+            </small>
+          </aside>
+          <main className="vendor-main">
+            <div className="vendor-page-title">
+              <div>
+                <h1>
+                  {tab === "dashboard"
+                    ? "Your inventory at a glance"
+                    : tab === "inventory"
+                      ? "My inventory"
+                      : tab === "new"
+                        ? "Add a product"
+                        : "Delivery orders"}
+                </h1>
+                <p>
+                  {pending
+                    ? "Account pending review. Publishing becomes available after approval."
+                    : "Manage your real products and keep the details up to date."}
+                </p>
+              </div>
+              {tab !== "new" && (
+                <button
+                  className="rf-primary"
+                  onClick={() => {
+                    setTab("new");
+                    setEdit(null);
+                  }}
+                >
+                  <Plus size={17} /> Add product
+                </button>
+              )}
+            </div>
+            {message && (
+              <p className="vendor-notice" role="status">
+                {message}
+              </p>
+            )}
+            {tab === "dashboard" && (
+              <SellerDashboard rows={rows} setTab={setTab} />
+            )}
+            {tab === "new" && (
+              <section className="vendor-product-form">
+                <h2>Start with your photographs</h2>
+                <p>
+                  Upload the actual item. Review the prepared cutouts before
+                  publishing.
+                </p>
+                <ProductPhotoStudio
+                  token={token}
+                  pending={pending}
+                  photos={photos}
+                  onChange={setPhotos}
+                  primaryId={primary}
+                  onPrimary={setPrimary}
+                />
+                <form className="merchant-form" onSubmit={publish}>
+                  <fieldset disabled={pending || busy}>
+                    {!session && (
+                      <label>
+                        Seller ID
+                        <input name="seller_id" required maxLength={36} />
+                      </label>
+                    )}
+                    <h2>Product details</h2>
+                    <ProductFields />
+                    <button className="rf-primary" disabled={busy || pending}>
+                      {busy
+                        ? "Publishing…"
+                        : pending
+                          ? "Approval required to publish"
+                          : "Publish product"}
+                    </button>
+                  </fieldset>
+                </form>
+              </section>
+            )}
+            {tab === "inventory" && (
+              <InventoryList
+                rows={rows}
+                query={query}
+                setQuery={setQuery}
+                status={status}
+                setStatus={setStatus}
+                load={load}
+                busy={busy}
+                setEdit={setEdit}
+              />
+            )}
+            {tab === "orders" && <SellerOrders token={token} />}
+          </main>
+        </div>
+      )}
+      {edit && (
+        <ProductEditor
+          item={edit}
+          token={token}
+          listings={rows}
+          onClose={() => setEdit(null)}
+          onUpdate={async () => {
+            await load();
+            await onPublished();
+          }}
+        />
+      )}
+    </div>
+  );
 }
-function ProductFields({item={}}){return <><div className="vendor-fields"><label>Product title<input name="name" required minLength={2} maxLength={160} defaultValue={item.name} placeholder="Walnut dining table"/></label><label>Item category<select name="category" defaultValue={item.category||'sofa'}>{item.category&&<option value={item.category}>{item.category.replaceAll('_',' ')}</option>}{categoryOptions()}</select></label><label>Primary design style<select name="style" defaultValue={item.style||'modern'}>{styles.map(s=><option key={s} value={slug(s)}>{s}</option>)}</select></label><label>Condition<select name="condition" defaultValue={item.condition||'new'}><option value="new">New</option><option value="like_new">Pre-loved · like new</option><option value="good">Pre-loved · good</option><option value="fair">Pre-loved · fair</option></select></label><label>Selling price<input name="price" type="number" step=".01" min=".01" max="10000000" required defaultValue={item.price}/></label><label>Currency<select name="currency" disabled={!!item.id} defaultValue={item.currency||'PKR'}>{['PKR','USD','GBP','EUR'].map(c=><option key={c}>{c}</option>)}</select></label><label>Units in stock<input name="stock" type="number" min="0" max="1000000" required defaultValue={item.stock??0}/></label><label>Standard delivery estimate · days<input name="delivery_days" type="number" min="0" max="365" required defaultValue={item.delivery_days??3}/></label></div><h3>Dimensions</h3><div className="vendor-fields three">{['width_cm','depth_cm','height_cm'].map(n=><label key={n}>{n.replace('_cm','')} · cm<input name={n} type="number" min=".1" max="2000" step=".1" required defaultValue={item[n]}/></label>)}</div><h3>Warehouse & delivery coverage</h3><LocationFields item={item}/><div className="vendor-fields"><label>Delivery area<input name="delivery_location" required maxLength={200} defaultValue={item.delivery_location} placeholder="Karachi, Sindh"/></label><label>Service radius · km<input name="delivery_radius_km" type="number" min=".1" max="500" step=".1" defaultValue={item.delivery_radius_km??50} required/></label></div></>}
-function LeadTimes({item,token}){const [v,setV]=useState({}),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);const keys={ready_min_days:'Preparation · minimum days',ready_max_days:'Preparation · maximum days',delivery_min_days:'Transit · minimum days',delivery_max_days:'Transit · maximum days'};useEffect(()=>{call('/api/assets/'+item.id+'/fulfillment',token).then(setV).catch(e=>setMessage(e.message))},[item.id,token]);async function save(){setBusy(true);setMessage('');try{if(Object.keys(keys).some(k=>v[k]===undefined||v[k]===''))throw Error('Enter all four lead-time values.');await call('/api/assets/'+item.id+'/fulfillment',token,'PUT',Object.fromEntries(Object.keys(keys).map(k=>[k,Number(v[k])])));setMessage('Lead times saved.')}catch(e){setMessage(e.message)}finally{setBusy(false)}}return <section className="vendor-editor-section"><h3>Preparation & transit range</h3><p>Roomform uses these ranges when scheduling a complete project. Your confirmed delivery instruction will specify the date and destination.</p><div className="vendor-fields">{Object.entries(keys).map(([k,label])=><label key={k}>{label}<input type="number" min="0" max="365" required value={v[k]??''} onChange={e=>setV({...v,[k]:e.target.value})}/></label>)}</div><button type="button" className="rf-text-button" disabled={busy} onClick={save}>Save lead times</button>{message&&<p role="status">{message}</p>}</section>}
-function Metadata({item,token,listings}){const [v,setV]=useState(null),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);useEffect(()=>{call('/api/assets/'+item.id+'/catalog-details',token).then(data=>setV(data.details)).catch(e=>setMessage(e.message))},[item.id,token]);if(!v)return <p role="status">{message||'Loading catalog details…'}</p>;const textFields={brand:'Brand / manufacturer',sku:'Merchant SKU',mpn:'Manufacturer part number',description:'Product description',materials:'Primary materials',finishes:'Finishes',textures:'Pattern / texture',silhouette:'Shape / silhouette'};async function save(e){e.preventDefault();setBusy(true);setMessage('');try{const body={...v};if(body.shipping_dimensions_cm&&Object.values(body.shipping_dimensions_cm).every(value=>value===null||value===''))body.shipping_dimensions_cm=null;await call('/api/assets/'+item.id+'/catalog-details',token,'PUT',body);setMessage('Catalog details saved.')}catch(e){setMessage(e.message)}finally{setBusy(false)}}return <form className="vendor-editor-section" onSubmit={save}><h3>Catalog details & matching attributes</h3><p>Describe the actual product. These details help Roomform find suitable pieces; no generated furniture replaces your photographs.</p><div className="vendor-fields">{Object.entries(textFields).map(([key,label])=><label key={key}>{label}{key==='description'?<textarea maxLength={4000} value={v[key]||''} onChange={e=>setV({...v,[key]:e.target.value})}/>:<input maxLength={key==='description'?4000:500} value={Array.isArray(v[key])?v[key].join(', '):v[key]||''} onChange={e=>setV({...v,[key]:['materials','finishes','textures'].includes(key)?e.target.value.split(',').map(s=>s.trim()).filter(Boolean):e.target.value})}/>}</label>)}<label>Parent product / variant<select value={v.parent_asset_id||''} onChange={e=>setV({...v,parent_asset_id:e.target.value||null})}><option value="">Standalone product</option>{listings.filter(a=>a.id!==item.id).map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select></label><label>Placement<select value={v.placement||'freestanding'} onChange={e=>setV({...v,placement:e.target.value})}>{['freestanding','floor-standing','wall-mounted','tabletop-only'].map(s=><option key={s}>{s}</option>)}</select></label><label>Product weight · kg<input type="number" min="0" step=".01" value={v.weight_kg??''} onChange={e=>setV({...v,weight_kg:e.target.value===''?null:Number(e.target.value)})}/></label><label>Shipping weight · kg<input type="number" min="0" step=".01" value={v.shipping_weight_kg??''} onChange={e=>setV({...v,shipping_weight_kg:e.target.value===''?null:Number(e.target.value)})}/></label></div><h4>Shipping & reference prices</h4><div className="vendor-fields">{['width','depth','height'].map(key=><label key={key}>Shipping {key} · cm<input type="number" min="0.1" max="3000" step=".1" value={v.shipping_dimensions_cm?.[key]??''} onChange={e=>setV({...v,shipping_dimensions_cm:{...v.shipping_dimensions_cm,[key]:e.target.value===''?null:Number(e.target.value)}})}/></label>)}{[['msrp','Retail reference price'],['sale_price','Promotional reference price']].map(([key,label])=><label key={key}>{label}<input type="number" min="0.01" max="10000000" step=".01" value={v[key]??''} onChange={e=>setV({...v,[key]:e.target.value===''?null:Number(e.target.value)})}/></label>)}</div><p>Reference prices do not change the selling price. Update the product selling price above to change the amount used in project estimates. Enter all three shipping dimensions together, or leave them blank.</p><fieldset className="vendor-style-tags"><legend>Design style tags</legend>{styles.map(s=><label key={s}><input type="checkbox" checked={(v.style_tags||[]).includes(slug(s))} onChange={e=>setV({...v,style_tags:e.target.checked?[...(v.style_tags||[]),slug(s)]:(v.style_tags||[]).filter(t=>t!==slug(s))})}/>{s}</label>)}</fieldset><label>Dominant color name<input value={v.dominant_colors?.[0]?.name||''} onChange={e=>setV({...v,dominant_colors:[{name:e.target.value,hex:v.dominant_colors?.[0]?.hex||'#808080'}]})}/></label><label>Dominant color hex<input type="color" value={v.dominant_colors?.[0]?.hex||'#808080'} onChange={e=>setV({...v,dominant_colors:[{name:v.dominant_colors?.[0]?.name||'Primary color',hex:e.target.value}]})}/></label><button className="rf-primary" disabled={busy}>{busy?'Saving…':'Save catalog details'}</button>{message&&<p role="status">{message}</p>}</form>}
-function Photos({item,token,onUpdate}){const [photos,setPhotos]=useState([]),[primary,setPrimary]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState('');return <section className="vendor-editor-section"><h3>Product photographs</h3><p>Upload replacement photographs, review each cutout, then save the complete new photo set.</p><ProductPhotoStudio token={token} photos={photos} onChange={setPhotos} primaryId={primary} onPrimary={setPrimary}/><button className="rf-primary" disabled={busy||!photos.length||photos.some(p=>!p.approved)||!primary} onClick={async()=>{setBusy(true);try{await call('/api/seller/listings/'+item.id+'/photos',token,'POST',{photo_ids:photos.map(p=>p.id),image_url:photos.find(p=>p.id===primary).cutout_url});setMessage('Photographs updated.');await onUpdate()}catch(e){setMessage(e.message)}finally{setBusy(false)}}}>Save replacement photographs</button>{message&&<p role="status">{message}</p>}</section>}
-function payload(form){const f=new FormData(form),body={};['name','category','style','currency','condition','delivery_location'].forEach(k=>body[k]=f.get(k));['price','stock','delivery_days','width_cm','depth_cm','height_cm','latitude','longitude','delivery_radius_km'].forEach(k=>body[k]=Number(f.get(k)));return body;}
-export default function SellerPortal({onPublished=async()=>{}}){const [session,setSession]=useState(null),[token,setToken]=useState(''),[mode,setMode]=useState('login'),[manualKey,setManualKey]=useState(''),[tab,setTab]=useState('dashboard'),[rows,setRows]=useState([]),[query,setQuery]=useState(''),[status,setStatus]=useState('all'),[edit,setEdit]=useState(null),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[photos,setPhotos]=useState([]),[primary,setPrimary]=useState('');
- useEffect(()=>{if(!edit)return;const previous=document.activeElement;const old=document.body.style.overflow;document.body.style.overflow='hidden';const pane=document.querySelector('.vendor-editor');const focusable=()=>[...pane.querySelectorAll('button,input,select,textarea,a[href],summary')].filter(el=>!el.disabled&&el.getClientRects().length);focusable()[0]?.focus();const keydown=e=>{if(e.key==='Escape'){setEdit(null);return;}if(e.key==='Tab'){const controls=focusable();if(e.shiftKey&&document.activeElement===controls[0]){e.preventDefault();controls.at(-1)?.focus();}else if(!e.shiftKey&&document.activeElement===controls.at(-1)){e.preventDefault();controls[0]?.focus();}}};document.addEventListener('keydown',keydown);return()=>{document.removeEventListener('keydown',keydown);document.body.style.overflow=old;previous?.focus();};},[edit?.id]);
- async function load(key=token){setBusy(true);setMessage('');try{setRows(await call('/api/seller/listings',key))}catch(e){setMessage(e.message)}finally{setBusy(false)}}
- async function authenticate(e){e.preventDefault();setBusy(true);setMessage('');const f=new FormData(e.currentTarget);try{const body={email:f.get('email'),password:f.get('password')};if(mode==='register')Object.assign(body,{name:f.get('name'),kind:f.get('kind')});const s=await call('/api/sellers/'+mode,'','POST',body);setSession(s);setToken(s.access_token);await load(s.access_token)}catch(e){setMessage(e.message)}finally{setBusy(false)}}
- async function logout(){setBusy(true);try{if(session)await call('/api/sellers/logout',token,'POST');setToken('');setSession(null);setRows([]);setEdit(null);setPhotos([]);setPrimary('');setMessage('')}catch(e){setMessage(e.message)}finally{setBusy(false)}}
- async function publish(e){e.preventDefault();setBusy(true);setMessage('');const form=e.currentTarget;try{if(!photos.length||photos.some(p=>!p.approved)||!primary)throw Error('Prepare and approve your photographs, then choose a primary image.');const body=payload(form);body.seller_id=session?.seller_id||new FormData(form).get('seller_id');Object.assign(body,{photo_ids:photos.map(p=>p.id),image_url:photos.find(p=>p.id===primary).cutout_url});const a=await call('/api/assets',token,'POST',body);await load();await onPublished();setPhotos([]);setPrimary('');setEdit(a);setTab('inventory');setMessage('Product published. Add catalog attributes and preparation/transit ranges in the edit panel.')}catch(e){setMessage(e.message)}finally{setBusy(false)}}
- const pending=session?.status==='pending';const filtered=rows.filter(r=>(status==='all'||(status==='active'?r.active:status==='hidden'?!r.active:r.stock===0))&&(!query||(r.name+' '+r.id+' '+r.category).toLowerCase().includes(query.toLowerCase())));
- return <div className="vendor-app"><header className="vendor-topbar"><a href="/" className="vendor-brand"><Store size={24}/>roomform<span>Seller workspace</span></a><div><a href="/" className="vendor-back">View marketplace <ArrowUpRight size={15}/></a>{token&&<button onClick={logout} disabled={busy} aria-label="Sign out seller"><LogOut size={17}/> Sign out</button>}</div></header>
- {!token?<main className="vendor-auth"><div><span className="vendor-intro-icon"><Package size={32}/></span><h1>Your products.<br/>One organized workspace.</h1><p>Manage furniture and decor inventory, keep stock accurate and receive clear delivery instructions from Roomform.</p><ul><li>Merchants and individual sellers welcome</li><li>Your photographs, prices and availability</li><li>Roomform coordinates the customer project</li></ul></div><section className="vendor-auth-card"><h2>{mode==='login'?'Sign in to your seller account':'Create your seller account'}</h2><div className="account-tabs"><button aria-pressed={mode==='login'} onClick={()=>setMode('login')} type="button">Sign in</button><button aria-pressed={mode==='register'} onClick={()=>setMode('register')} type="button">Register as a seller</button></div><form onSubmit={authenticate}>{mode==='register'&&<><label>Your name or shop name<input name="name" autoComplete="organization" required minLength={2} maxLength={160}/></label><label>Seller type<select name="kind"><option value="merchant">Furniture or decor merchant</option><option value="individual">Individual / pre-owned seller</option></select></label></>}<label>Email address<input name="email" type="email" autoComplete="email" required/></label><label>Password<input name="password" type="password" autoComplete={mode==='login'?'current-password':'new-password'} required minLength={12}/></label><button className="rf-primary" disabled={busy}>{busy?'Opening your workspace…':mode==='login'?'Sign in to manage inventory':'Create seller account'}</button></form><p>New accounts are reviewed before publishing. You can sign in to check your approval status.</p><details className="manual-access"><summary>Existing merchant access</summary><label>Merchant key or seller access token<input type="password" value={manualKey} onChange={e=>setManualKey(e.target.value)} placeholder="Existing server-issued key"/></label><button className="rf-text-button" onClick={()=>{setToken(manualKey);load(manualKey)}}>Load my listings</button></details></section></main>:<div className="vendor-layout"><aside className="vendor-sidebar"><p>Your workspace</p>{[['dashboard',Package,'Dashboard'],['inventory',ClipboardList,'My inventory'],['new',Plus,'Add product'],['orders',ClipboardList,'Delivery orders']].map(([id,Icon,title])=><button key={id} aria-current={tab===id?'page':undefined} onClick={()=>{setTab(id);setEdit(null);setMessage('')}}><Icon size={19}/>{title}{id==='inventory'&&<span>{rows.length}</span>}</button>)}<small>Roomform manages buyer agreements and project payments. Fulfil only the confirmed item, destination and delivery date supplied by the team.</small></aside><main className="vendor-main"><div className="vendor-page-title"><div><h1>{tab==='dashboard'?'Your inventory at a glance':tab==='inventory'?'My inventory':tab==='new'?'Add a product':'Delivery orders'}</h1><p>{pending?'Account pending review. Publishing becomes available after approval.':'Manage your real products and keep the details up to date.'}</p></div>{tab!=='new'&&<button className="rf-primary" onClick={()=>{setTab('new');setEdit(null)}}><Plus size={17}/> Add product</button>}</div>{message&&<p className="vendor-notice" role="status">{message}</p>}
- {tab==='dashboard'&&<><div className="vendor-stats">{[['Listings',rows.length],['Active products',rows.filter(a=>a.active).length],['Units in stock',rows.reduce((sum,a)=>sum+a.stock,0)],['Out of stock',rows.filter(a=>a.stock===0).length]].map(([label,value])=><article key={label}><span>{label}</span><strong>{value}</strong></article>)}</div><section className="vendor-dashboard-summary"><h2>Keep your catalog ready</h2><p>Use My inventory to update an individual product, change photos or set preparation and transit ranges. Your listings stay connected to customer project selections.</p><button className="rf-text-button" onClick={()=>setTab('inventory')}>Open inventory <ArrowUpRight size={17}/></button></section></>}
- {tab==='new'&&<section className="vendor-product-form"><h2>Start with your photographs</h2><p>Upload the actual item. Review the prepared cutouts before publishing.</p><ProductPhotoStudio token={token} pending={pending} photos={photos} onChange={setPhotos} primaryId={primary} onPrimary={setPrimary}/><form className="merchant-form" onSubmit={publish}><fieldset disabled={pending||busy}>{!session&&<label>Seller ID<input name="seller_id" required maxLength={36}/></label>}<h2>Product details</h2><ProductFields/><button className="rf-primary" disabled={busy||pending}>{busy?'Publishing…':pending?'Approval required to publish':'Publish product'}</button></fieldset></form></section>}
- {tab==='inventory'&&<><div className="vendor-inventory-toolbar"><label className="vendor-search"><Search size={18}/><input aria-label="Search inventory" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search product, category or item code"/></label><select aria-label="Filter inventory" value={status} onChange={e=>setStatus(e.target.value)}><option value="all">All listings</option><option value="active">Active</option><option value="hidden">Hidden</option><option value="out">Out of stock</option></select><button className="rf-text-button" onClick={()=>load()} disabled={busy}><RefreshCw size={17}/> Refresh</button></div><div className="vendor-table-wrap"><table className="vendor-table"><thead><tr><th>Product</th><th>Item code</th><th>Price</th><th>Stock</th><th>Status</th><th>Action</th></tr></thead><tbody>{filtered.map(a=><tr key={a.id}><td><div className="vendor-row-product"><img src={image(a.image_url)} alt={a.name} loading="lazy"/><div><strong>{a.name}</strong><small>{a.category.replaceAll('_',' ')} · {a.condition.replaceAll('_',' ')}</small></div></div></td><td><code>{a.id}</code></td><td>{amount(a.price,a.currency)}</td><td>{a.stock}</td><td><span className={'vendor-status '+(!a.stock?'empty':a.active?'active':'')}>{!a.stock?'Out of stock':a.active?'Active':'Hidden'}</span></td><td><button className="rf-text-button" onClick={()=>setEdit(a)}>Edit</button></td></tr>)}</tbody></table></div>{!filtered.length&&<div className="vendor-empty"><Package size={30}/><h3>{rows.length?'No matching products':'Your catalog starts here'}</h3><p>{rows.length?'Try another search or filter.':'Add a product with real photographs, stock and delivery details.'}</p></div>}</>}
- {tab==='orders'&&<SellerOrders token={token}/>}</main></div>}
- {edit&&<div className="vendor-editor-overlay"><section className="vendor-editor" role="dialog" aria-modal="true" aria-label={'Edit '+edit.name}><header><div><h2>Edit product</h2><p>{edit.name}</p><small>Item code: {edit.id}</small></div><button aria-label="Close product editor" onClick={()=>setEdit(null)}><X size={22}/></button></header><EditCore item={edit} token={token} onUpdate={async()=>{await load();await onPublished()}}/><Metadata item={edit} token={token} listings={rows}/><LeadTimes item={edit} token={token}/><Photos item={edit} token={token} onUpdate={async()=>{await load();await onPublished()}}/></section></div>}
- </div>;
-}
-function EditCore({item,token,onUpdate}){const [busy,setBusy]=useState(false),[message,setMessage]=useState('');return <form className="vendor-editor-section" onSubmit={async e=>{e.preventDefault();setBusy(true);setMessage('');try{const body=payload(e.currentTarget);delete body.currency;body.active=new FormData(e.currentTarget).get('active')==='on';await call('/api/assets/'+item.id,token,'PATCH',body);await onUpdate();setMessage('Product details saved.')}catch(e){setMessage(e.message)}finally{setBusy(false)}}}><ProductFields item={item}/><label className="consent"><input name="active" type="checkbox" defaultChecked={item.active}/> Show listing in catalog</label><button className="rf-primary" disabled={busy}>{busy?'Saving…':'Save product details'}</button>{message&&<p role="status">{message}</p>}</form>}

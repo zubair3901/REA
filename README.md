@@ -156,3 +156,5 @@ Sell with us now supports JSON + photo batch onboarding (up to 100 rows), in add
 Operations provides supplier approval/suspension and a consultation inbox. Configure ROOM_OPERATOR_KEY securely on the backend and restart. Without configuration, access is denied. Operator keys are kept in component memory and are not persisted by the browser. Never expose this secret as VITE_.
 
 Provider, payments and storage limitations remain documented in docs/PRODUCTION.md. Confirming consultation_booked in Operations is only recordkeeping; it does not create a calendar booking or collect payment.
+
+Developer module ownership and refactoring conventions: [Separation of concerns](docs/ARCHITECTURE.md).
