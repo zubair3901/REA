@@ -41,7 +41,7 @@ with Session() as db:
             db.add(AssetFulfillment(asset_id=asset.id, ready_min_days=2, ready_max_days=4, delivery_min_days=1, delivery_max_days=3))
     db.commit()
 print('Local preview seller created. Payments/AI remain controlled by preview settings.')
-print('Open: http://localhost:8080/?page=partners')
+print('Open: http://localhost:8080/?page=seller')
 print('Choose Sign in (not Register as a seller).')
 print('Email:', email)
 print('Password:', password)

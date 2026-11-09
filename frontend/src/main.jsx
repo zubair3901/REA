@@ -91,6 +91,7 @@ const pageNames = {
   marketplace: "Shop",
   professionals: "Professionals",
   partners: "For sellers",
+  seller: "Seller workspace",
   projects: "My projects",
   teams: "For business",
   consult: "Consultation",
@@ -482,7 +483,7 @@ function App() {
               "Our seller collection is growing. Only approved, in-stock listings with real product photography appear here."}
           </p>
         </div>
-        <button className="rf-text-button" onClick={() => navigate("partners")}>
+        <button className="rf-text-button" onClick={() => navigate("seller")}>
           List your first piece <ArrowUpRight size={16} />
         </button>
       </div>
@@ -571,6 +572,7 @@ function App() {
       </AccountGate>
     </section>
   );
+  if (page === "seller" || page === "partners") return <div className="rf-shell discovery-theme seller-app"><SellerPortal onPublished={refresh} /></div>;
   return (
     <div className={"rf-shell discovery-theme page-" + page}>
       {inspectAsset && (
@@ -618,7 +620,7 @@ function App() {
         <div className="atelier-header-actions">
           <button
             className="header-seller"
-            onClick={() => navigate("partners")}
+            onClick={() => navigate("seller")}
           >
             Become a seller <ArrowUpRight size={15} />
           </button>
@@ -695,7 +697,7 @@ function App() {
                 invalidate();
                 navigate("studio");
               }}
-              onSellers={() => navigate("partners")}
+              onSellers={() => navigate("seller")}
             />
             <div className="rf-trust">
               <span>
@@ -787,7 +789,7 @@ function App() {
               </div>
               <button
                 className="rf-primary"
-                onClick={() => navigate("partners")}
+                onClick={() => navigate("seller")}
               >
                 Start selling with us <ArrowUpRight size={17} />
               </button>
@@ -1670,7 +1672,7 @@ function App() {
             </div>
             <div>
               <span>GROW WITH ROOMFORM</span>
-              <button onClick={() => navigate("partners")}>
+              <button onClick={() => navigate("seller")}>
                 Sell furniture & décor
               </button>
               <button onClick={() => navigate("professionals")}>

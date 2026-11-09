@@ -41,7 +41,7 @@ async def lifespan(app):
     if os.getenv('AUTO_CREATE_SCHEMA', 'true') == 'true': Base.metadata.create_all(engine)
     yield
 app = FastAPI(title='Roomform Marketplace', version='1.0.0', lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=os.getenv('CORS_ORIGINS','http://localhost:5173').split(','), allow_credentials=True, allow_methods=['GET','POST','PATCH','DELETE'], allow_headers=['Content-Type','X-Merchant-Key','X-Operator-Key'])
+app.add_middleware(CORSMiddleware, allow_origins=os.getenv('CORS_ORIGINS','http://localhost:5173').split(','), allow_credentials=True, allow_methods=['GET','POST','PUT','PATCH','DELETE'], allow_headers=['Content-Type','X-Merchant-Key','X-Operator-Key'])
 app.add_middleware(SecurityMiddleware)
 from .finalization import router as finalization_router
 app.include_router(finalization_router)
@@ -57,6 +57,8 @@ app.include_router(seller_verification_router)
 app.include_router(commerce_router)
 app.include_router(scene_router)
 app.include_router(platform_operator_router)
+from .vendor_catalog import router as vendor_catalog_router
+app.include_router(vendor_catalog_router)
 DB = Annotated[DBSession, Depends(get_db)]
 
 def merchant(db: Annotated[DBSession, Depends(get_db)], key: Annotated[str | None, Header(alias='X-Merchant-Key')] = None):
@@ -264,10 +266,24 @@ def create_lead(body: LeadIn,request:Request,db: DB):
 
 
 class AssetUpdate(BaseModel):
+    model_config = __import__('pydantic').ConfigDict(extra='forbid')
     stock: int | None=Field(default=None,ge=0,le=1000000)
     active: bool | None=None
     price: Decimal | None=Field(default=None,gt=0,le=10000000,max_digits=12,decimal_places=2)
     delivery_days: int | None=Field(default=None,ge=0,le=365)
+    name: str | None=Field(default=None,min_length=2,max_length=160)
+    category: str | None=Field(default=None,min_length=2,max_length=80)
+    style: str | None=Field(default=None,min_length=2,max_length=80)
+    width_cm: float | None=Field(default=None,gt=0,le=2000,allow_inf_nan=False)
+    height_cm: float | None=Field(default=None,gt=0,le=2000,allow_inf_nan=False)
+    depth_cm: float | None=Field(default=None,gt=0,le=2000,allow_inf_nan=False)
+    condition: Literal['new','like_new','good','fair'] | None=None
+    delivery_location: str | None=Field(default=None,max_length=200)
+    delivery_radius_km: float | None=Field(default=None,ge=0,le=500,allow_inf_nan=False)
+    latitude: float | None=Field(default=None,ge=-90,le=90,allow_inf_nan=False)
+    longitude: float | None=Field(default=None,ge=-180,le=180,allow_inf_nan=False)
+    image_url: str | None=Field(default=None,pattern=r'^/media/[a-zA-Z0-9_-]+\.png$')
+    photo_ids: list[str] | None=Field(default=None,min_length=1,max_length=6)
 
 @app.get('/api/seller/listings')
 def own_listings(db: DB, seller: Annotated[str,Depends(merchant)]):
@@ -280,9 +296,20 @@ def update_listing(asset_id:str, body:AssetUpdate, db:DB, seller:Annotated[str,D
     if not asset or asset.seller_id!=seller: raise HTTPException(404,'Listing not found')
     owner=db.get(Seller,seller)
     if not owner or not owner.active: raise HTTPException(403,'Seller approval is pending')
-    for key,value in body.model_dump(exclude_unset=True).items():
-        if value is None: raise HTTPException(422,'Listing fields cannot be null')
-        setattr(asset,key,value)
+    values=body.model_dump(exclude_unset=True)
+    if any(v is None for v in values.values()):raise HTTPException(422,'Listing fields cannot be null')
+    if 'image_url' in values or 'photo_ids' in values:
+        from .photography import attach_photos
+        from .workspace_models import ProductPhoto
+        ids=values.pop('photo_ids',None)
+        primary=values.get('image_url',asset.image_url)
+        if not (MEDIA/primary.rsplit('/',1)[-1]).is_file():raise HTTPException(422,'Product photo file is unavailable; upload it again')
+        if ids is None:ids=[p.id for p in db.scalars(select(ProductPhoto).where(ProductPhoto.asset_id==asset_id,ProductPhoto.approved==1))]
+        if not ids:raise HTTPException(422,'Choose reviewed product photos for this listing')
+        attach_photos(db,seller,asset.id,ids,primary)
+        for photo in db.scalars(select(ProductPhoto).where(ProductPhoto.asset_id==asset_id)):
+            if photo.id not in ids:photo.asset_id=None
+    for key,value in values.items():setattr(asset,key,value)
     db.commit()
     return {c.name:getattr(asset,c.name) for c in Asset.__table__.columns}
 
@@ -330,18 +357,16 @@ def media_file(filename:str,request:Request,db:DB):
 
 @app.get('/api/seller/orders')
 def seller_orders(db:DB,seller:Annotated[str,Depends(merchant)]):
-    from .workspace_models import OrderCommission
-    result=[]
-    for o in db.scalars(select(Order).where(Order.seller_id==seller).order_by(Order.created_at.desc())):
-        commission=db.get(OrderCommission,o.id)
-        result.append({**{c.name:getattr(o,c.name) for c in Order.__table__.columns},'commission':model_record(commission) if commission else None})
-    return result
+    from .vendor_catalog import seller_order_json
+    return [seller_order_json(db,o) for o in db.scalars(select(Order).where(Order.seller_id==seller).order_by(Order.created_at.desc()))]
 
 class SellerOrderStatus(BaseModel):
     status:Literal['confirmed','dispatched','delivered','cancelled']
 @app.patch('/api/seller/orders/{order_id}')
 def seller_order_status(order_id:str,body:SellerOrderStatus,db:DB,seller:Annotated[str,Depends(merchant)]):
-    return seller_order_update(db,order_id,seller,body.status)
+    from .vendor_catalog import seller_order_json
+    seller_order_update(db,order_id,seller,body.status)
+    return seller_order_json(db,db.get(Order,order_id))
 
 # Parametric product models are seller-owned until attached to a public listing.
 from .workspace_models import ProductModel

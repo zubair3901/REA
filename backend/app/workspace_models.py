@@ -242,3 +242,15 @@ class FinalizationBooking(Base):
     pdf: Mapped[str] = mapped_column(String(100))
     mail_id: Mapped[str | None] = mapped_column(ForeignKey('mail_queue.id'), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+class AssetCatalogDetails(Base):
+    __tablename__ = 'asset_catalog_details'
+    asset_id: Mapped[str] = mapped_column(ForeignKey('assets.id'), primary_key=True)
+    details: Mapped[dict] = mapped_column(JSON)
+
+class SellerDeliveryPlan(Base):
+    __tablename__ = 'seller_delivery_plans'
+    order_id: Mapped[str] = mapped_column(ForeignKey('orders.id'), primary_key=True)
+    delivery_date: Mapped[str] = mapped_column(String(10))
+    address: Mapped[str] = mapped_column(String(500))
+    instructions: Mapped[str] = mapped_column(String(2000))

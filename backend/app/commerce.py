@@ -132,14 +132,14 @@ def place_order(body:OrderIn,user=Depends(current_customer),db=Depends(get_db)):
         if commission_rate is not None:
             fee=(order.total*commission_rate/100).quantize(Decimal('.01'),rounding=ROUND_HALF_UP)
             db.add(OrderCommission(order_id=order.id,rate_percent=commission_rate,amount=fee,seller_net=order.total-fee,currency=order.currency))
-    db.commit();return {'orders':[record(o) for o in result],'notice':'Seller confirmation required. No payment collected. Delivery and taxes must be agreed separately.'}
+    db.commit();return {'orders':[record(o) for o in result],'notice':'Roomform will finalize supplier availability and project delivery. No payment collected. All project agreements and payments are coordinated by Roomform.'}
 
 @router.post('/orders/{order_id}/cancel')
 def cancel_order(order_id:str,user=Depends(current_customer),db=Depends(get_db)):
     row=db.scalar(select(Order).where(Order.id==order_id).with_for_update())
     if not row:raise HTTPException(404,'Order not found')
     project_access(db,row.project_id,user)
-    if row.status not in ('requested','confirmed'):raise HTTPException(409,'Contact your seller for cancellations after dispatch')
+    if row.status not in ('requested','confirmed'):raise HTTPException(409,'Contact Roomform for cancellations after dispatch')
     if row.status=='confirmed':restore_stock(db,row)
     commission=db.get(OrderCommission,row.id)
     if commission:commission.status='void'
@@ -154,6 +154,9 @@ def seller_order_update(db,order_id,seller,status):
     if not db.get(Seller,seller).active:raise HTTPException(403,'Seller approval required')
     transitions={'requested':['confirmed','cancelled'],'confirmed':['dispatched','cancelled'],'dispatched':['delivered']}
     if status not in transitions.get(row.status,[]):raise HTTPException(409,'This order transition is not available')
+    if status=='dispatched':
+        from .workspace_models import SellerDeliveryPlan
+        if not db.get(SellerDeliveryPlan,row.id):raise HTTPException(409,'Roomform must issue the delivery address and date before dispatch')
     if status=='confirmed':
         for item in row.items:
             changed=db.execute(update(Asset).where(Asset.id==item['asset_id'],Asset.active==True,Asset.stock>=item['quantity']).values(stock=Asset.stock-item['quantity']))

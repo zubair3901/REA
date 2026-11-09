@@ -12,7 +12,8 @@
     "check:protected": "node tests/check-protected-placement.mjs",
     "check:finalization": "node tests/check-finalization.mjs",
     "check:webapp": "node tests/check-webapp.mjs",
-    "check:curated": "node tests/check-curated.mjs"
+    "check:curated": "node tests/check-curated.mjs",
+    "check:vendor": "node tests/check-vendor.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

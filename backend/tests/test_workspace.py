@@ -117,6 +117,7 @@ def real_inventory():
         db.add(Asset(id='actual-chair',seller_id='real',**fields));db.commit()
 
 def test_orders_stock_reservation_cancellation_and_transitions(monkeypatch):
+    monkeypatch.setenv('ROOM_OPERATOR_KEY','workspace-operator-test')
     auth_reset();real_inventory();monkeypatch.setenv('MERCHANT_KEYS_JSON','{"real":"seller-secret","demo":"test-key"}')
     headers={'X-Merchant-Key':'seller-secret'}
     with TestClient(app) as c:
@@ -135,6 +136,7 @@ def test_orders_stock_reservation_cancellation_and_transitions(monkeypatch):
         assert c.post('/api/workspace/orders/'+first['id']+'/cancel').status_code==409
         with Session() as db:assert db.get(Asset,'actual-chair').stock==2
         assert c.patch('/api/seller/orders/'+second['id'],headers=headers,json={'status':'confirmed'}).status_code==200
+        assert c.put('/api/operator/platform/orders/'+second['id']+'/delivery-plan',headers=OP,json={'delivery_date':'2027-01-06','address':'Roomform receiving depot Karachi','instructions':'Deliver by 4 PM'}).status_code==200
         assert c.patch('/api/seller/orders/'+second['id'],headers=headers,json={'status':'dispatched'}).status_code==200
         assert c.post('/api/workspace/orders/'+second['id']+'/cancel').status_code==409
         assert c.patch('/api/seller/orders/'+second['id'],headers=headers,json={'status':'delivered'}).status_code==200
