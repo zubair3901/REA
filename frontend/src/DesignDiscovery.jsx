@@ -356,11 +356,7 @@ export function InspirationGallery({ onSelect, full = false, onExplore }) {
             </h2>
           )}
         </div>
-        {!full ? (
-          <button className="rf-text-button" onClick={onExplore}>
-            Explore all inspiration <ArrowUpRight size={17} />
-          </button>
-        ) : (
+        {full && (
           <p>
             Browse by room, then choose a reference to guide your design.
           </p>
@@ -482,6 +478,7 @@ export function InspirationGallery({ onSelect, full = false, onExplore }) {
           </article>
         ))}
       </div>
+      {!full && <div className="inspiration-more"><button className="rf-primary" onClick={onExplore}>Load more Inspirations <ArrowUpRight size={17} /></button></div>}
       {full && pages > 1 && (
         <nav className="inspiration-pagination" aria-label="Inspiration pages">
           <button

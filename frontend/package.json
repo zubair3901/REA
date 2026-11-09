@@ -10,7 +10,8 @@
     "check:photography": "node tests/check-photography.mjs",
     "check:discovery": "node tests/check-discovery.mjs",
     "check:protected": "node tests/check-protected-placement.mjs",
-    "check:finalization": "node tests/check-finalization.mjs"
+    "check:finalization": "node tests/check-finalization.mjs",
+    "check:webapp": "node tests/check-webapp.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

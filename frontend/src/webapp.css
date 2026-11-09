@@ -1,0 +1,27 @@
+/* App canvas; navigation retains real query-string routes and browser history. */
+.discovery-theme { min-height:100dvh; }
+.inspiration-more { display:flex; justify-content:center; padding:28px 0 8px; }
+@media(min-width:1100px) {
+ .discovery-theme { padding-left:232px; }
+ .discovery-theme .atelier-header { padding-left:32px; padding-right:32px; }
+ .discovery-theme .atelier-desktop-nav { display:none; }
+ .discovery-theme .hero-intro { gap:28px; }
+ .discovery-theme .hero-intro h1 { font-size:clamp(38px,3.4vw,58px); }
+ .discovery-theme .hero-intro-right { max-width:300px; }
+}
+@media(max-width:700px) {
+ .discovery-theme { padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+ .discovery-theme .atelier-header { position:sticky; top:0; z-index:40; height:64px; padding:0 18px; }
+ .discovery-theme .atelier-hero { padding-top:24px; }
+ .discovery-theme .hero-intro h1 { font-size:34px; }
+ .discovery-theme .hero-comparison { height:290px; }
+ .discovery-theme .hero-bottom { padding:16px 0; }
+ .discovery-theme .rf-footer { padding-bottom:24px; }
+ .discovery-theme .inspiration-gallery { gap:20px 12px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .discovery-theme .inspiration-tile:nth-child(n)>div { height:190px; }
+ .discovery-theme .inspiration-tile h3 { font-size:15px; line-height:1.4; }
+ .discovery-theme .inspiration-description { font-size:13px; }
+ .discovery-theme .inspiration-meta { font-size:11px; flex-wrap:wrap; }
+ .discovery-theme .inspiration-design { padding:10px; font-size:13px; width:100%; }
+}
+@media(min-width:1100px) { .discovery-theme .atelier-header>.rf-logo { display:none; } .discovery-theme .atelier-header { justify-content:flex-end; } }

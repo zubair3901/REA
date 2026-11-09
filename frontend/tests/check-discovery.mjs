@@ -34,6 +34,7 @@ try {
     .evaluateAll((images) => images.map((i) => i.getAttribute("src"))))
     if (image.endsWith(".gif"))
       throw Error("Hero must remain a simple image slider");
+  await page.locator(".app-rail-pages").getByRole("button", { name: "Inspiration", exact: true }).click();
   const demo = page.locator(".transformation-card").first();
   await demo.scrollIntoViewIfNeeded();
   await expect(demo.locator(".transformation-media>img")).toHaveAttribute(
@@ -65,7 +66,7 @@ try {
     "/demos/living.gif",
   );
   await page
-    .locator(".atelier-desktop-nav")
+    .locator(".app-rail-pages")
     .getByRole("button", { name: "Inspiration", exact: true })
     .click();
   await expect(page).toHaveURL(/page=inspiration/);
@@ -133,7 +134,7 @@ try {
     path: artifacts + "discovery-inspiration-desktop.png",
     fullPage: true,
   });
-  await page.getByRole("link", { name: "Roomform home", exact: true }).click();
+  await page.getByRole("button", { name: "Roomform home", exact: true }).click();
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await page.waitForTimeout(150);
   await page.screenshot({
@@ -190,7 +191,7 @@ try {
     viewport: { width: 390, height: 844 },
   });
   const still = await reduced.newPage();
-  await still.goto(base);
+  await still.goto(base + "/?page=inspiration");
   await still.locator(".transformation-card").first().scrollIntoViewIfNeeded();
   await expect(
     still.locator(".transformation-media>img").first(),

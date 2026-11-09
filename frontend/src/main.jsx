@@ -57,6 +57,9 @@ import "./atelier.css";
 import "./discovery.css";
 import "./polish.css";
 import "./friendly.css";
+import AppNavigation from "./AppNavigation";
+import { DesignCategories, RedesignPanels } from "./AppHomeSections";
+import "./webapp.css";
 const API = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
 const media = (p) => (p?.startsWith("/") ? API + p : p);
 const money = (n, c = "USD") =>
@@ -576,6 +579,7 @@ function App() {
           onClose={() => setInspectAsset(null)}
         />
       )}
+      <AppNavigation page={page} navigate={navigate} onDesign={startWith} />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -704,12 +708,12 @@ function App() {
                 <Leaf size={17} /> New & pre-loved finds
               </span>
             </div>
-            <RoomCategories onSelect={startWith} />
-            <TransformationDemos onSelect={startWith} />
+            <DesignCategories onSelect={startWith} />
             <InspirationGallery
               onSelect={startWith}
               onExplore={() => navigate("inspiration")}
             />
+            <RedesignPanels onSelect={startWith} />
             <MarketplaceStory navigate={navigate} />
             <DesignTools navigate={navigate} />
             <section className="rf-section rf-market-teaser">
